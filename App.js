@@ -14,64 +14,50 @@ import {
   View,
   Text,
   StatusBar,
+  TextInput,
+  Button,
+  ImageBackground
 } from 'react-native';
-
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 
 const App: () => React$Node = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        
+      <SafeAreaView style={{flex:1}}>
+        <ImageBackground source={require('./assets/images/banner2.png')} style={styles.container}>
+          <Text style={styles.logo}>
+            Tienda Virtual
+          </Text>
+          <TextInput style={styles.input} placeholder="Usuario"/>
+          <TextInput style={styles.input} placeholder="Contraseña"/>
+          <Button title="Ingresar" color="#0e8ce4"></Button>
+        </ImageBackground>
       </SafeAreaView>
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center"
   },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
+  logo : {
+    height: 72,
     fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
+    color: '#0e8ce4'
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
+  input: {
+    height: 50,
+    width: 350,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 10,
+    marginBottom: 20,
+    backgroundColor: 'white'
+  }
 });
 
 export default App;
