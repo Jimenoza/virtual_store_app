@@ -15,24 +15,35 @@ import {
   Text,
   StatusBar,
   TextInput,
-  Button,
+  TouchableHighlight,
   ImageBackground
 } from 'react-native';
+import Home from './src/screens/home'
 
 const App: () => React$Node = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={{flex:1}}>
-        <ImageBackground source={require('./assets/images/banner2.png')} style={styles.container}>
-          <Text style={styles.logo}>
-            Tienda Virtual
-          </Text>
-          <TextInput style={styles.input} placeholder="Usuario"/>
-          <TextInput style={styles.input} placeholder="Contraseña"/>
-          <Button title="Ingresar" color="#0e8ce4"></Button>
-        </ImageBackground>
-      </SafeAreaView>
+      <Home>
+        <SafeAreaView style={{flex:1}}>
+          <ImageBackground source={require('./assets/images/banner.jpeg')} style={styles.container}>
+            <Text style={styles.logo}>
+              Tienda Virtual
+            </Text>
+            <TextInput style={styles.input} placeholder="Usuario"/>
+            <TextInput style={styles.input} placeholder="Contraseña"/>
+            <TouchableHighlight style={styles.login} underlayColor="#08609e" onPress={ () => { alert('Login!')}}>
+              <Text style={styles.text}>Ingresar</Text>
+            </TouchableHighlight>
+            <TouchableHighlight style={styles.login} underlayColor="#08609e" onPress={ () => { alert('Registered')}}>
+              <Text style={styles.text}>Registrarme</Text>
+            </TouchableHighlight>
+            <TouchableHighlight style={styles.guest} underlayColor="#08609e" onPress={ () => { alert('Welcome')}}>
+              <Text style={styles.textGuest}>Invitado</Text>
+            </TouchableHighlight>
+          </ImageBackground>
+        </SafeAreaView>
+      </Home>
     </>
   );
 };
@@ -46,7 +57,9 @@ const styles = StyleSheet.create({
   },
   logo : {
     height: 72,
-    fontSize: 24,
+    fontSize: 36,
+    fontWeight: '500',
+    fontFamily: 'Rubik',
     color: '#0e8ce4'
   },
   input: {
@@ -56,7 +69,33 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     marginBottom: 20,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    fontSize: 20,
+  },
+  login : {
+    backgroundColor: '#0e8ce4',
+    width:200,
+    height: 50,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10
+  },
+  text : {
+    fontSize: 18,
+    color: 'white'
+  },
+  guest : {
+    backgroundColor: '#0e8ce4',
+    width:150,
+    height: 37.5,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  textGuest : {
+    fontSize: 14,
+    color: 'white'
   }
 });
 
