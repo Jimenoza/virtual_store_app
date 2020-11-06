@@ -18,7 +18,8 @@ import {
   TouchableHighlight,
   ImageBackground
 } from 'react-native';
-import Home from './src/screens/home'
+import Home from './src/screens/home';
+import LoginScreen, {} from './src/screens/login';
 
 const App: () => React$Node = () => {
   return (
@@ -26,22 +27,7 @@ const App: () => React$Node = () => {
       <StatusBar barStyle="dark-content" />
       <Home>
         <SafeAreaView style={{flex:1}}>
-          <ImageBackground source={require('./assets/images/banner.jpeg')} style={styles.container}>
-            <Text style={styles.logo}>
-              Tienda Virtual
-            </Text>
-            <TextInput style={styles.input} placeholder="Usuario"/>
-            <TextInput style={styles.input} placeholder="Contraseña"/>
-            <TouchableHighlight style={styles.login} underlayColor="#08609e" onPress={ () => { alert('Login!')}}>
-              <Text style={styles.text}>Ingresar</Text>
-            </TouchableHighlight>
-            <TouchableHighlight style={styles.login} underlayColor="#08609e" onPress={ () => { alert('Registered')}}>
-              <Text style={styles.text}>Registrarme</Text>
-            </TouchableHighlight>
-            <TouchableHighlight style={styles.guest} underlayColor="#08609e" onPress={ () => { alert('Welcome')}}>
-              <Text style={styles.textGuest}>Invitado</Text>
-            </TouchableHighlight>
-          </ImageBackground>
+          <LoginScreen/>
         </SafeAreaView>
       </Home>
     </>
