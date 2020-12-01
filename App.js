@@ -1,88 +1,33 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
+import 'react-native-gesture-handler';
 import React from 'react';
 import {
   SafeAreaView,
   StyleSheet,
-  ScrollView,
-  View,
-  Text,
   StatusBar,
-  TextInput,
-  TouchableHighlight,
-  ImageBackground
+  View,
 } from 'react-native';
-import Home from './src/screens/home';
-import LoginScreen, {} from './src/screens/login';
+import { NavigationContainer, StackActions} from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import LoginScreen from './src/screens/login';
+import Header from './src/common/header';
+import DetailsScreen from './src/screens/index/index';
+
+const stack = createStackNavigator();
 
 const App: () => React$Node = () => {
   return (
-    <>
+    <NavigationContainer>
       <StatusBar barStyle="dark-content" />
-      <Home>
-        <SafeAreaView style={{flex:1}}>
-          <LoginScreen/>
-        </SafeAreaView>
-      </Home>
-    </>
+        <stack.Navigator initialRouteName="login">
+          <stack.Screen name="login" component={LoginScreen}></stack.Screen>
+          <stack.Screen name="Details" component={DetailsScreen}></stack.Screen>
+        </stack.Navigator>
+    </NavigationContainer>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  logo : {
-    height: 72,
-    fontSize: 36,
-    fontWeight: '500',
-    fontFamily: 'Rubik',
-    color: '#0e8ce4'
-  },
-  input: {
-    height: 50,
-    width: 350,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 10,
-    marginBottom: 20,
-    backgroundColor: 'white',
-    fontSize: 20,
-  },
-  login : {
-    backgroundColor: '#0e8ce4',
-    width:200,
-    height: 50,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 10
-  },
-  text : {
-    fontSize: 18,
-    color: 'white'
-  },
-  guest : {
-    backgroundColor: '#0e8ce4',
-    width:150,
-    height: 37.5,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  textGuest : {
-    fontSize: 14,
-    color: 'white'
-  }
+  
 });
 
 export default App;

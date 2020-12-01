@@ -8,10 +8,15 @@ import {
     TouchableHighlight,
     ImageBackground
   } from 'react-native';
+import App from './app';
 
 class LoginScreen extends Component {
+  loginGuest = () => {
+    this.props.navigation.navigate('Details');
+  }
   render() {
     return (
+      <App>
         <View style={{flex:1}}>
             <ImageBackground source={require('../../assets/images/banner.jpeg')} style={styles.container}>
             <Text style={styles.logo}>
@@ -25,11 +30,12 @@ class LoginScreen extends Component {
             <TouchableHighlight style={styles.login} underlayColor="#08609e" onPress={ () => { alert('Registered')}}>
               <Text style={styles.text}>Registrarme</Text>
             </TouchableHighlight>
-            <TouchableHighlight style={styles.guest} underlayColor="#08609e" onPress={ () => { alert('Welcome')}}>
+            <TouchableHighlight style={styles.guest} underlayColor="#08609e" onPress={ () => { this.loginGuest()}}>
               <Text style={styles.textGuest}>Invitado</Text>
             </TouchableHighlight>
           </ImageBackground>
         </View>
+      </App>
     )
   }
 }
