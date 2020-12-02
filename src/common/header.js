@@ -6,6 +6,16 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
 } from 'react-native';
+import {Icon} from 'react-native-elements';
+
+function setIcon(icon){
+    if( !icon || icon === 'menu'){
+        return <Icon name='menu' color='black' size={40}/>
+    }
+    else if( icon === 'back'){
+        return <Icon name='arrow-back' color='black' size={40}/>
+    }
+}
 
 function Header(props) {
   return (
@@ -16,16 +26,16 @@ function Header(props) {
                     <View style={styles.logo_container}>
                         <TouchableWithoutFeedback>
                             <View>
-                                <View style={styles.burger}></View>
-                                <View style={styles.burger}></View>
-                                <View style={styles.burger}></View>
+                                {setIcon(props.icon)}
                             </View>
                         </TouchableWithoutFeedback>
                         <Text style={styles.logo}>Tienda Virtual</Text>
                     </View>
-                    <View>
+                    <View style={styles.cart_container}>
                         <Image source={require('../../assets/images/cart.png')}></Image>
-                        <View style={styles.count_container}></View>
+                        <View style={styles.count_container}>
+                            <Text style={styles.cart_size}>0</Text>
+                        </View>
                     </View>
                 </View>
             </View>
@@ -63,21 +73,24 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         flexDirection: 'row',
     },
-    right: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-    },
-    burger: {
-        width: 35,
-        height: 3,
-        backgroundColor: 'black',
-        margin: 6,
+    cart_container: {
+        width: 40
     },
     count_container: {
-        width: 21,
-        height: 21,
-        backgroundColor: '#0e8ce4'
+        width: 23,
+        height: 23,
+        backgroundColor: '#0e8ce4',
+        borderRadius: 50,
+        position: 'absolute',
+        bottom: 6,
+        right: 6,
+        textAlign: 'center'
+    },
+    cart_size: {
+        lineHeight: 21,
+        fontSize: 15,
+        color: 'white',
+        textAlign: 'center'
     }
 })
 
