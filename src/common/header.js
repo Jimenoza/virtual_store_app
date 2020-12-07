@@ -30,6 +30,7 @@ function Header(props) {
                             </View>
                         </TouchableWithoutFeedback>
                         <Text style={styles.logo}>Tienda Virtual</Text>
+                        <Icon name='search' color='black' size={40}/>
                     </View>
                     <View style={styles.cart_container}>
                         <Image source={require('../../assets/images/cart.png')}></Image>

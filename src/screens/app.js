@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { StatusBar, SafeAreaView} from 'react-native';
+import Header from '../common/header';
+import { StatusBar, SafeAreaView, View} from 'react-native';
 
 class App extends Component {
   render() {
     return (
-      
         <SafeAreaView style={{flex:1}}>
+          <View>
+            <Header/>
+          </View>
           {this.props.children}
         </SafeAreaView>)
   }

@@ -16,7 +16,6 @@ class LoginScreen extends Component {
   }
   render() {
     return (
-      <App>
         <View style={{flex:1}}>
             <ImageBackground source={require('../../assets/images/banner.jpeg')} style={styles.container}>
             <Text style={styles.logo}>
@@ -35,7 +34,6 @@ class LoginScreen extends Component {
             </TouchableHighlight>
           </ImageBackground>
         </View>
-      </App>
     )
   }
 }
