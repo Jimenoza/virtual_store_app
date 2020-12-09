@@ -7,12 +7,11 @@ import {
     TextInput,
     TouchableHighlight,
     ImageBackground
-  } from 'react-native';
-import App from './app';
+} from 'react-native';
 
 class LoginScreen extends Component {
   loginGuest = () => {
-    this.props.navigation.navigate('Details');
+    this.props.navigation.navigate('Index');
   }
   render() {
     return (
