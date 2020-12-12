@@ -18,8 +18,8 @@ function setIcon(icon){
 }
 
 function Header(props) {
-    console.log('header navigation');
-    console.log(props.navigation);
+    // console.log('header navigation');
+    // console.log(props.navigation);
   return (
     <View>
         <View style={styles.header_container}>
