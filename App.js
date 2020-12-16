@@ -23,7 +23,7 @@ const App: () => React$Node = () => {
         <StatusBar barStyle="dark-content" />
           <stack.Navigator screenOptions={{ header: (props) => <Header {...props}/>}} initialRouteName="login">
             <stack.Screen name="login" component={LoginScreen} options={{headerShown : false}}></stack.Screen>
-            <stack.Screen name="Index" component={Index}></stack.Screen>
+            <stack.Screen name="Index" component={Index} options={{gestureEnabled: false}} ></stack.Screen>
             <stack.Screen name="Details" component={ProductDetail}></stack.Screen>
           </stack.Navigator>
         </SafeAreaView>

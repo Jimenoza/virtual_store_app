@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* virtual_storeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* virtual_storeTests.m */; };
+		10AA030B2589AAA0003B69B8 /* Rubik-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 10AA029E2589A525003B69B8 /* Rubik-VariableFont_wght.ttf */; };
 		10DB957D25848F8A00FCCD9A /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 10692A3525847B6200F482BC /* Entypo.ttf */; };
 		10DB957E25848F8A00FCCD9A /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 10692A3A25847B6200F482BC /* EvilIcons.ttf */; };
 		10DB957F25848F8A00FCCD9A /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 10692A3D25847B6200F482BC /* Feather.ttf */; };
@@ -77,6 +78,7 @@
 		10692A4125847B6200F482BC /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		10692A4225847B6200F482BC /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		10692A4325847B6300F482BC /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
+		10AA029E2589A525003B69B8 /* Rubik-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-VariableFont_wght.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* virtual_store.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = virtual_store.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = virtual_store/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = virtual_store/AppDelegate.m; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 		10692A33258479FD00F482BC /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				10AA029E2589A525003B69B8 /* Rubik-VariableFont_wght.ttf */,
 				10692A3525847B6200F482BC /* Entypo.ttf */,
 				10692A3A25847B6200F482BC /* EvilIcons.ttf */,
 				10692A3D25847B6200F482BC /* Feather.ttf */,
@@ -406,6 +409,7 @@
 				10DB957D25848F8A00FCCD9A /* Entypo.ttf in Resources */,
 				10DB957E25848F8A00FCCD9A /* EvilIcons.ttf in Resources */,
 				10DB957F25848F8A00FCCD9A /* Feather.ttf in Resources */,
+				10AA030B2589AAA0003B69B8 /* Rubik-VariableFont_wght.ttf in Resources */,
 				10DB958025848F8A00FCCD9A /* FontAwesome.ttf in Resources */,
 				10DB958125848F8A00FCCD9A /* FontAwesome5_Brands.ttf in Resources */,
 				10DB958225848F8A00FCCD9A /* FontAwesome5_Regular.ttf in Resources */,

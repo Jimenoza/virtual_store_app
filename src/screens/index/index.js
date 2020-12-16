@@ -1,20 +1,28 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View, Text, StyleSheet} from 'react-native';
 // import App from '../app';
 import Product from '../product/components/product';
 import ProductList from '../product/containers/product-list'
 // import Header from '../../common/header';
 
-function DetailsScreen(props) {
-    return (
-        // <App>
-            <View style={styles.background}>
-                <View style={styles.display}>
-                    <ProductList {...props}/>
+class Index extends Component {
+    render(){
+        // console.log(this.props.navigation.dangerouslyGetState());
+        this.props.navigation.addListener('beforeRemove',e => {
+            if(this.props.navigation.dangerouslyGetState().index === 1){
+                e.preventDefault();
+            }
+        });
+        return (
+            // <App>
+                <View style={styles.background}>
+                    <View style={styles.display}>
+                        <ProductList {...this.props}/>
+                    </View>
                 </View>
-            </View>
-        // </App>
-    );
+            // </App>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
@@ -27,4 +35,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default DetailsScreen;
+export default Index;

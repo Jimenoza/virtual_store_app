@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -9,44 +9,82 @@ import {
 import {Icon} from 'react-native-elements';
 
 function setIcon(icon){
-    if( !icon || icon === 'menu'){
-        return <Icon name='menu' color='black' size={40}/>
-    }
-    else if( icon === 'back'){
-        return <Icon name='arrow-back' color='black' size={40}/>
-    }
+    
 }
 
-function Header(props) {
-    // console.log('header navigation');
-    // console.log(props.navigation);
-  return (
-    <View>
-        <View style={styles.header_container}>
-            <View style={styles.column_header}>
-                <View style={styles.header}>
-                    <View style={styles.logo_container}>
-                        <TouchableWithoutFeedback>
-                            <View>
-                                {setIcon(props.icon)}
+class Header extends Component{
+    state = {
+        icon : 'menu'
+    }
+    getIcon() {
+        if( this.state.icon === 'menu'){
+            return <Icon name='menu' color='black' size={40}/>
+        }
+        else if( this.state.icon === 'back'){
+            return <Icon name='arrow-back' color='black' size={40}/>
+        }
+    }
+
+    render(){
+        console.log(this.props.navigation.canGoBack());
+        return (
+            <View>
+                <View style={styles.header_container}>
+                    <View style={styles.column_header}>
+                        <View style={styles.header}>
+                            <View style={styles.logo_container}>
+                                <TouchableWithoutFeedback>
+                                    <View>
+                                        {this.getIcon()}
+                                    </View>
+                                </TouchableWithoutFeedback>
+                                <Text style={styles.logo}>Tienda Virtual</Text>
+                                <Icon name='search' color='black' size={40}/>
                             </View>
-                        </TouchableWithoutFeedback>
-                        <Text style={styles.logo}>Tienda Virtual</Text>
-                        <Icon name='search' color='black' size={40}/>
-                    </View>
-                    <View style={styles.cart_container}>
-                        <Image source={require('../../assets/images/cart.png')}></Image>
-                        <View style={styles.count_container}>
-                            <Text style={styles.cart_size}>0</Text>
+                            <View style={styles.cart_container}>
+                                <Image source={require('../../assets/images/cart.png')}></Image>
+                                <View style={styles.count_container}>
+                                    <Text style={styles.cart_size}>0</Text>
+                                </View>
+                            </View>
                         </View>
                     </View>
                 </View>
             </View>
-        </View>
-        {props.children}
-    </View>
-  )
+        );
+    }
 }
+
+// function Header(props) {
+//     // console.log('header navigation');
+//     // console.log(props.navigation);
+//   return (
+//     <View>
+//         <View style={styles.header_container}>
+//             <View style={styles.column_header}>
+//                 <View style={styles.header}>
+//                     <View style={styles.logo_container}>
+//                         <TouchableWithoutFeedback>
+//                             <View>
+//                                 {setIcon(props.icon)}
+//                             </View>
+//                         </TouchableWithoutFeedback>
+//                         <Text style={styles.logo}>Tienda Virtual</Text>
+//                         <Icon name='search' color='black' size={40}/>
+//                     </View>
+//                     <View style={styles.cart_container}>
+//                         <Image source={require('../../assets/images/cart.png')}></Image>
+//                         <View style={styles.count_container}>
+//                             <Text style={styles.cart_size}>0</Text>
+//                         </View>
+//                     </View>
+//                 </View>
+//             </View>
+//         </View>
+//         {props.children}
+//     </View>
+//   )
+// }
 
 const styles = StyleSheet.create({
     header_container : {
