@@ -4,7 +4,7 @@ import {Text} from 'react-native';
 class ProductDetail extends Component{
     render(){
         return (
-            <Text>Detalles del producto</Text>  
+            <Text>{this.props.route.params.product_id}</Text>  
         );
     }
 }

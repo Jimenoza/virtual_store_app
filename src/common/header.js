@@ -13,20 +13,17 @@ function setIcon(icon){
 }
 
 class Header extends Component{
-    state = {
-        icon : 'menu'
-    }
     getIcon() {
-        if( this.state.icon === 'menu'){
-            return <Icon name='menu' color='black' size={40}/>
+        if( this.props.navigation.dangerouslyGetState().index > 1){
+            return <Icon name='arrow-back' color='black' size={40} onPress={() => this.props.navigation.goBack()}/>
         }
-        else if( this.state.icon === 'back'){
-            return <Icon name='arrow-back' color='black' size={40}/>
+        else{
+            return <Icon name='menu' color='black' size={40}/>
         }
     }
 
     render(){
-        console.log(this.props.navigation.canGoBack());
+        // console.log(this.props.navigation.dangerouslyGetState());
         return (
             <View>
                 <View style={styles.header_container}>

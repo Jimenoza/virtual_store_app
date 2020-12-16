@@ -179,7 +179,7 @@ class ProductList extends Component{
         selected_product: null,
     };
     goToDetails = (item) => {
-        this.props.navigation.push('Details');
+        this.props.navigation.push('Details',{product_id : item.id});
     }
     keyExtractor = item => item.id.toString();
     renderItem = ({item}) => {
