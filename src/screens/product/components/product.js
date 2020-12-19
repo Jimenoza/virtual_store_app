@@ -1,14 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableHighlight, Platform} from 'react-native';
-
-function replace(url){
-    if( Platform.OS === 'ios'){
-        return url;
-    }
-    else if ( Platform.OS === 'android'){
-        return url.replace('localhost','10.0.2.2');
-    }
-}
+import {replace_host} from '../../../common/utils';
 
 function Product(item=null){
     return (
@@ -18,7 +10,7 @@ function Product(item=null){
                     <Image
                         style={styles.item_image}
                         source={{
-                            uri: replace(item.image)
+                            uri: replace_host(item.image)
                         }}
                     />
                     <View style={styles.item_content}>
