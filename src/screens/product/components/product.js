@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableHighlight} from 'react-native';
-import {replace_host} from '../../../common/utils';
+import {replace_host, displayStars} from '../../../common/utils';
 
 function Product(item=null){
     return (
@@ -14,9 +14,12 @@ function Product(item=null){
                         }}
                     />
                     <View style={styles.item_content}>
-                        <Text style={styles.item_cat}>
-                            En {item.category_name}
-                        </Text>
+                        <View style={{flexDirection : 'row'}}>
+                            <Text style={styles.item_cat}>
+                                En {item.category_name}
+                            </Text>
+                            {displayStars(item.average,15)}
+                        </View>
                         <Text style={styles.item_name}>
                             {item.name}
                         </Text>

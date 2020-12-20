@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {Text, View, StyleSheet, Image, ScrollView, TouchableHighlight} from 'react-native';
-import { replace_host } from '../../../common/utils';
+import { replace_host, displayStars } from '../../../common/utils';
 import Comment from '../components/comment';
+// import { Icon } from 'react-native-elements';
 //1601437619
 const product = {
     "data": {
@@ -115,6 +116,7 @@ class ProductDetail extends Component{
                         <View style={styles.section_container}>
                             <Text style={styles.product_category}>{this.state.product.product.category_name}</Text>
                             <Text style={styles.product_name}>{this.state.product.product.name}</Text>
+                            {displayStars(this.state.product.product.average)}
                             <Text style={styles.product_text}>{this.state.product.product.description}</Text>
                             <Text style={styles.product_price}>${this.state.product.product.price}</Text>
                             <TouchableHighlight style={styles.item_add} underlayColor="#08609e">

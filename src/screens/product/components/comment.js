@@ -1,5 +1,6 @@
 import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
+import { displayStars } from '../../../common/utils';
 
 function Reply(reply=null){
     return (
@@ -16,7 +17,10 @@ function Comment(body=null){
     });
     return (
         <View style={styles.comments_container}>
-            <Text style={styles.user_name}>{body.userName}</Text>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.user_name}>{body.userName}</Text>
+                {displayStars(body.calification,25)}
+            </View>
             <Text style={styles.comment_text}>{body.comment}</Text>
             <Text style={styles.replies}>Respuestas:</Text> 
             {replies}    
