@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableHighlight, Platform} from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableHighlight} from 'react-native';
 import {replace_host} from '../../../common/utils';
 
 function Product(item=null){
