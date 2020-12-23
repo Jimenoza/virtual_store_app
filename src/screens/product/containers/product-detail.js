@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Text, View, StyleSheet, Image, ScrollView, TouchableHighlight} from 'react-native';
+import {Text, View, StyleSheet, Image, ScrollView, TouchableHighlight, FlatList} from 'react-native';
 import { replace_host, displayStars } from '../../../common/utils';
 import Comment from '../components/comment';
 // import { Icon } from 'react-native-elements';
@@ -96,6 +96,13 @@ class ProductDetail extends Component{
         product : product.data,
     }
 
+    keyExtractor = item => item.id.toString();
+    renderItem = ({item}) => {
+        return (
+            <Comment {...item}/>
+        );
+    }
+
     displayDetail(){
         const commentsContainers = this.state.product.comments.map( comment => {
             return <Comment {...comment} key={comment.id}/>
@@ -129,6 +136,11 @@ class ProductDetail extends Component{
                             </View>
                             {/* <Comment/> */}
                             {commentsContainers}
+                            {/* <FlatList
+                                keyExtractor={this.keyExtractor}
+                                data={this.state.products}
+                                renderItem={this.renderItem}
+                            /> */}
                         </View>
                     </View>
                 </View>  

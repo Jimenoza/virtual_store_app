@@ -22,6 +22,10 @@ class Header extends Component{
         }
     }
 
+    goToCart = () => {
+        this.props.navigation.navigate('Cart');
+    }
+
     render(){
         // console.log(this.props.navigation.dangerouslyGetState());
         return (
@@ -38,12 +42,14 @@ class Header extends Component{
                                 <Text style={styles.logo}>Tienda Virtual</Text>
                                 <Icon name='search' color='black' size={40}/>
                             </View>
-                            <View style={styles.cart_container}>
-                                <Image source={require('../../assets/images/cart.png')}></Image>
-                                <View style={styles.count_container}>
-                                    <Text style={styles.cart_size}>0</Text>
+                            <TouchableWithoutFeedback onPress={this.goToCart} underlayColor="rgba(0,0,0,0.4)">
+                                <View style={styles.cart_container}>
+                                    <Image source={require('../../assets/images/cart.png')}></Image>
+                                    <View style={styles.count_container}>
+                                        <Text style={styles.cart_size}>0</Text>
+                                    </View>
                                 </View>
-                            </View>
+                            </TouchableWithoutFeedback>
                         </View>
                     </View>
                 </View>

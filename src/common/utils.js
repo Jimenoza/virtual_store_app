@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, View } from 'react-native';
+import { Platform, View, StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 export function replace_host(url){
@@ -27,3 +27,21 @@ export function displayStars(rate,size=40){
             </View>);
 }
 
+export function Card(props){
+    return (
+        <View style={styles.section_container}>
+            {props.children}
+        </View>
+    )
+}
+
+const styles = StyleSheet.create({
+    section_container : {
+        backgroundColor: 'white',
+        // justifyContent: 'center',
+        // marginTop: 40,
+        padding: 5,
+        borderRadius: 10,
+        marginBottom: 25,
+    }
+})
