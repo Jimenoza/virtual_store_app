@@ -1,6 +1,6 @@
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
-import { displayStars } from '../../../common/utils';
+import {Text, View, StyleSheet, TouchableHighlight} from 'react-native';
+import { Stars } from '../../../common/utils';
 
 function Reply(reply=null){
     return (
@@ -12,21 +12,35 @@ function Reply(reply=null){
 }
 
 function Comment(body=null){
+    const replies_style = {
+        fontSize: 15,
+        fontWeight: '400',
+        color: '#828282',
+        marginTop: 5,
+        paddingLeft: 10
+    };
     const replies = body.replies.map( reply => {
         return <Reply {...reply} key={reply.id}/>
     });
+    if(body.replies.length === 0){
+        replies_style['display'] = 'none';
+    }
     return (
         <View style={styles.comments_container}>
             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <Text style={styles.user_name}>{body.userName}</Text>
-                {displayStars(body.calification,25)}
+                <Stars rate={body.calification} size={25}/>
             </View>
             <Text style={styles.comment_text}>{body.comment}</Text>
-            <Text style={styles.replies}>Respuestas:</Text> 
-            {replies}    
+            <Text style={replies_style}>Respuestas:</Text> 
+            {replies}
+            <TouchableHighlight style={styles.reply} underlayColor="#08609e">
+                <Text style={styles.reply_text}>Dejar una respuesta</Text>
+            </TouchableHighlight>  
         </View>
     )
 }
+
 
 const styles = StyleSheet.create({
     comments_container : {
@@ -47,13 +61,6 @@ const styles = StyleSheet.create({
     comment_text : {
         fontSize: 15,
     },
-    replies : {
-        fontSize: 15,
-        fontWeight: '400',
-        color: '#828282',
-        marginTop: 5,
-        paddingLeft: 10
-    },
     replies_container : {
         paddingLeft: 30
     },
@@ -65,7 +72,22 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: '400',
 
-    }
+    },
+    reply : {
+        flex: 1,
+        backgroundColor: '#0e8ce4',
+        height: 37.5,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 5,
+        marginLeft: 30,
+        marginRight: 30,
+    },
+    reply_text : {
+        fontSize: 16,
+        color: 'white'
+    },
 })
 
 export default Comment;

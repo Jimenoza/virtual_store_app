@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import {Text, View, StyleSheet, Image, ScrollView, TouchableHighlight, FlatList} from 'react-native';
-import { replace_host, displayStars } from '../../../common/utils';
+import {Text, View, StyleSheet, Image, ScrollView, TouchableHighlight, KeyboardAvoidingView, Platform} from 'react-native';
+import { color } from 'react-native-reanimated';
+import { replace_host, Stars, BottomInputRate} from '../../../common/utils';
 import Comment from '../components/comment';
 // import { Icon } from 'react-native-elements';
 //1601437619
@@ -103,49 +104,63 @@ class ProductDetail extends Component{
         );
     }
 
+    getBehavior(){
+        if( Platform.OS === 'ios' ){
+            return 'padding';
+        }
+    }
+
     displayDetail(){
         const commentsContainers = this.state.product.comments.map( comment => {
             return <Comment {...comment} key={comment.id}/>
         });
         return (
-            <ScrollView>
-                <View style={styles.screen_container}>
-                    <View style={styles.general_container}>
-                            <View style={styles.image_container}>
-                                <Image
-                                    style={styles.image}
-                                    source={{
-                                        uri: replace_host(this.state.product.product.image)
-                                    }}
-                                />
+                <KeyboardAvoidingView style={{flex : 1}} behavior={this.getBehavior()} keyboardVerticalOffset={120}>
+                    <ScrollView>
+                        <View style={styles.screen_container}>
+                            <View style={styles.general_container}>
+                                    <View style={styles.image_container}>
+                                        <Image
+                                            style={styles.image}
+                                            source={{
+                                                uri: replace_host(this.state.product.product.image)
+                                            }}
+                                        />
+                                    </View>
+                                
+                                <View style={styles.section_container}>
+                                    <Text style={styles.product_category}>{this.state.product.product.category_name}</Text>
+                                    <Text style={styles.product_name}>{this.state.product.product.name}</Text>
+                                    <Stars rate={this.state.product.product.average}/>
+                                    <Text style={styles.product_text}>{this.state.product.product.description}</Text>
+                                    <Text style={styles.product_price}>${this.state.product.product.price}</Text>
+                                    <TouchableHighlight style={styles.item_add} underlayColor="#08609e">
+                                        <Text style={styles.item_add_text}>Agregar a carrito</Text>
+                                    </TouchableHighlight>
+                                </View>
+                                <View style={styles.section_container}>
+                                    <View style={styles.comments_title_border}>
+                                        <Text style={styles.comments_title}>Reseñas</Text>
+                                        <TouchableHighlight style={styles.calification} underlayColor="#08609e">
+                                            <Text style={styles.calification_text}>Dejar una reseña</Text>
+                                        </TouchableHighlight>
+                                    </View>
+                                    {/* <Comment/> */}
+                                    {commentsContainers}
+                                    {/* <FlatList
+                                        keyExtractor={this.keyExtractor}
+                                        data={this.state.products}
+                                        renderItem={this.renderItem}
+                                    /> */}
+                                </View>
                             </View>
-                        
-                        <View style={styles.section_container}>
-                            <Text style={styles.product_category}>{this.state.product.product.category_name}</Text>
-                            <Text style={styles.product_name}>{this.state.product.product.name}</Text>
-                            {displayStars(this.state.product.product.average)}
-                            <Text style={styles.product_text}>{this.state.product.product.description}</Text>
-                            <Text style={styles.product_price}>${this.state.product.product.price}</Text>
-                            <TouchableHighlight style={styles.item_add} underlayColor="#08609e">
-                                <Text style={styles.item_add_text}>Agregar a carrito</Text>
-                            </TouchableHighlight>
                         </View>
-                        <View style={styles.section_container}>
-                            <View style={styles.comments_title_border}>
-                                <Text style={styles.comments_title}>Comentarios</Text>
-                            </View>
-                            {/* <Comment/> */}
-                            {commentsContainers}
-                            {/* <FlatList
-                                keyExtractor={this.keyExtractor}
-                                data={this.state.products}
-                                renderItem={this.renderItem}
-                            /> */}
-                        </View>
+                    </ScrollView>
+                    <View style={{height : 50}}>
+                        <BottomInputRate/>
                     </View>
-                </View>  
-            </ScrollView>
-        );
+                </KeyboardAvoidingView>
+            );
     }
     render(){
         if( this.state.product){
@@ -237,14 +252,35 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     comments_title_border : {
+        paddingBottom: 10,
         borderBottomWidth: 1,
         // borderStyle: 'solid',
         borderBottomColor: '#e9ecef',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     comments_title : {
         fontFamily : 'Rubik',
         fontWeight: '500',
         fontSize : 24,
+        alignSelf: 'center'
+    },
+    calification : {
+        backgroundColor: '#0e8ce4',
+        width: 150,
+        height: 50,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    calification_text : {
+        fontSize: 15,
+        color: 'white'
+    },
+    input_pos : {
+        position : 'absolute',
+        top : 0,
+        left: 0,
     }
 
 })

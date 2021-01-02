@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableHighlight} from 'react-native';
-import {replace_host, displayStars} from '../../../common/utils';
+import {replace_host, Stars} from '../../../common/utils';
 
 function Product(item=null){
     return (
@@ -18,7 +18,7 @@ function Product(item=null){
                             <Text style={styles.item_cat}>
                                 En {item.category_name}
                             </Text>
-                            {displayStars(item.average,15)}
+                            <Stars rate={item.average} size={15}/>
                         </View>
                         <Text style={styles.item_name}>
                             {item.name}
