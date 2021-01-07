@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, View, StyleSheet, TextInput,Text } from 'react-native';
+import { Platform, View, StyleSheet, TextInput,Text,KeyboardAvoidingView } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 export function replace_host(url){
@@ -35,15 +35,37 @@ export function Card(props){
     )
 }
 
-export function BottomInputRate(){
-    return(
-        <View style={styles.input_container}>
-            <View style={styles.input_sub_container}>
-                <TextInput style={styles.input} placeholder='Comentario...'/>
-                <Text style={styles.rate}>Reseñas</Text>
-            </View>
-        </View>
-    )
+function getBehavior(){
+    if( Platform.OS === 'ios' ){
+        return 'padding';
+    }
+}
+
+export function BottomInputRate(props){
+    const input = <View style={{height : 50}}>
+                    <View style={styles.input_container}>
+                        <View style={styles.input_sub_container}>
+                            <TextInput style={styles.input} placeholder='Comentario...' autoFocus={props.focus} onChangeText={props.callBackText}/>
+                            <Text style={styles.rate}>Reseñas</Text>
+                        </View>
+                    </View>
+                </View>
+    
+    if(props.display){
+        return(
+            <KeyboardAvoidingView style={{flex : 1}} behavior={getBehavior()} keyboardVerticalOffset={120}>
+                {props.children}
+                {input}
+            </KeyboardAvoidingView>
+        )
+    }
+    else {
+        return(
+            <KeyboardAvoidingView style={{flex : 1}} behavior={getBehavior()} keyboardVerticalOffset={120}>
+                {props.children}
+            </KeyboardAvoidingView>
+        )
+    }
 }
 
 const styles = StyleSheet.create({

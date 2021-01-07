@@ -41,6 +41,18 @@ function Comment(body=null){
     )
 }
 
+export function SingleComment(props){
+    return (
+        <View style={styles.comments_container}>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.user_name}>Usuario dummy</Text>
+                <Stars rate={props.stars} size={25}/>
+            </View>
+            <Text style={styles.comment_text}>{props.text}</Text>  
+        </View>
+    )
+}
+
 
 const styles = StyleSheet.create({
     comments_container : {

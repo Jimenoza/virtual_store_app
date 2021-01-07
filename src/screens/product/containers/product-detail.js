@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import {Text, View, StyleSheet, Image, ScrollView, TouchableHighlight, KeyboardAvoidingView, Platform} from 'react-native';
-import { color } from 'react-native-reanimated';
+import {Text, View, StyleSheet, Image, ScrollView, TouchableHighlight } from 'react-native';
 import { replace_host, Stars, BottomInputRate} from '../../../common/utils';
+import { SingleComment } from '../components/comment';
 import Comment from '../components/comment';
 // import { Icon } from 'react-native-elements';
 //1601437619
@@ -95,6 +95,11 @@ const product = {
 class ProductDetail extends Component{
     state = {
         product : product.data,
+        displayComment : false,
+        comment : {
+            text : '',
+            rate : 0,
+        }
     }
 
     keyExtractor = item => item.id.toString();
@@ -104,10 +109,20 @@ class ProductDetail extends Component{
         );
     }
 
-    getBehavior(){
-        if( Platform.OS === 'ios' ){
-            return 'padding';
-        }
+    setDisplay(){
+        this.setState({
+            displayComment : !this.state.displayComment
+        });
+    }
+
+    handleText(text){
+        console.log(text);
+        this.setState({
+            comment : {
+                text : text,
+                rate : 0
+            }
+        });
     }
 
     displayDetail(){
@@ -115,7 +130,7 @@ class ProductDetail extends Component{
             return <Comment {...comment} key={comment.id}/>
         });
         return (
-                <KeyboardAvoidingView style={{flex : 1}} behavior={this.getBehavior()} keyboardVerticalOffset={120}>
+                <BottomInputRate focus={true} callBackText={(ev) => { this.handleText(ev)}} display={this.state.displayComment}>
                     <ScrollView>
                         <View style={styles.screen_container}>
                             <View style={styles.general_container}>
@@ -141,7 +156,7 @@ class ProductDetail extends Component{
                                 <View style={styles.section_container}>
                                     <View style={styles.comments_title_border}>
                                         <Text style={styles.comments_title}>Reseñas</Text>
-                                        <TouchableHighlight style={styles.calification} underlayColor="#08609e">
+                                        <TouchableHighlight style={styles.calification} underlayColor="#08609e" onPress={() => {this.setDisplay()}}>
                                             <Text style={styles.calification_text}>Dejar una reseña</Text>
                                         </TouchableHighlight>
                                     </View>
@@ -156,10 +171,7 @@ class ProductDetail extends Component{
                             </View>
                         </View>
                     </ScrollView>
-                    <View style={{height : 50}}>
-                        <BottomInputRate/>
-                    </View>
-                </KeyboardAvoidingView>
+                </BottomInputRate>
             );
     }
     render(){
