@@ -26,6 +26,10 @@ class Header extends Component{
         this.props.navigation.navigate('Cart');
     }
 
+    goToSearch = () => {
+        this.props.navigation.navigate('Search');
+    }
+
     render(){
         // console.log(this.props.navigation.dangerouslyGetState());
         return (
@@ -34,13 +38,17 @@ class Header extends Component{
                     <View style={styles.column_header}>
                         <View style={styles.header}>
                             <View style={styles.logo_container}>
-                                <TouchableWithoutFeedback>
+                                <TouchableWithoutFeedback style={{flex : 1}}>
                                     <View>
                                         {this.getIcon()}
                                     </View>
                                 </TouchableWithoutFeedback>
-                                <Text style={styles.logo}>Tienda Virtual</Text>
-                                <Icon name='search' color='black' size={40}/>
+                                <TouchableWithoutFeedback style={{flex : 1}} onPress={this.goToSearch} underlayColor="rgba(0,0,0,0.4)">
+                                    <View style={{flex : 1, flexDirection: 'row'}}>
+                                        <Text style={styles.logo}>Tienda Virtual</Text>
+                                        <Icon name='search' color='black' size={40}/>
+                                    </View>
+                                </TouchableWithoutFeedback>
                             </View>
                             <TouchableWithoutFeedback onPress={this.goToCart} underlayColor="rgba(0,0,0,0.4)">
                                 <View style={styles.cart_container}>
@@ -58,37 +66,6 @@ class Header extends Component{
     }
 }
 
-// function Header(props) {
-//     // console.log('header navigation');
-//     // console.log(props.navigation);
-//   return (
-//     <View>
-//         <View style={styles.header_container}>
-//             <View style={styles.column_header}>
-//                 <View style={styles.header}>
-//                     <View style={styles.logo_container}>
-//                         <TouchableWithoutFeedback>
-//                             <View>
-//                                 {setIcon(props.icon)}
-//                             </View>
-//                         </TouchableWithoutFeedback>
-//                         <Text style={styles.logo}>Tienda Virtual</Text>
-//                         <Icon name='search' color='black' size={40}/>
-//                     </View>
-//                     <View style={styles.cart_container}>
-//                         <Image source={require('../../assets/images/cart.png')}></Image>
-//                         <View style={styles.count_container}>
-//                             <Text style={styles.cart_size}>0</Text>
-//                         </View>
-//                     </View>
-//                 </View>
-//             </View>
-//         </View>
-//         {props.children}
-//     </View>
-//   )
-// }
-
 const styles = StyleSheet.create({
     header_container : {
         height: 72,
@@ -104,6 +81,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     logo_container: {
+        flex : 1,
         flexDirection: 'row',
         justifyContent: 'flex-start'
     },

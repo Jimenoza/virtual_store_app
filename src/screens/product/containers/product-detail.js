@@ -160,7 +160,6 @@ class ProductDetail extends Component{
                                             <Text style={styles.calification_text}>Dejar una reseña</Text>
                                         </TouchableHighlight>
                                     </View>
-                                    {/* <Comment/> */}
                                     {commentsContainers}
                                     {/* <FlatList
                                         keyExtractor={this.keyExtractor}

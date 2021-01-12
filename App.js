@@ -13,6 +13,7 @@ import Index from './src/screens/index/index';
 import Header from './src/common/header';
 import ProductDetail from './src/screens/product/containers/product-detail';
 import CartList from './src/screens/cart/container/cart-list';
+import SearchScreen from './src/screens/search/containers/search-screen'
 
 
 const stack = createStackNavigator();
@@ -27,6 +28,7 @@ const App: () => React$Node = () => {
             <stack.Screen name="Index" component={Index} options={{gestureEnabled: false}} ></stack.Screen>
             <stack.Screen name="Details" component={ProductDetail}></stack.Screen>
             <stack.Screen name="Cart" component={CartList}></stack.Screen>
+            <stack.Screen name="Search" component={SearchScreen}></stack.Screen>
           </stack.Navigator>
         </SafeAreaView>
     </NavigationContainer>
