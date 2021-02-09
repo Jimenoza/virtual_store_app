@@ -14,7 +14,7 @@ import Header from './src/common/header';
 import ProductDetail from './src/screens/product/containers/product-detail';
 import CartList from './src/screens/cart/container/cart-list';
 import SearchScreen from './src/screens/search/containers/search-screen'
-import SideMenu from './src/common/side-menu';
+import SideMenu from './src/screens/side-menu';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 const Drawer = createDrawerNavigator();

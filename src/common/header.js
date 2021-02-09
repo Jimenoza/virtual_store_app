@@ -7,12 +7,6 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import {Icon} from 'react-native-elements';
-import SideMenu from './side-menu';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import LoginScreen from '../screens/login';
-import { NavigationContainer} from '@react-navigation/native';
-
-const Drawer = createDrawerNavigator();
 
 class Header extends Component{
     getIcon() {
@@ -41,11 +35,6 @@ class Header extends Component{
         // console.log(this.props.navigation.dangerouslyGetState());
         return (
             <View>
-                {/* <NavigationContainer independent={true}>
-                    <Drawer.Navigator drawerContent={(props) => <SideMenu {...props} />}>
-                        <Drawer.Screen name="stack" component={SideMenu} />
-                    </Drawer.Navigator>
-                </NavigationContainer> */}
                 <View style={styles.header_container}>
                     <View style={styles.column_header}>
                         <View style={styles.header}>
