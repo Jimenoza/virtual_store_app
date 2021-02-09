@@ -1,6 +1,7 @@
 import React from 'react';
 import { Platform, View, StyleSheet, TextInput,Text,KeyboardAvoidingView } from 'react-native';
 import { Icon } from 'react-native-elements';
+import { Colors } from '../common/styles';
 
 export function replace_host(url){
     if ( Platform.OS === 'android'){
@@ -14,12 +15,12 @@ export function Stars(props, size=40){
     const integer = Math.trunc(props.rate);
     for( let i = 0; i < integer; i++){
         stars.push(
-                <Icon name='star' color='#f5e211' size={props.size} key={i}/>
+                <Icon name='star' color={Colors.yellow} size={props.size} key={i}/>
         )
     }
     if( (props.rate - integer) >= 0.5 ){
         stars.push(
-                <Icon name='star_half' color='#f5e211' size={props.size} key={5}/>
+                <Icon name='star_half' color={Colors.yellow} size={props.size} key={5}/>
         )
     }
     return (<View style={{alignItems : 'flex-start', flexDirection:'row'}}>
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
     input_container : {
         // alignSelf: 'flex-end',
         justifyContent: 'center',
-        backgroundColor: '#e3e3e3',
+        backgroundColor: Colors.lightGray,
         padding:10,
         flex: 1,
     },

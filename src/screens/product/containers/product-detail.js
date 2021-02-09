@@ -3,6 +3,7 @@ import {Text, View, StyleSheet, Image, ScrollView, TouchableHighlight } from 're
 import { replace_host, Stars, BottomInputRate} from '../../../common/utils';
 import { SingleComment } from '../components/comment';
 import Comment from '../components/comment';
+import { Colors } from '../../../common/styles';
 // import { Icon } from 'react-native-elements';
 //1601437619
 const product = {
@@ -149,14 +150,14 @@ class ProductDetail extends Component{
                                     <Stars rate={this.state.product.product.average}/>
                                     <Text style={styles.product_text}>{this.state.product.product.description}</Text>
                                     <Text style={styles.product_price}>${this.state.product.product.price}</Text>
-                                    <TouchableHighlight style={styles.item_add} underlayColor="#08609e">
+                                    <TouchableHighlight style={styles.item_add} underlayColor={Colors.darkBlue}>
                                         <Text style={styles.item_add_text}>Agregar a carrito</Text>
                                     </TouchableHighlight>
                                 </View>
                                 <View style={styles.section_container}>
                                     <View style={styles.comments_title_border}>
                                         <Text style={styles.comments_title}>Reseñas</Text>
-                                        <TouchableHighlight style={styles.calification} underlayColor="#08609e" onPress={() => {this.setDisplay()}}>
+                                        <TouchableHighlight style={styles.calification} underlayColor={Colors.darkBlue} onPress={() => {this.setDisplay()}}>
                                             <Text style={styles.calification_text}>Dejar una reseña</Text>
                                         </TouchableHighlight>
                                     </View>
@@ -182,7 +183,7 @@ class ProductDetail extends Component{
 
 const styles = StyleSheet.create({
     screen_container : {
-        backgroundColor : '#eff6fa',
+        backgroundColor : Colors.backgroundBlue,
         flex: 1,
     },
     general_container : {
@@ -198,7 +199,7 @@ const styles = StyleSheet.create({
         height: 450,
         // borderStyle: 'solid',
         // borderWidth: 1,
-        borderColor: '#e8e8e8',
+        borderColor: Colors.lightGray,
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
@@ -241,7 +242,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontFamily: 'Rubik',
         fontWeight: '400',
-        color: '#828282'
+        color: Colors.darkGray
     },
     product_price : {
         fontSize: 24,
@@ -251,7 +252,7 @@ const styles = StyleSheet.create({
     item_add : {
         marginTop: 10,
         marginBottom: 10,
-        backgroundColor: '#0e8ce4',
+        backgroundColor: Colors.bluePrimary,
         width: 150,
         height: 50,
         borderRadius: 10,
@@ -266,7 +267,7 @@ const styles = StyleSheet.create({
         paddingBottom: 10,
         borderBottomWidth: 1,
         // borderStyle: 'solid',
-        borderBottomColor: '#e9ecef',
+        borderBottomColor: Colors.lightGray,
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
@@ -277,7 +278,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     calification : {
-        backgroundColor: '#0e8ce4',
+        backgroundColor: Colors.bluePrimary,
         width: 150,
         height: 50,
         borderRadius: 10,

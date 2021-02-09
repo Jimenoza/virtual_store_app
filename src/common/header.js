@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import {Icon} from 'react-native-elements';
+import { Colors } from '../common/styles';
 
 class Header extends Component{
     getIcon() {
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
     logo: {
         fontSize: 30,
         fontWeight: 'bold',
-        color: '#0e8ce4',
+        color: Colors.bluePrimary,
     },
     container: {
         paddingVertical: 10,
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
     count_container: {
         width: 23,
         height: 23,
-        backgroundColor: '#0e8ce4',
+        backgroundColor: Colors.bluePrimary,
         borderRadius: 50,
         position: 'absolute',
         bottom: 6,

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, StyleSheet, ActivityIndicator } from 'react-native';
 import ProductList from '../../product/containers/product-list';
+import { Colors } from '../../../common/styles';
 
 const results = {
     "data": [
@@ -78,7 +79,7 @@ class SearchScreen extends Component{
                     <TextInput autoFocus={true} style={styles.box} placeholder='Buscar...' onChangeText={(ev) => this.search(ev)}/>
                 </View>
                 <View style={styles.display}>
-                    <ActivityIndicator size='large' color="#0e8ce4" animating={this.state.searching}/>
+                    <ActivityIndicator size='large' color={Colors.bluePrimary} animating={this.state.searching}/>
                     {this.renderResults()}
                 </View>
             </View>
@@ -90,7 +91,7 @@ class SearchScreen extends Component{
 
 const styles = StyleSheet.create({
     screen_container : {
-        backgroundColor : '#eff6fa',
+        backgroundColor : Colors.backgroundBlue,
         flex: 1,
     },
     box : {
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
     },
     search_container: {
-        backgroundColor: '#e3e3e3',
+        backgroundColor: Colors.lightGray,
         alignSelf: 'stretch',
         height: 50,
         flexDirection: 'column',

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableHighlight} from 'react-native';
 import {replace_host, Stars} from '../../../common/utils';
+import { Colors } from '../../../common/styles';
 
 function Product(item=null){
     return (
@@ -26,7 +27,7 @@ function Product(item=null){
                         <Text style={styles.item_price}>
                             ${item.price}
                         </Text>
-                        <TouchableHighlight style={styles.item_add} underlayColor="#08609e">
+                        <TouchableHighlight style={styles.item_add} underlayColor={Colors.darkBlue}>
                             <Text style={styles.item_add_text}>Agregar a carrito</Text>
                         </TouchableHighlight>
                     </View>
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
     },
     item_cat : {
         fontSize: 12,
-        color: '#949494'
+        color: Colors.gray
     },
     item_name : {
         fontSize: 16,
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
         color: 'black'
     },
     item_add : {
-        backgroundColor: '#0e8ce4',
+        backgroundColor: Colors.bluePrimary,
         width:150,
         height: 37.5,
         borderRadius: 10,

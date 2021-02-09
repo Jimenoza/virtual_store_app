@@ -8,6 +8,7 @@ import {
     TouchableHighlight,
     ImageBackground
 } from 'react-native';
+import { Colors } from '../common/styles';
 
 class LoginScreen extends Component {
   loginGuest = () => {
@@ -22,13 +23,13 @@ class LoginScreen extends Component {
             </Text>
             <TextInput style={styles.input} placeholder="Usuario"/>
             <TextInput style={styles.input} placeholder="Contraseña"/>
-            <TouchableHighlight style={styles.login} underlayColor="#08609e" onPress={ () => { alert('Login!')}}>
+            <TouchableHighlight style={styles.login} underlayColor={Colors.darkBlue} onPress={ () => { alert('Login!')}}>
               <Text style={styles.text}>Ingresar</Text>
             </TouchableHighlight>
-            <TouchableHighlight style={styles.login} underlayColor="#08609e" onPress={ () => { alert('Registered')}}>
+            <TouchableHighlight style={styles.login} underlayColor={Colors.darkBlue} onPress={ () => { alert('Registered')}}>
               <Text style={styles.text}>Registrarme</Text>
             </TouchableHighlight>
-            <TouchableHighlight style={styles.guest} underlayColor="#08609e" onPress={ () => { this.loginGuest()}}>
+            <TouchableHighlight style={styles.guest} underlayColor={Colors.darkBlue} onPress={ () => { this.loginGuest()}}>
               <Text style={styles.textGuest}>Invitado</Text>
             </TouchableHighlight>
           </ImageBackground>
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
       fontSize: 36,
       fontWeight: '500',
       fontFamily: 'Rubik',
-      color: '#0e8ce4'
+      color: Colors.bluePrimary,
     },
     input: {
       height: 50,
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
       fontSize: 20,
     },
     login : {
-      backgroundColor: '#0e8ce4',
+      backgroundColor: Colors.bluePrimary,
       width:200,
       height: 50,
       borderRadius: 10,
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
       color: 'white'
     },
     guest : {
-      backgroundColor: '#0e8ce4',
+      backgroundColor: Colors.bluePrimary,
       width:150,
       height: 37.5,
       borderRadius: 10,

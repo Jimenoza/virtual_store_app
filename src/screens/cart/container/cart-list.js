@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, FlatList, TouchableHighlight } from 'react-native';
 import CartItem from '../component/cart-item';
 import {Card} from '../../../common/utils';
+import { Colors } from '../../../common/styles';
 
 const cart = {
     "data": {
@@ -77,10 +78,10 @@ class CartList extends Component {
                         />
                     </Card>
                     <View style={styles.buttons_container}>
-                        <TouchableHighlight style={styles.delete_cart} underlayColor="#08609e">
+                        <TouchableHighlight style={styles.delete_cart} underlayColor={Colors.darkBlue}>
                             <Text style={styles.delete_cart_text}>Eliminar Carrito</Text>
                         </TouchableHighlight>
-                        <TouchableHighlight style={styles.proceed} underlayColor="#08609e">
+                        <TouchableHighlight style={styles.proceed} underlayColor={Colors.darkBlue}>
                             <Text style={styles.proceed_text}>Proceder con pago</Text>
                         </TouchableHighlight>
                     </View>
@@ -93,7 +94,7 @@ class CartList extends Component {
 const styles = StyleSheet.create({
     screen_container : {
         flex: 1,
-        backgroundColor : '#eff6fa',
+        backgroundColor : Colors.backgroundBlue,
     },
     cart_container : {
         paddingTop: 25,
@@ -119,14 +120,14 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 10,
         borderTopWidth: 1,
-        borderTopColor: '#eaeaea',
+        borderTopColor: Colors.lightGray,
     },
     buttons_container : {
         flexDirection : 'row',
     },
     proceed : {
         flex: 1,
-        backgroundColor: '#0e8ce4',
+        backgroundColor: Colors.bluePrimary,
         height: 37.5,
         borderRadius: 5,
         alignItems: 'center',

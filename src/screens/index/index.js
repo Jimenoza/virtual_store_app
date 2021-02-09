@@ -3,7 +3,7 @@ import { View, Text, StyleSheet} from 'react-native';
 // import App from '../app';
 import Product from '../product/components/product';
 import ProductList from '../product/containers/product-list'
-// import Header from '../../common/header';
+import { Colors } from '../../common/styles';
 
 const products = {
     "data": {
@@ -199,7 +199,7 @@ class Index extends Component {
 const styles = StyleSheet.create({
     background : {
         flex: 1,
-        backgroundColor : '#eff6fa'
+        backgroundColor : Colors.backgroundBlue
     },
     display : {
         alignItems: 'center'

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableHighlight} from 'react-native';
 import {replace_host} from '../../../common/utils';
+import { Colors } from '../../../common/styles';
 
 function CartItem(item=null){
     return (
@@ -27,7 +28,7 @@ function CartItem(item=null){
                     </Text>
                 </View>
                 <View style={styles.cancel_container}>
-                    <TouchableHighlight style={styles.item_remove} underlayColor="#08609e">
+                    <TouchableHighlight style={styles.item_remove} underlayColor={Colors.darkBlue}>
                         <Text style={styles.item_remove_text}>X</Text>
                     </TouchableHighlight>
                 </View>
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
     },
     item_cat : {
         fontSize: 12,
-        color: '#949494'
+        color: Colors.gray
     },
     item_name : {
         fontSize: 16,
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
         color: 'black'
     },
     item_remove : {
-        backgroundColor: '#858585',
+        backgroundColor: Colors.gray,
         width:50,
         height: 37.5,
         borderRadius: 10,

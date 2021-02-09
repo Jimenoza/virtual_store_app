@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text, View, StyleSheet, TouchableHighlight} from 'react-native';
 import { Stars } from '../../../common/utils';
+import { Colors } from '../../../common/styles';
 
 function Reply(reply=null){
     return (
@@ -15,7 +16,7 @@ function Comment(body=null){
     const replies_style = {
         fontSize: 15,
         fontWeight: '400',
-        color: '#828282',
+        color: Colors.darkGray,
         marginTop: 5,
         paddingLeft: 10
     };
@@ -34,7 +35,7 @@ function Comment(body=null){
             <Text style={styles.comment_text}>{body.comment}</Text>
             <Text style={replies_style}>Respuestas:</Text> 
             {replies}
-            <TouchableHighlight style={styles.reply} underlayColor="#08609e">
+            <TouchableHighlight style={styles.reply} underlayColor={Colors.darkBlue}>
                 <Text style={styles.reply_text}>Dejar una respuesta</Text>
             </TouchableHighlight>  
         </View>
@@ -61,12 +62,12 @@ const styles = StyleSheet.create({
         fontFamily: 'Rubik',
         textAlign: 'left',
         borderTopWidth: 1,
-        borderTopColor: '#1C6EA4',
+        borderTopColor: Colors.darkBlue,
         borderStyle: 'solid'
     },
     user_name : {
         fontSize: 20,
-        color: '#3256C3',
+        color: Colors.bluePrimary,
         fontStyle: 'italic',
 
     },
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
     },
     replies_name : {
         fontSize: 15,
-        color: '#3256C3',
+        color: Colors.bluePrimary,
     },
     replies_text : {
         fontSize: 15,
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
     },
     reply : {
         flex: 1,
-        backgroundColor: '#0e8ce4',
+        backgroundColor: Colors.bluePrimary,
         height: 37.5,
         borderRadius: 5,
         alignItems: 'center',
