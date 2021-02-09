@@ -14,13 +14,23 @@ import Header from './src/common/header';
 import ProductDetail from './src/screens/product/containers/product-detail';
 import CartList from './src/screens/cart/container/cart-list';
 import SearchScreen from './src/screens/search/containers/search-screen'
+import SideMenu from './src/common/side-menu';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-
+const Drawer = createDrawerNavigator();
 const stack = createStackNavigator();
 
 const App: () => React$Node = () => {
   return (
     <NavigationContainer>
+      <DrawerNavigator />
+    </NavigationContainer>
+  );
+};
+
+function StackNavigator({navigation}){
+  return (
+    <NavigationContainer independent={true}>
       <SafeAreaView style={{flex:1}}>
         <StatusBar barStyle="dark-content" />
           <stack.Navigator screenOptions={{ header: (props) => <Header {...props}/>}} initialRouteName="login">
@@ -33,7 +43,16 @@ const App: () => React$Node = () => {
         </SafeAreaView>
     </NavigationContainer>
   );
-};
+}
+
+function DrawerNavigator({navigation, route}) {
+  return (
+    <Drawer.Navigator
+      drawerContent={(props) => <SideMenu {...props} />}>
+      <Drawer.Screen name="Stack" component={StackNavigator} />
+    </Drawer.Navigator>
+  );
+}
 
 const styles = StyleSheet.create({
   

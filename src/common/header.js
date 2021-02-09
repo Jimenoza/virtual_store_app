@@ -7,10 +7,12 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import {Icon} from 'react-native-elements';
+import SideMenu from './side-menu';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import LoginScreen from '../screens/login';
+import { NavigationContainer} from '@react-navigation/native';
 
-function setIcon(icon){
-    
-}
+const Drawer = createDrawerNavigator();
 
 class Header extends Component{
     getIcon() {
@@ -18,7 +20,7 @@ class Header extends Component{
             return <Icon name='arrow-back' color='black' size={40} onPress={() => this.props.navigation.goBack()}/>
         }
         else{
-            return <Icon name='menu' color='black' size={40}/>
+            return <Icon name='menu' color='black' size={40} onPress={() => this.onMenuPress()}/>
         }
     }
 
@@ -30,10 +32,20 @@ class Header extends Component{
         this.props.navigation.navigate('Search');
     }
 
+    onMenuPress(){
+        // console.log(this.props.navigation);
+        this.props.navigation.toggleDrawer();
+    }
+
     render(){
         // console.log(this.props.navigation.dangerouslyGetState());
         return (
             <View>
+                {/* <NavigationContainer independent={true}>
+                    <Drawer.Navigator drawerContent={(props) => <SideMenu {...props} />}>
+                        <Drawer.Screen name="stack" component={SideMenu} />
+                    </Drawer.Navigator>
+                </NavigationContainer> */}
                 <View style={styles.header_container}>
                     <View style={styles.column_header}>
                         <View style={styles.header}>
