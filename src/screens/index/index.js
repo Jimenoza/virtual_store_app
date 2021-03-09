@@ -179,11 +179,11 @@ const products = {
 class Index extends Component {
     render(){
         // console.log(this.props.navigation.dangerouslyGetState());
-        this.props.navigation.addListener('beforeRemove',e => {
-            if(this.props.navigation.dangerouslyGetState().index === 1){
-                e.preventDefault();
-            }
-        });
+        // this.props.navigation.addListener('beforeRemove',e => {
+        //     if(this.props.navigation.dangerouslyGetState().index === 1){
+        //         e.preventDefault();
+        //     }
+        // });
         return (
             // <App>
                 <View style={styles.background}>

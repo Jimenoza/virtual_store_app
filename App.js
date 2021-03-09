@@ -16,6 +16,7 @@ import CartList from './src/screens/cart/container/cart-list';
 import SearchScreen from './src/screens/search/containers/search-screen'
 import SideMenu from './src/screens/side-menu';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import Category from './src/screens/categories/container/categories';
 
 const Drawer = createDrawerNavigator();
 const stack = createStackNavigator();
@@ -30,7 +31,7 @@ const App: () => React$Node = () => {
 
 function StackNavigator({navigation}){
   return (
-    <NavigationContainer independent={true}>
+    
       <SafeAreaView style={{flex:1}}>
         <StatusBar barStyle="dark-content" />
           <stack.Navigator screenOptions={{ header: (props) => <Header {...props}/>}} initialRouteName="login">
@@ -39,9 +40,10 @@ function StackNavigator({navigation}){
             <stack.Screen name="Details" component={ProductDetail}></stack.Screen>
             <stack.Screen name="Cart" component={CartList}></stack.Screen>
             <stack.Screen name="Search" component={SearchScreen}></stack.Screen>
+            <stack.Screen name="Categories" component={Category}></stack.Screen>
           </stack.Navigator>
         </SafeAreaView>
-    </NavigationContainer>
+    
   );
 }
 
