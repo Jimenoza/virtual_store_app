@@ -51,7 +51,7 @@ class Category extends Component{
         });
     }
 
-    renderOptions(){
+    renderPanel(){
         if(this.state.displayCat){
             return this.categoriesOptions
         }
@@ -63,22 +63,33 @@ class Category extends Component{
         }
     }
 
+    hidePanel(){
+        if(this.state.displayCat){
+            this.setState({
+                displayCat : false,
+                icon : 'keyboard-arrow-down',
+            });
+        }
+    }
+
     render(){
         return (
-            <View style={styles.background}>
-                <TouchableHighlight style={styles.categoryTitleContainer} underlayColor={Colors.underlayLightBlue} onPress={() => {this.changeIcon()}}>
-                    <View style={styles.categoryTitleItems}>
-                        <Icon name={this.state.icon} size={25} color={'white'}></Icon>
-                        <Text style={styles.categoryTitle}>{this.state.categorySelected.name}</Text>
+            <TouchableWithoutFeedback style={styles.absoluteBackroud} onPress={() => {this.hidePanel()}}>
+                <View style={styles.background}>
+                    <TouchableHighlight style={styles.categoryTitleContainer} underlayColor={Colors.underlayLightBlue} onPress={() => {this.changeIcon()}}>
+                        <View style={styles.categoryTitleItems}>
+                            <Icon name={this.state.icon} size={25} color={'white'}></Icon>
+                            <Text style={styles.categoryTitle}>{this.state.categorySelected.name}</Text>
+                        </View>
+                    </TouchableHighlight>
+                    <View style={styles.categoryList}>
+                        {this.renderPanel()}
                     </View>
-                </TouchableHighlight>
-                <View style={styles.categoryList}>
-                    {this.renderOptions()}
-                </View>
-                <View style={styles.display}>
-                    {this.renderProducts()}
-                </View>
-            </View>
+                    <View style={styles.display}>
+                        {this.renderProducts()}
+                    </View>
+                </View>    
+            </TouchableWithoutFeedback>
         );
     }
 }
@@ -129,6 +140,14 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         marginLeft: 10,
         marginRight: 10
+    },
+    absoluteBackroud : {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'red',
     }
 })
 

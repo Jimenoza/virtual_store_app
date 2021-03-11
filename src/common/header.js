@@ -27,6 +27,10 @@ class Header extends Component{
         this.props.navigation.navigate('Search');
     }
 
+    goToMain(){
+        this.props.navigation.navigate('Index');
+    }
+
     onMenuPress(){
         // console.log(this.props.navigation);
         this.props.navigation.toggleDrawer();
@@ -45,12 +49,14 @@ class Header extends Component{
                                         {this.getIcon()}
                                     </View>
                                 </TouchableWithoutFeedback>
-                                <TouchableWithoutFeedback style={{flex : 1}} onPress={this.goToSearch} underlayColor="rgba(0,0,0,0.4)">
-                                    <View style={{flex : 1, flexDirection: 'row'}}>
+                                {/* <TouchableWithoutFeedback style={{flex : 1}} onPress={this.goToSearch} underlayColor="rgba(0,0,0,0.4)"> */}
+                                <View style={{flex : 1, flexDirection: 'row'}}>
+                                    <TouchableWithoutFeedback style={{flex : 1}} onPress={() => {this.goToMain()}} underlayColor="rgba(0,0,0,0.4)">
                                         <Text style={styles.logo}>Tienda Virtual</Text>
-                                        <Icon name='search' color='black' size={40}/>
-                                    </View>
-                                </TouchableWithoutFeedback>
+                                    </TouchableWithoutFeedback>
+                                    <Icon name='search' color='black' size={40} onPress={this.goToSearch}/>
+                                </View>
+                                {/* </TouchableWithoutFeedback> */}
                             </View>
                             <TouchableWithoutFeedback onPress={this.goToCart} underlayColor="rgba(0,0,0,0.4)">
                                 <View style={styles.cart_container}>
