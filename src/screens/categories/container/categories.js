@@ -19,7 +19,7 @@ class Category extends Component{
         super();
         this.state.categories.forEach(element => {
             this.categoriesOptions.push(
-                <TouchableHighlight onPress={() => {this.selectCategory(element)}} underlayColor={'#9db9c7'}>
+                <TouchableHighlight onPress={() => {this.selectCategory(element)}} underlayColor={'#9db9c7'} key={element.id}>
                     <View style={[styles.categoryListItem,styles.underline]}>
                         <Text style={styles.categoryName}>{element.name}</Text>
                     </View>
