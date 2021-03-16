@@ -9,7 +9,7 @@ class ProductList extends Component{
     keyExtractor = item => item.id.toString();
     renderItem = ({item}) => {
         return (
-          < Product {...item} onPress={() => {this.goToDetails(item)}}/>
+            <Product {...item} onPress={() => {this.goToDetails(item)}}/>
         );
     }
     render(){

@@ -30,7 +30,7 @@ export function Stars(props, size=40){
 
 export function Card(props){
     return (
-        <View style={styles.section_container}>
+        <View style={[styles.section_container,props.style]}>
             {props.children}
         </View>
     )
@@ -67,6 +67,10 @@ export function BottomInputRate(props){
             </KeyboardAvoidingView>
         )
     }
+}
+
+export function SeparatorLine(style){
+    return <View style={styles.separator}></View>
 }
 
 const styles = StyleSheet.create({
@@ -108,5 +112,11 @@ const styles = StyleSheet.create({
         fontSize: 15,
         padding: 0,
         paddingLeft: 10,
+    },
+    separator: {
+        marginTop: 10,
+        marginBottom: 10,
+        borderTopWidth: 1,
+        borderTopColor: Colors.lightGray,
     }
 })

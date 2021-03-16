@@ -38,7 +38,7 @@ class SideMenu extends Component{
             </View>
           </TouchableHighlight>
 
-          <TouchableHighlight underlayColor={Colors.bluePrimary} onPress={ () => {console.log('hola')}}> 
+          <TouchableHighlight underlayColor={Colors.bluePrimary} onPress={() => { this.props.navigation.navigate("Orders")}}> 
             <View style={styles.option}>
               <Text style={styles.optionText}>
               Mis órdenes

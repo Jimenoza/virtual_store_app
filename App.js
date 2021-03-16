@@ -17,6 +17,8 @@ import SearchScreen from './src/screens/search/containers/search-screen'
 import SideMenu from './src/screens/side-menu';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Category from './src/screens/categories/container/categories';
+import Orders from './src/screens/orders/container/orders'
+import OrderDetail from './src/screens/orders/component/order-detail';
 
 const Drawer = createDrawerNavigator();
 const stack = createStackNavigator();
@@ -41,6 +43,8 @@ function StackNavigator({navigation}){
             <stack.Screen name="Cart" component={CartList}></stack.Screen>
             <stack.Screen name="Search" component={SearchScreen}></stack.Screen>
             <stack.Screen name="Categories" component={Category}></stack.Screen>
+            <stack.Screen name="Orders" component={Orders}></stack.Screen>
+            <stack.Screen name="OrderDetail" component={OrderDetail}></stack.Screen>
           </stack.Navigator>
         </SafeAreaView>
     

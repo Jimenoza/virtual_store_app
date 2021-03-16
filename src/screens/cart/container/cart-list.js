@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, FlatList, TouchableHighlight } from 'react-native';
 import CartItem from '../component/cart-item';
-import {Card} from '../../../common/utils';
+import {Card, SeparatorLine} from '../../../common/utils';
 import { Colors } from '../../../common/styles';
 
 const cart = {
@@ -55,7 +55,7 @@ class CartList extends Component {
     separator = () => {
         // <CartItem {...cart.data.cart[0]}/>
         return (
-            <View style={styles.separator}></View>
+            <SeparatorLine></SeparatorLine>
         )
     }
 
@@ -115,12 +115,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '500',
         justifyContent: 'center'
-    },
-    separator: {
-        marginTop: 10,
-        marginBottom: 10,
-        borderTopWidth: 1,
-        borderTopColor: Colors.lightGray,
     },
     buttons_container : {
         flexDirection : 'row',
