@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet} from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator} from 'react-native';
 // import App from '../app';
 import Product from '../product/components/product';
 import ProductList from '../product/containers/product-list'
 import { Colors } from '../../common/styles';
+import {ProductService} from '../../services/products';
+import AppModal from '../../common/modal';
+import { Button } from 'react-native';
 
 const products = {
     "data": {
@@ -177,7 +180,41 @@ const products = {
 }
 
 class Index extends Component {
+    service = new ProductService();
+    state = {
+        products : null
+    }
+
+    /**
+     * Checks the state and returns the component to display item or Activity indicator
+     */
+    displayScreen(){
+        // console.log(this.props);
+        // this.props.navigation.navigate('Modal');
+        if(this.state.products){
+            return (
+                <View style={styles.display}>
+                    <ProductList {...this.props} items={products.data.data}/>
+                </View>
+            )
+        }
+        else {
+            return (
+                <View style={styles.centerLoader}>
+                    <ActivityIndicator size='large' color={Colors.bluePrimary} animating={true}/>
+                    <Button onPress={() => {this.props.navigation.navigate('Modal');}} title="Modal"></Button>
+                </View>
+            )
+        }
+    }
+
     render(){
+        // this.service.getIndexProducts().then( response => {
+        //     console.log(response);
+        //     this.setState({
+        //         products : response
+        //     })
+        // });
         // console.log(this.props.navigation.dangerouslyGetState());
         // this.props.navigation.addListener('beforeRemove',e => {
         //     if(this.props.navigation.dangerouslyGetState().index === 1){
@@ -187,9 +224,8 @@ class Index extends Component {
         return (
             // <App>
                 <View style={styles.background}>
-                    <View style={styles.display}>
-                        <ProductList {...this.props} items={products.data.data}/>
-                    </View>
+                    {/* <AppModal></AppModal> */}
+                    {this.displayScreen()}
                 </View>
             // </App>
         );
@@ -203,6 +239,10 @@ const styles = StyleSheet.create({
     },
     display : {
         alignItems: 'center'
+    },
+    centerLoader : {
+        justifyContent: 'center',
+        flex: 1,
     }
 })
 

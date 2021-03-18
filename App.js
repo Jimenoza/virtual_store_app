@@ -19,14 +19,16 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import Category from './src/screens/categories/container/categories';
 import Orders from './src/screens/orders/container/orders'
 import OrderDetail from './src/screens/orders/component/order-detail';
+import AppModal from './src/common/modal';
 
 const Drawer = createDrawerNavigator();
-const stack = createStackNavigator();
+const navigatorStack = createStackNavigator();
+const modalStack = createStackNavigator();
 
 const App: () => React$Node = () => {
   return (
     <NavigationContainer>
-      <DrawerNavigator />
+      <ModalNavigator />
     </NavigationContainer>
   );
 };
@@ -36,26 +38,35 @@ function StackNavigator({navigation}){
     
       <SafeAreaView style={{flex:1}}>
         <StatusBar barStyle="dark-content" />
-          <stack.Navigator screenOptions={{ header: (props) => <Header {...props}/>}} initialRouteName="login">
-            <stack.Screen name="login" component={LoginScreen} options={{headerShown : false}}></stack.Screen>
-            <stack.Screen name="Index" component={Index} options={{gestureEnabled: false}} ></stack.Screen>
-            <stack.Screen name="Details" component={ProductDetail}></stack.Screen>
-            <stack.Screen name="Cart" component={CartList}></stack.Screen>
-            <stack.Screen name="Search" component={SearchScreen}></stack.Screen>
-            <stack.Screen name="Categories" component={Category}></stack.Screen>
-            <stack.Screen name="Orders" component={Orders}></stack.Screen>
-            <stack.Screen name="OrderDetail" component={OrderDetail}></stack.Screen>
-          </stack.Navigator>
+          <navigatorStack.Navigator screenOptions={{ header: (props) => <Header {...props}/>}} initialRouteName="login">
+            <navigatorStack.Screen name="login" component={LoginScreen} options={{headerShown : false}}></navigatorStack.Screen>
+            <navigatorStack.Screen name="Index" component={Index} options={{gestureEnabled: false}} ></navigatorStack.Screen>
+            <navigatorStack.Screen name="Details" component={ProductDetail}></navigatorStack.Screen>
+            <navigatorStack.Screen name="Cart" component={CartList}></navigatorStack.Screen>
+            <navigatorStack.Screen name="Search" component={SearchScreen}></navigatorStack.Screen>
+            <navigatorStack.Screen name="Categories" component={Category}></navigatorStack.Screen>
+            <navigatorStack.Screen name="Orders" component={Orders}></navigatorStack.Screen>
+            <navigatorStack.Screen name="OrderDetail" component={OrderDetail}></navigatorStack.Screen>
+          </navigatorStack.Navigator>
         </SafeAreaView>
     
   );
 }
 
+function ModalNavigator({navigation}){
+  return(
+    <modalStack.Navigator mode="modal" screenOptions={{ cardStyle : {backgroundColor : 'transparent'}}}>
+      <modalStack.Screen name="Drawer" component={DrawerNavigator} options={{ headerShown: false }}/>
+      <modalStack.Screen name="Modal" component={AppModal} options={{ headerShown: false }}/>
+    </modalStack.Navigator>
+  );
+}
+
 function DrawerNavigator({navigation, route}) {
   return (
-    <Drawer.Navigator
-      drawerContent={(props) => <SideMenu {...props} />}>
-      <Drawer.Screen name="Stack" component={StackNavigator} />
+    <Drawer.Navigator drawerContent={(props) => <SideMenu {...props} />}>
+      {/* <Drawer.Screen name="ModalStack" component={ModalNavigator} /> */}
+      <Drawer.Screen name="Stack" component={StackNavigator} options={{ headerShown: false }}/>
     </Drawer.Navigator>
   );
 }

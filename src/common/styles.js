@@ -7,4 +7,5 @@ export const Colors = {
     lightGray: '#e3e3e3',
     gray: '#949494',
     darkGray: '#828282',
+    darkGrayTranslucid : 'rgba(130, 130, 130, 0.8)'
 }
