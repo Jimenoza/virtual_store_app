@@ -20,7 +20,7 @@ export function Stars(props, size=40){
     }
     if( (props.rate - integer) >= 0.5 ){
         stars.push(
-                <Icon name='star_half' color={Colors.yellow} size={props.size} key={5}/>
+                <Icon name='star-half' color={Colors.yellow} size={props.size} key={5}/>
         )
     }
     return (<View style={{alignItems : 'flex-start', flexDirection:'row'}}>

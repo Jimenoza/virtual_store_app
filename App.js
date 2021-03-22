@@ -19,7 +19,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import Category from './src/screens/categories/container/categories';
 import Orders from './src/screens/orders/container/orders'
 import OrderDetail from './src/screens/orders/component/order-detail';
-import AppModal from './src/common/modal';
+import AppModal from './src/common/modal/modal';
 
 const Drawer = createDrawerNavigator();
 const navigatorStack = createStackNavigator();

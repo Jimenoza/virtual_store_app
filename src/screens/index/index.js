@@ -1,233 +1,146 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator} from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, TouchableHighlight} from 'react-native';
 // import App from '../app';
 import Product from '../product/components/product';
 import ProductList from '../product/containers/product-list'
 import { Colors } from '../../common/styles';
-import {ProductService} from '../../services/products';
-import AppModal from '../../common/modal';
-import { Button } from 'react-native';
+import {ProductService} from '../../services/products-service';
+import { Icon } from 'react-native-elements';
+import { Card } from '../../common/utils'
 
-const products = {
-    "data": {
-        "current_page": 1,
-        "data": [
-            {
-                "id": 1,
-                "name": "Bulto Jansport",
-                "description": "Bulto azul con fondo café",
-                "image": "http://localhost:8000/images/productos/1602557763.jpg",
-                "price": 15,
-                "stock": 18,
-                "available": 1,
-                "califications": 1,
-                "average": 5,
-                "category_id": 1,
-                "category_name": "Escolar"
-            },
-            {
-                "id": 2,
-                "name": "Billetera",
-                "description": "Billetera para hombre",
-                "image": "http://localhost:8000/images/productos/1601436540.jpg",
-                "price": 10,
-                "stock": 31,
-                "available": 1,
-                "califications": 0,
-                "average": 0,
-                "category_id": 4,
-                "category_name": "Accesorios"
-            },
-            {
-                "id": 3,
-                "name": "Nintendo Switch",
-                "description": "La última consola de nintendo",
-                "image": "http://localhost:8000/images/productos/1601442531.jpg",
-                "price": 299,
-                "stock": 0,
-                "available": 1,
-                "califications": 0,
-                "average": 0,
-                "category_id": 3,
-                "category_name": "Consolas"
-            },
-            {
-                "id": 4,
-                "name": "Fallout 4",
-                "description": "Un mundo postapocalíptico después de una guerra nuclear",
-                "image": "http://localhost:8000/images/productos/1603339114.webp",
-                "price": 45,
-                "stock": 18,
-                "available": 1,
-                "califications": 0,
-                "average": 0,
-                "category_id": 2,
-                "category_name": "Videojuegos"
-            },
-            {
-                "id": 5,
-                "name": "The last of us",
-                "description": "Juego del año 2013",
-                "image": "http://localhost:8000/images/productos/1601437419.jpg",
-                "price": 19.99,
-                "stock": 18,
-                "available": 1,
-                "califications": 0,
-                "average": 0,
-                "category_id": 2,
-                "category_name": "Videojuegos"
-            },
-            {
-                "id": 7,
-                "name": "Lentes",
-                "description": "anteojos unisex",
-                "image": "http://localhost:8000/images/productos/1601437471.jpg",
-                "price": 15,
-                "stock": 3,
-                "available": 1,
-                "califications": 0,
-                "average": 0,
-                "category_id": 4,
-                "category_name": "Accesorios"
-            },
-            {
-                "id": 10,
-                "name": "Wii U",
-                "description": "Una consola que parecía un control para la wii",
-                "image": "http://localhost:8000/images/productos/1602301594.png",
-                "price": 110,
-                "stock": 5,
-                "available": 1,
-                "califications": 0,
-                "average": 0,
-                "category_id": 3,
-                "category_name": "Consolas"
-            },
-            {
-                "id": 11,
-                "name": "Zelda Breath of the Wild",
-                "description": "Último juego de la Saga The Legende of Zelda. Mejor juego del año 2017",
-                "image": "http://localhost:8000/images/productos/1601437528.jpg",
-                "price": 59.99,
-                "stock": 27,
-                "available": 1,
-                "califications": 1,
-                "average": 5,
-                "category_id": 2,
-                "category_name": "Videojuegos"
-            },
-            {
-                "id": 12,
-                "name": "Cuadernos",
-                "description": "Cuardenos multicolor para escuela, colegio, universidad",
-                "image": "http://localhost:8000/images/productos/1601437562.jpg",
-                "price": 12,
-                "stock": 49,
-                "available": 1,
-                "califications": 1,
-                "average": 5,
-                "category_id": 1,
-                "category_name": "Escolar"
-            },
-            {
-                "id": 13,
-                "name": "Audífonos",
-                "description": "Audífonos negros grandes",
-                "image": "http://localhost:8000/images/productos/1601437588.jpg",
-                "price": 14.99,
-                "stock": 7,
-                "available": 1,
-                "califications": 2,
-                "average": 2,
-                "category_id": 4,
-                "category_name": "Accesorios"
-            }
-        ],
-        "first_page_url": "http://localhost:8000/api/products?page=1",
-        "from": 1,
-        "last_page": 2,
-        "last_page_url": "http://localhost:8000/api/products?page=2",
-        "links": [
-            {
-                "url": null,
-                "label": "&laquo; Anterior",
-                "active": false
-            },
-            {
-                "url": "http://localhost:8000/api/products?page=1",
-                "label": 1,
-                "active": true
-            },
-            {
-                "url": "http://localhost:8000/api/products?page=2",
-                "label": 2,
-                "active": false
-            },
-            {
-                "url": "http://localhost:8000/api/products?page=2",
-                "label": "Siguiente &raquo;",
-                "active": false
-            }
-        ],
-        "next_page_url": "http://localhost:8000/api/products?page=2",
-        "path": "http://localhost:8000/api/products",
-        "per_page": 10,
-        "prev_page_url": null,
-        "to": 10,
-        "total": 17
-    },
-    "error": null
-}
+const FIRST_PAGE = 1;
 
 class Index extends Component {
     service = new ProductService();
     state = {
-        products : null
+        products : [],
+        previous : { // state of previous button
+            disabled : true,
+            styles : [styles.navButton,styles.marginRight, styles.disabled],
+            color : Colors.disabled
+        },
+        next : {// state of next button
+            disabled : false,
+            styles : [styles.navButton, styles.marginLeft, styles.enabled],
+            color : Colors.bluePrimary,
+        }
+    }
+
+    constructor(){
+        super();
+        this.service.getListProducts(10).then( response => { //gets products
+            // console.log(response);
+            this.setState({
+                products : response
+            })
+        }).catch( err => {
+            console.log(err);
+            this.props.navigation.navigate('Modal',{message : 'error'})
+        });
+    }
+
+    updateState(response){
+        this.setState({
+            next : {
+                disabled : !this.service.isThereNextPage(),
+                styles : [styles.navButton, styles.marginLeft, this.service.isThereNextPage()? styles.enabled : styles.disabled],
+                color : this.service.isThereNextPage()? Colors.bluePrimary : Colors.disabled,
+            },
+            previous : {
+                disabled : !this.service.isTherePreviousPage(),
+                styles : [styles.navButton, styles.marginLeft, this.service.isTherePreviousPage()? styles.enabled : styles.disabled],
+                color : this.service.isTherePreviousPage()? Colors.bluePrimary : Colors.disabled,
+            },
+            products : response,
+        })
+    }
+
+    /**
+     * Goes to next page if there are pages
+     * Also sets previous button enabled or disabled
+     */
+    goToNextPage(){
+        this.setState({
+            products : [],
+        });
+        this.service.getNextPageData().then( response => {
+            this.updateState(response);
+        }).catch( err => {
+            console.log(err);
+            this.props.navigation.navigate('Modal',{message : 'error'})
+        });
+    }
+
+    /**
+     * Goes to previous page if there are pages
+     * Also sets next button enabled or disabled
+     */
+    goToPreviousPage(){
+        this.setState({
+            products : [],
+        });
+        this.service.getPreviousPageData().then( response => {
+            this.updateState(response);
+        }).catch( err => {
+            console.log(err);
+            this.props.navigation.navigate('Modal',{message : 'error'})
+        });
+    }
+
+    footer(){
+        return(
+            <View style={{width : 380}}>
+                <Card style={{marginTop : 20,marginBottom: 10}}>
+                    <Text>Resutados página 1 de 4</Text>
+                </Card>
+                <View style={styles.buttonsContainer}>
+                    <TouchableHighlight style={this.state.previous.styles} underlayColor={Colors.underlayLightBlue} onPress={() => {this.goToPreviousPage()}} disabled={this.state.previous.disabled}>
+                        <View style={styles.buttonContent}>
+                            <Icon name="navigate-before" size={30} color={this.state.previous.color}></Icon>
+                            <Text style={[styles.buttonText, {color : this.state.previous.color}]}>Anterior</Text>
+                        </View>
+                    </TouchableHighlight>
+                    <TouchableHighlight style={this.state.next.styles} underlayColor={Colors.underlayLightBlue} onPress={() => {this.goToNextPage()}} disabled={this.state.next.disabled}>
+                        <View style={styles.buttonContent}>
+                            <Text style={[styles.buttonText, {color : this.state.next.color}]}>Siguiente</Text>
+                            <Icon name="navigate-next" size={30} color={this.state.next.color}></Icon>
+                        </View>
+                    </TouchableHighlight>
+                </View>
+            </View>
+        );
+    }
+
+    loader(){
+        return (
+            <View style={styles.centerLoader}>
+                <ActivityIndicator size='large' color={Colors.bluePrimary} animating={true}/>
+                {/* <Button onPress={() => {
+                    this.props.navigation.navigate('Modal',{message : 'error'});}} title="Modal"></Button> */}
+            </View>
+        );
     }
 
     /**
      * Checks the state and returns the component to display item or Activity indicator
      */
     displayScreen(){
-        // console.log(this.props);
         // this.props.navigation.navigate('Modal');
-        if(this.state.products){
-            return (
-                <View style={styles.display}>
-                    <ProductList {...this.props} items={products.data.data}/>
+        return (
+            <View style={styles.display}>
+                <View style={{marginBottom: 20}}>
+                    <ProductList {...this.props} items={this.state.products} footer={this.footer()} loader={this.loader()}/>
                 </View>
-            )
-        }
-        else {
-            return (
-                <View style={styles.centerLoader}>
-                    <ActivityIndicator size='large' color={Colors.bluePrimary} animating={true}/>
-                    <Button onPress={() => {this.props.navigation.navigate('Modal');}} title="Modal"></Button>
-                </View>
-            )
-        }
+            </View>
+        )
     }
 
     render(){
-        // this.service.getIndexProducts().then( response => {
-        //     console.log(response);
-        //     this.setState({
-        //         products : response
-        //     })
-        // });
-        // console.log(this.props.navigation.dangerouslyGetState());
-        // this.props.navigation.addListener('beforeRemove',e => {
-        //     if(this.props.navigation.dangerouslyGetState().index === 1){
-        //         e.preventDefault();
-        //     }
-        // });
         return (
-            // <App>
-                <View style={styles.background}>
-                    {/* <AppModal></AppModal> */}
-                    {this.displayScreen()}
-                </View>
-            // </App>
+            <View style={styles.background}>
+                {/* <AppModal></AppModal> */}
+                {this.displayScreen()}
+            </View>
         );
     }
 }
@@ -241,8 +154,46 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     centerLoader : {
+        marginTop: 20,
         justifyContent: 'center',
         flex: 1,
+    },
+    buttonsContainer : {
+        flexDirection: 'row',
+        alignSelf: 'stretch',
+        height: 50,
+    },
+    navButton : {
+        borderWidth: 1,
+        borderStyle: 'solid',
+        backgroundColor: 'white',
+        borderRadius: 5,
+        flex: 1,
+        alignItems : 'center'
+    },
+    buttonText : {
+        fontSize : 20
+    },
+    buttonContent : {
+        flex : 1,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    disabled : {
+        backgroundColor : Colors.lightGray,
+        borderColor: Colors.lightGray,
+        color : Colors.disabled,
+    },
+    enabled : {
+        borderColor: Colors.bluePrimary,
+        color : Colors.bluePrimary,
+        backgroundColor: 'white'
+    },
+    marginLeft : {
+        marginLeft : 5
+    },
+    marginRight : {
+        marginRight : 5
     }
 })
 

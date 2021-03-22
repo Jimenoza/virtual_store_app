@@ -18,6 +18,8 @@ class ProductList extends Component{
                 keyExtractor={this.keyExtractor}
                 data={this.props.items}
                 renderItem={this.renderItem}
+                ListFooterComponent={this.props.footer}
+                ListEmptyComponent={this.props.loader}
             />
         }
         else{
