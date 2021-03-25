@@ -1,7 +1,7 @@
 import HttpService from './common/api';
 
 export class ProductService {
-    api = new HttpService();
+    api = HttpService.getInstance();
     pages = null;
     // apiOK = true;
     getListProducts(amount){
@@ -63,6 +63,17 @@ export class ProductService {
             }else {
                 resolve(null);
             }
+        });
+    }
+
+    getProduct(id){
+        const url = `products/${id}`;
+        return new Promise( (resolve, reject) => {
+            this.api.httpGET(url).then( response => {
+                resolve(response.data);
+            }).catch( err => {
+                reject(err);
+            })
         });
     }
 

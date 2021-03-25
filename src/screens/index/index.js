@@ -26,6 +26,7 @@ class Index extends Component {
             color : Colors.bluePrimary,
         },
         retries : 0,
+        loading : false,
     }
 
     constructor(){
@@ -145,20 +146,28 @@ class Index extends Component {
 
     }
 
+    retry(){
+        this.setState({
+            loading : true,
+        })
+        this.service.getListProducts(10).then( response => {
+            this.setState({
+                products : response,
+                retries : 0
+            });
+        }).catch( err => {
+            this.props.navigation.navigate('Modal',{message : 'error'});
+        }).finally( () => {
+            this.setState({
+                loading : false,
+            })
+        });
+    }
+
     render(){
-        console.log(!this.service.isApiOk());
         if(!this.service.isApiOk()){
             return (
-                <RetryMessage action={ () => {
-                    this.service.getListProducts(10).then( response => {
-                        this.setState({
-                            products : response,
-                            retries : 0
-                        });
-                    }).catch( err => {
-                        this.props.navigation.navigate('Modal',{message : 'error'});
-                    });
-                }}></RetryMessage>
+                <RetryMessage action={ () => { this.retry() }} loading={this.state.loading}></RetryMessage>
             )
         }
         return (

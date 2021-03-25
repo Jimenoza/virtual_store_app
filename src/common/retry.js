@@ -1,9 +1,16 @@
 import React from 'react';
-import { View, Text, TouchableWithoutFeedback, StyleSheet} from 'react-native';
+import { View, Text, TouchableWithoutFeedback, StyleSheet, ActivityIndicator} from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Colors } from './styles';
 
 function RetryMessage(props){
+    if(props.loading){
+        return (
+            <View style={styles.centerLoader}>
+                <ActivityIndicator size='large' color={Colors.bluePrimary} animating={true}/>
+            </View>
+        )
+    }
     return (
         <View style={styles.container}>
             <TouchableWithoutFeedback onPress={props.action}>
@@ -29,7 +36,12 @@ const styles = StyleSheet.create({
     message : {
         fontSize : 20,
         color : Colors.bluePrimary
-    }
+    },
+    centerLoader : {
+        marginTop: 20,
+        justifyContent: 'center',
+        flex: 1,
+    },
 });
 
 export default RetryMessage;

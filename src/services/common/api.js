@@ -13,6 +13,15 @@ class HttpService {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
   }
+  static instance = null;
+
+  static getInstance() : HttpService {
+    if(!this.instance){
+      this.instance = new HttpService();
+    }
+    return this.instance;
+  }
+
   httpGET(uri,useBase = true){
     let url = '';
     if(useBase){
