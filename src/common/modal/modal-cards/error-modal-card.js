@@ -16,7 +16,7 @@ class ErrorModalCard extends ModalCard{
                     <Text style={styles.message}>Intente más tarde</Text>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <TouchableHighlight style={styles.button} underlayColor={Colors.darkBlue} onPress={() => {this.props.navigation.navigate("login")}}>
+                    <TouchableHighlight style={styles.button} underlayColor={Colors.darkBlue} onPress={() => {this.props.navigation.goBack()}}>
                         <Text style={styles.buttonLabel}>Aceptar</Text>
                     </TouchableHighlight>
                 </View>

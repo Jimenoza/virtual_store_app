@@ -3,6 +3,7 @@ import HttpService from './common/api';
 export class ProductService {
     api = new HttpService();
     pages = null;
+    // apiOK = true;
     getListProducts(amount){
         let url = `products/list`;
         if(amount){
@@ -16,14 +17,16 @@ export class ProductService {
                     next : response.data.next_page_url,
                     previous : response.data.prev_page_url
                 }
+                // if(!this.apiOK){this.apiOK = true;}
                 resolve(response.data.data);
             }).catch( err => {
+                // this.apiOK = false;
                 reject(err);
             })
         });
     }
 
-    getNextPageData(){
+    getNextPage(){
         return new Promise( (resolve, reject) => {
             if(this.pages && this.pages.next){
                 this.api.httpGET(this.pages.next,false).then( response => {
@@ -43,7 +46,7 @@ export class ProductService {
         });
     }
 
-    getPreviousPageData(){
+    getPreviousPage(){
         return new Promise( (resolve, reject) => {
             if(this.pages && this.pages.previous){
                 this.api.httpGET(this.pages.previous,false).then( response => {
@@ -71,12 +74,16 @@ export class ProductService {
         return this.pages.lastPage;
     }
 
-    isThereNextPage(){
+    canGotoNext(){
         return this.pages.next !== null;
     }
 
-    isTherePreviousPage(){
+    canGoToBack(){
         return this.pages.previous !== null;
+    }
+
+    isApiOk(){
+        return !this.api.error;
     }
 
 }

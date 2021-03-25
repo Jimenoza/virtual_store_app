@@ -7,6 +7,7 @@ import { Colors } from '../../common/styles';
 import {ProductService} from '../../services/products-service';
 import { Icon } from 'react-native-elements';
 import { Card } from '../../common/utils'
+import RetryMessage from '../../common/retry';
 
 const FIRST_PAGE = 1;
 
@@ -23,7 +24,8 @@ class Index extends Component {
             disabled : false,
             styles : [styles.navButton, styles.marginLeft, styles.enabled],
             color : Colors.bluePrimary,
-        }
+        },
+        retries : 0,
     }
 
     constructor(){
@@ -32,26 +34,29 @@ class Index extends Component {
             // console.log(response);
             this.setState({
                 products : response
-            })
+            });
         }).catch( err => {
-            console.log(err);
-            this.props.navigation.navigate('Modal',{message : 'error'})
+            this.setState({
+                retries : this.state.retries + 1
+            });
+            this.props.navigation.navigate('Modal',{message : 'error'});
         });
     }
 
     updateState(response){
         this.setState({
             next : {
-                disabled : !this.service.isThereNextPage(),
-                styles : [styles.navButton, styles.marginLeft, this.service.isThereNextPage()? styles.enabled : styles.disabled],
-                color : this.service.isThereNextPage()? Colors.bluePrimary : Colors.disabled,
+                disabled : !this.service.canGotoNext(),
+                styles : [styles.navButton, styles.marginLeft, this.service.canGotoNext()? styles.enabled : styles.disabled],
+                color : this.service.canGotoNext()? Colors.bluePrimary : Colors.disabled,
             },
             previous : {
-                disabled : !this.service.isTherePreviousPage(),
-                styles : [styles.navButton, styles.marginLeft, this.service.isTherePreviousPage()? styles.enabled : styles.disabled],
-                color : this.service.isTherePreviousPage()? Colors.bluePrimary : Colors.disabled,
+                disabled : !this.service.canGoToBack(),
+                styles : [styles.navButton, styles.marginLeft, this.service.canGoToBack()? styles.enabled : styles.disabled],
+                color : this.service.canGoToBack()? Colors.bluePrimary : Colors.disabled,
             },
             products : response,
+            retries : 0,
         })
     }
 
@@ -63,7 +68,7 @@ class Index extends Component {
         this.setState({
             products : [],
         });
-        this.service.getNextPageData().then( response => {
+        this.service.getNextPage().then( response => {
             this.updateState(response);
         }).catch( err => {
             console.log(err);
@@ -79,14 +84,18 @@ class Index extends Component {
         this.setState({
             products : [],
         });
-        this.service.getPreviousPageData().then( response => {
+        this.service.getPreviousPage().then( response => {
             this.updateState(response);
         }).catch( err => {
             console.log(err);
-            this.props.navigation.navigate('Modal',{message : 'error'})
+            this.props.navigation.navigate('Modal',{message : 'error'});
         });
     }
 
+    /**
+     * Method that returns pagination buttons for results pagination
+     * @returns render
+     */
     footer(){
         return(
             <View style={{width : 380}}>
@@ -122,7 +131,7 @@ class Index extends Component {
     }
 
     /**
-     * Checks the state and returns the component to display item or Activity indicator
+     * Checks the state and returns the component to display item or retry message
      */
     displayScreen(){
         // this.props.navigation.navigate('Modal');
@@ -133,12 +142,27 @@ class Index extends Component {
                 </View>
             </View>
         )
+
     }
 
     render(){
+        console.log(!this.service.isApiOk());
+        if(!this.service.isApiOk()){
+            return (
+                <RetryMessage action={ () => {
+                    this.service.getListProducts(10).then( response => {
+                        this.setState({
+                            products : response,
+                            retries : 0
+                        });
+                    }).catch( err => {
+                        this.props.navigation.navigate('Modal',{message : 'error'});
+                    });
+                }}></RetryMessage>
+            )
+        }
         return (
             <View style={styles.background}>
-                {/* <AppModal></AppModal> */}
                 {this.displayScreen()}
             </View>
         );
