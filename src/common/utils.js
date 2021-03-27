@@ -68,7 +68,7 @@ export function BottomInputRate(props){
         )
     }
 }
-
+// Hola 
 export function SeparatorLine(style){
     return <View style={styles.separator}></View>
 }
