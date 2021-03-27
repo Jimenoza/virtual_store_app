@@ -4,7 +4,7 @@ import Product from '../components/product'
 
 class ProductList extends Component{
     goToDetails = (item) => {
-        this.props.navigation.push('Details',{product_id : item.id});
+        this.props.navigation.push('Details',{productId : item.id});
     }
     keyExtractor = item => item.id.toString();
     renderItem = ({item}) => {

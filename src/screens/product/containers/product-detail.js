@@ -4,7 +4,8 @@ import { replace_host, Stars, BottomInputRate} from '../../../common/utils';
 import { SingleComment } from '../components/comment';
 import Comment from '../components/comment';
 import { Colors } from '../../../common/styles';
-// import { Icon } from 'react-native-elements';
+import {ProductService} from '../../../services/products-service';
+import RetryMessage from '../../../common/retry';
 //1601437619
 const product = {
     "data": {
@@ -95,13 +96,14 @@ const product = {
 
 class ProductDetail extends Component{
     state = {
-        product : product.data,
+        product : null,
         displayComment : false,
         comment : {
             text : '',
             rate : 0,
         }
     }
+    service = new ProductService();
 
     keyExtractor = item => item.id.toString();
     renderItem = ({item}) => {
@@ -123,6 +125,17 @@ class ProductDetail extends Component{
                 text : text,
                 rate : 0
             }
+        });
+    }
+
+    loadProduct(){
+        const id = this.props.route.params.productId;
+        this.service.getProduct(id).then( response => {
+            this.setState({
+                product : response
+            });
+        }).catch( err => {
+            console.log(err);
         });
     }
 
@@ -174,10 +187,16 @@ class ProductDetail extends Component{
                 </BottomInputRate>
             );
     }
+
+    componentDidMount(){
+        this.loadProduct();
+    }
+
     render(){
-        if( this.state.product){
+        if(this.state.product){
             return this.displayDetail();
         }
+        return <RetryMessage loading={this.state.product === null}></RetryMessage>
     }
 }
 

@@ -33,9 +33,9 @@ class HttpService {
     return new Promise( (resolve, reject) => {
       fetch(url,{ method : 'GET', headers : this.headers}).then( response => {
         console.log('fetching....');
-        response.json().then( json => {
+        response.json().then( json => { // sets response object to json
           console.log('fetching.... success');
-          if(response.status === CODES.ERROR){
+          if(response.status === CODES.ERROR){ //server has a problem
             this.error = true;
             reject(json);
           }
@@ -43,12 +43,12 @@ class HttpService {
             if(this.error){ this.error = false;}
             resolve(json);
           }
-        }).catch( err => {
+        }).catch( err => { // Error parsing response into json
           console.log('fetching.... failed');
           console.log(err);
           reject(err);
         });
-      }).catch( err => {
+      }).catch( err => { // Error requesting to server
         console.log('fetching.... failed');
         this.error = true;
         reject(err);

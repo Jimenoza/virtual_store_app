@@ -25,7 +25,6 @@ class Index extends Component {
             styles : [styles.navButton, styles.marginLeft, styles.enabled],
             color : Colors.bluePrimary,
         },
-        retries : 0,
         loading : false,
     }
 
@@ -37,10 +36,10 @@ class Index extends Component {
                 products : response
             });
         }).catch( err => {
-            this.setState({
-                retries : this.state.retries + 1
-            });
             this.props.navigation.navigate('Modal',{message : 'error'});
+            this.setState({
+                loading : false
+            })
         });
     }
 
@@ -57,7 +56,6 @@ class Index extends Component {
                 color : this.service.canGoToBack()? Colors.bluePrimary : Colors.disabled,
             },
             products : response,
-            retries : 0,
         })
     }
 
@@ -153,7 +151,6 @@ class Index extends Component {
         this.service.getListProducts(10).then( response => {
             this.setState({
                 products : response,
-                retries : 0
             });
         }).catch( err => {
             this.props.navigation.navigate('Modal',{message : 'error'});
