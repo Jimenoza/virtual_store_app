@@ -3,46 +3,13 @@ import { Text, View, StyleSheet, FlatList, TouchableHighlight } from 'react-nati
 import CartItem from '../component/cart-item';
 import {Card, SeparatorLine} from '../../../common/utils';
 import { Colors } from '../../../common/styles';
-
-const cart = {
-    "data": {
-        "total": 25,
-        "cart": [
-            {
-                "id": 1,
-                "name": "Bulto Jansport",
-                "description": "Bulto azul con fondo café",
-                "image": "http://localhost:8000/images/productos/1602557763.jpg",
-                "price": 15,
-                "stock": 18,
-                "available": 1,
-                "califications": 1,
-                "average": 5,
-                "category_id": 1,
-                "category_name": "Escolar"
-            },
-            {
-                "id": 2,
-                "name": "Billetera",
-                "description": "Billetera para hombre",
-                "image": "http://localhost:8000/images/productos/1601436540.jpg",
-                "price": 10,
-                "stock": 31,
-                "available": 1,
-                "califications": 0,
-                "average": 0,
-                "category_id": 4,
-                "category_name": "Accesorios"
-            }
-        ]
-    },
-    "error": null
-}
+import { CartService } from '../../../services/cart-service';
+import RetryMessage from '../../../common/retry';
 
 class CartList extends Component {
-
+    service = new CartService();
     state = {
-        cart : cart.data,
+        cart : null,
     }
 
     keyExtractor = item => item.id.toString();
@@ -58,8 +25,14 @@ class CartList extends Component {
             <SeparatorLine></SeparatorLine>
         )
     }
+    componentDidMount(){
+        this.service.getCart()
+    }
 
     render(){
+        if(!this.state.cart){
+            <RetryMessage loading={this.state.cart === null}></RetryMessage>
+        }
         return (
             <View style={styles.screen_container}>
                 <View style={styles.cart_container}>

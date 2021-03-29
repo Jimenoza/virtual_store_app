@@ -30,8 +30,23 @@ class HttpService {
     else {
       url = uri;
     }
+    return this.request(url,'GET');
+  }
+
+  httpPOST(uri, body){
+    return this.request(uri,'POST',body);
+  }
+
+  request(url,method,data = null){
     return new Promise( (resolve, reject) => {
-      fetch(url,{ method : 'GET', headers : this.headers}).then( response => {
+      const requestOptions = {
+        method: method,
+        headers: this.headers,
+      };
+      if(data){
+        requestOptions.data = JSON.stringify(data);
+      }
+      fetch(url,requestOptions).then( response => {
         console.log('fetching....');
         response.json().then( json => { // sets response object to json
           console.log('fetching.... success');
@@ -50,6 +65,7 @@ class HttpService {
         });
       }).catch( err => { // Error requesting to server
         console.log('fetching.... failed');
+        console.log(err);
         this.error = true;
         reject(err);
       });
