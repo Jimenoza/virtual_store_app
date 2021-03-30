@@ -26,12 +26,16 @@ class CartList extends Component {
         )
     }
     componentDidMount(){
-        this.service.getCart()
+        this.service.getCart().then( res => {
+            this.setState({
+                cart : res
+            });
+        });
     }
 
     render(){
         if(!this.state.cart){
-            <RetryMessage loading={this.state.cart === null}></RetryMessage>
+            return(<RetryMessage loading={this.state.cart === null}></RetryMessage>);
         }
         return (
             <View style={styles.screen_container}>

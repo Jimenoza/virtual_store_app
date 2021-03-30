@@ -1,29 +1,29 @@
 import { Service } from './common/service';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export class CartService extends Service{
 
     getCart(){
        return new Promise((resolve, reject) => {
-           resolve(cart);
-        //    AsyncStorage.getItem('cart').then( cart => {
-        //        if(cart){
-        //            resolve(JSON.parse(cart));
-        //        }
-        //        else {
-        //            this.http.httpGET('/cart').then( response => {
-        //                AsyncStorage.setItem('item', JSON.stringify(response)).then( res => {
-        //                    resolve(response);
-        //                }).catch( err => {
-        //                    reject(err);
-        //                });
-        //            }).catch( err => {
-        //                reject(err);
-        //            });
-        //        }
-        //    }).catch( err => {
-        //        reject(err);
-        //    })
+        //    resolve(cart);
+           AsyncStorage.getItem('cart').then( cart => {
+               if(cart){
+                   resolve(JSON.parse(cart));
+               }
+               else {
+                   this.http.httpGET('/cart').then( response => {
+                       AsyncStorage.setItem('item', JSON.stringify(response)).then( res => {
+                           resolve(response);
+                       }).catch( err => {
+                           reject(err);
+                       });
+                   }).catch( err => {
+                       reject(err);
+                   });
+               }
+           }).catch( err => {
+               reject(err);
+           })
        });
     }
 }
