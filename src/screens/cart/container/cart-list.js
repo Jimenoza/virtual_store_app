@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, FlatList, TouchableHighlight } from 'react-native';
+import { Text, View, StyleSheet, FlatList, TouchableHighlight, ActivityIndicator } from 'react-native';
 import CartItem from '../component/cart-item';
 import {Card, SeparatorLine} from '../../../common/utils';
 import { Colors } from '../../../common/styles';
@@ -10,6 +10,7 @@ class CartList extends Component {
     service = new CartService();
     state = {
         cart : null,
+        loading : false,
     }
 
     keyExtractor = item => item.id.toString();
@@ -33,6 +34,38 @@ class CartList extends Component {
         });
     }
 
+    emptyCart(){
+        return(
+            <View>
+                <Text style={styles.cart_total}>Todavía no hay productos</Text>
+            </View>
+        );
+    }
+
+    deleteCart(){
+        this.setState({
+            loading : true
+        });
+        this.service.deleteCart().then( res => {
+            this.setState({
+                cart : res,
+            });
+        }).finally( () => {
+            this.setState({
+                loading : false,
+            });
+        });
+    }
+
+    deleteCartContent(){
+        if(this.state.loading){
+            return <ActivityIndicator animating={true} color='white'></ActivityIndicator>;
+        }
+        else {
+            return <Text style={styles.delete_cart_text}>Eliminar Carrito</Text>;
+        }
+    }
+
     render(){
         if(!this.state.cart){
             return(<RetryMessage loading={this.state.cart === null}></RetryMessage>);
@@ -47,16 +80,17 @@ class CartList extends Component {
                         </View>
                     </Card>
                     <Card>
-                        <FlatList
+                        <FlatList style={{height : 575}}
                             keyExtractor={this.keyExtractor}
-                            data={this.state.cart.cart}
+                            data={this.state.cart.data.cart}
                             ItemSeparatorComponent={this.separator}
                             renderItem={this.renderItem}
+                            ListEmptyComponent={this.emptyCart}
                         />
                     </Card>
                     <View style={styles.buttons_container}>
-                        <TouchableHighlight style={styles.delete_cart} underlayColor={Colors.darkBlue}>
-                            <Text style={styles.delete_cart_text}>Eliminar Carrito</Text>
+                        <TouchableHighlight style={styles.delete_cart} underlayColor={Colors.darkBlue} onPress={() => {this.deleteCart()}}>
+                            {this.deleteCartContent()}
                         </TouchableHighlight>
                         <TouchableHighlight style={styles.proceed} underlayColor={Colors.darkBlue}>
                             <Text style={styles.proceed_text}>Proceder con pago</Text>

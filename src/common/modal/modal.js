@@ -1,11 +1,14 @@
 import React from 'react';
-import {View, StyleSheet, Button} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 import {Colors} from '../styles'
 import ErrorModalCard from './modal-cards/error-modal-card';
 
 function AppModal(props){
     const cards = {
-        error : <ErrorModalCard {...props}></ErrorModalCard>
+        error : <ErrorModalCard {...props}>
+                    <Text style={styles.message}>Lo sentimos. Hubo un error al establecer conexión con el servidor</Text>
+                    <Text style={styles.message}>Intente más tarde</Text>
+                </ErrorModalCard>
     }
     return (
         <View style={styles.touchableBackground}>
@@ -23,6 +26,9 @@ const styles = StyleSheet.create({
         backgroundColor : Colors.darkGrayTranslucid,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    message : {
+        textAlign : 'center'
     },
 })
 

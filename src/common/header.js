@@ -8,8 +8,31 @@ import {
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 import { Colors } from '../common/styles';
+import { CartService } from '../services/cart-service';
 
 class Header extends Component{
+    // service = CartService.getService();
+    service = new CartService();
+    state = {
+        cartLen : 0
+    };
+    displayNumber = 0;
+    
+    componentDidMount(){
+        console.log('Se monto el header');
+        // this.service.getCart().then( )
+        this.service.amountObservable.subscribe( amount => {
+            console.log('hola');
+            // console.log(amount);
+            // if(amount){
+                this.setState({
+                    cartLen : amount.length
+                });
+                // this.displayNumber = amount.length;
+            // }
+        });
+    }
+
     getIcon() {
         if( this.props.navigation.dangerouslyGetState().index > 1){
             return <Icon name='arrow-back' color='black' size={40} onPress={() => this.props.navigation.goBack()}/>
@@ -62,7 +85,9 @@ class Header extends Component{
                                 <View style={styles.cart_container}>
                                     <Image source={require('../../assets/images/cart.png')}></Image>
                                     <View style={styles.count_container}>
-                                        <Text style={styles.cart_size}>0</Text>
+                                        <Text style={styles.cart_size}>
+                                            {this.state.cartLen}
+                                        </Text>
                                     </View>
                                 </View>
                             </TouchableWithoutFeedback>

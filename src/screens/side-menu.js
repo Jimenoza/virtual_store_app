@@ -4,12 +4,14 @@ import { DrawerContentScrollView, createDrawerNavigator} from '@react-navigation
 import { NavigationContainer } from '@react-navigation/native'
 import {Icon} from 'react-native-elements';
 import { Colors } from '../common/styles';
+import { ProductService } from '../services/products-service';
 
 const Drawer = createDrawerNavigator();
 
 class SideMenu extends Component{
   currentCategoryIcon = 'keyboard-arrow-down';
   isCategoryOpen = false;
+  service = ProductService.getService();
 
   toggleCategories(){
     this.isCategoryOpen = !this.isCategoryOpen;
@@ -65,7 +67,10 @@ class SideMenu extends Component{
             </View>
           </TouchableHighlight>
 
-          <TouchableHighlight underlayColor={Colors.bluePrimary} onPress={ () => { this.props.navigation.navigate("login")}}>
+          <TouchableHighlight underlayColor={Colors.bluePrimary} onPress={ () => {
+            this.service.deleteProducts();
+            this.props.navigation.navigate("login")
+            }}>
             <View style={styles.option}>
               <Text style={styles.optionText}>
                 Salir

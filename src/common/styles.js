@@ -9,4 +9,5 @@ export const Colors = {
     darkGray: '#828282',
     darkGrayTranslucid : 'rgba(130, 130, 130, 0.8)',
     disabled : 'rgba(0,0,0,0.5)',
+    red : '#df3b3b'
 }

@@ -12,8 +12,7 @@ class ErrorModalCard extends ModalCard{
                     <Icon name="error" size={50} color={Colors.bluePrimary}></Icon>
                 </View>
                 <View style={styles.messageContainer}>
-                    <Text style={styles.message}>Lo sentimos. Hubo un error al establecer conexión con el servidor</Text>
-                    <Text style={styles.message}>Intente más tarde</Text>
+                    {this.props.children}
                 </View>
                 <View style={styles.buttonContainer}>
                     <TouchableHighlight style={styles.button} underlayColor={Colors.darkBlue} onPress={() => {this.props.navigation.goBack()}}>

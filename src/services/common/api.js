@@ -7,7 +7,7 @@ const CODES = {
 }
 
 class HttpService {
-  baseUrl = replace_host('http://localhost:8000/api/');
+  baseUrl = replace_host('http://localhost:8000/api');
   error = false;
   headers = {
     'Accept': 'application/json',
@@ -33,11 +33,16 @@ class HttpService {
     return this.request(url,'GET');
   }
 
-  httpPOST(uri, body){
-    return this.request(uri,'POST',body);
+  httpPOST(uri,body = null){
+    return this.request(`${this.baseUrl}${uri}`,'POST',body);
+  }
+
+  httpDELETE(uri){
+    return this.request(`${this.baseUrl}${uri}`,'DELETE');
   }
 
   request(url,method,data = null){
+    // console.log(`${method} to ${url}`);
     return new Promise( (resolve, reject) => {
       const requestOptions = {
         method: method,

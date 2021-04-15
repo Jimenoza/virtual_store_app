@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, ActivityIndicator, TouchableHighlight} from 're
 import Product from '../product/components/product';
 import ProductList from '../product/containers/product-list'
 import { Colors } from '../../common/styles';
-import {ProductService} from '../../services/products-service';
+import { ProductService } from '../../services/products-service';
 import { Icon } from 'react-native-elements';
 import { Card } from '../../common/utils'
 import RetryMessage from '../../common/retry';
@@ -12,7 +12,7 @@ import RetryMessage from '../../common/retry';
 const FIRST_PAGE = 1;
 
 class Index extends Component {
-    service = new ProductService();
+    service = ProductService.getService();
     state = {
         products : [],
         previous : { // state of previous button
@@ -30,17 +30,19 @@ class Index extends Component {
 
     constructor(){
         super();
-        this.service.getListProducts(10).then( response => { //gets products
-            // console.log(response);
-            this.setState({
-                products : response
+        if(this.service.getCurrentProducts().length <= 0){
+            this.service.getListProducts(10).then( response => { //gets products
+                // console.log(response);
+                this.setState({
+                    products : response
+                });
+            }).catch( err => {
+                this.props.navigation.navigate('Modal',{message : 'error'});
+                this.setState({
+                    loading : false
+                })
             });
-        }).catch( err => {
-            this.props.navigation.navigate('Modal',{message : 'error'});
-            this.setState({
-                loading : false
-            })
-        });
+        }
     }
 
     updateState(response){

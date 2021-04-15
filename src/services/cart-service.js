@@ -1,64 +1,90 @@
 import { Service } from './common/service';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Observable, Subject } from 'rxjs';
 
 export class CartService extends Service{
+    cart = null;
+    amountObservable = new Subject();
+
+    // constructor(){
+    //     if(this.cart){
+    //         this.amountObservable.next(this.cart.data.cart);
+    //     }
+    // }
 
     getCart(){
-       return new Promise((resolve, reject) => {
-        //    resolve(cart);
-           AsyncStorage.getItem('cart').then( cart => {
-               if(cart){
-                   resolve(JSON.parse(cart));
-               }
-               else {
-                   this.http.httpGET('/cart').then( response => {
-                       AsyncStorage.setItem('item', JSON.stringify(response)).then( res => {
-                           resolve(response);
-                       }).catch( err => {
-                           reject(err);
-                       });
-                   }).catch( err => {
-                       reject(err);
-                   });
-               }
-           }).catch( err => {
-               reject(err);
-           })
-       });
-    }
-}
+        return new Promise((resolve, reject) => {
+         //    resolve(cart);
+            AsyncStorage.getItem('cart').then( cart => {
+                if(cart){
+                    this.cart = JSON.parse(cart);
+                    resolve(this.cart);
+                }
+                else {
+                    this.http.httpGET('/cart').then( response => {
+                        AsyncStorage.setItem('cart', JSON.stringify(response)).then( res => {
+                            this.cart = response;
+                            resolve(response);
+                        }).catch( err => {
+                            reject(err);
+                        });
+                    }).catch( err => {
+                        reject(err);
+                    });
+                }
+            }).catch( err => {
+                reject(err);
+            })
+        });
+     }
 
-const cart = {
-    "data": {
-        "total": 25,
-        "cart": [
-            {
-                "id": 1,
-                "name": "Bulto Jansport",
-                "description": "Bulto azul con fondo café",
-                "image": "http://localhost:8000/images/productos/1602557763.jpg",
-                "price": 15,
-                "stock": 18,
-                "available": 1,
-                "califications": 1,
-                "average": 5,
-                "category_id": 1,
-                "category_name": "Escolar"
-            },
-            {
-                "id": 2,
-                "name": "Billetera",
-                "description": "Billetera para hombre",
-                "image": "http://localhost:8000/images/productos/1601436540.jpg",
-                "price": 10,
-                "stock": 31,
-                "available": 1,
-                "califications": 0,
-                "average": 0,
-                "category_id": 4,
-                "category_name": "Accesorios"
-            }
-        ]
-    },
-    "error": null
+    getCartData(){
+        if(!this.cart){
+            return [];
+        }
+        return this.cart.data.cart;
+    }
+
+    setCart(cart){
+        return new Promise((resolve, reject) => {
+            AsyncStorage.setItem('cart', JSON.stringify(cart)).then( res => {
+                this.cart = cart;
+                this.amountObservable.next(this.cart.data.cart);
+                resolve(res);
+            }).catch( err => {
+                reject(err);
+            });
+        })
+    }
+
+    addItem(id){
+        return new Promise( (resolve,reject) => {
+            this.http.httpPOST(`/cart/${id}`).then( response => {
+                // console.log(response);
+                this.setCart(response).then( res => {
+                    resolve(res);
+                }).catch( err => {
+                    reject(err);
+                });
+            }).catch( err => {
+                reject(err)
+            });
+        });
+    }
+
+    deleteCart(){
+        return new Promise( (resolve,reject) => {
+            this.http.httpDELETE('/cart').then( response => {
+                AsyncStorage.removeItem('cart').then( res => {
+                    this.cart = response;
+                    this.amountObservable.next(this.cart.data.cart);
+                    resolve(this.cart);
+                }).catch( err => {
+                    reject(err);
+                });
+            }).catch(err => {
+                reject(err);
+            });
+        });
+    }
 }

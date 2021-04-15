@@ -3,9 +3,10 @@ import {Service} from './common/service';
 
 export class ProductService extends Service{
     pages = null;
+    products = [];
 
     getListProducts(amount){
-        let url = `products/list`;
+        let url = `/products/list`;
         if(amount){
             url += `/${amount}` 
         }
@@ -17,6 +18,7 @@ export class ProductService extends Service{
                     next : response.data.next_page_url,
                     previous : response.data.prev_page_url
                 }
+                this.products = response.data.data;
                 resolve(response.data.data);
             }).catch( err => {
                 reject(err);
@@ -34,6 +36,7 @@ export class ProductService extends Service{
                         next : response.data.next_page_url,
                         previous : response.data.prev_page_url
                     }
+                    this.products = response.data.data;
                     resolve(response.data.data)
                 }).catch( err => {
                     reject(err);
@@ -54,6 +57,7 @@ export class ProductService extends Service{
                         next : response.data.next_page_url,
                         previous : response.data.prev_page_url
                     }
+                    this.products = response.data.data;
                     resolve(response.data.data)
                 }).catch( err => {
                     reject(err);
@@ -65,7 +69,7 @@ export class ProductService extends Service{
     }
 
     getProduct(id){
-        const url = `products/${id}`;
+        const url = `/products/${id}`;
         return new Promise( (resolve, reject) => {
             this.http.httpGET(url).then( response => {
                 resolve(response.data);
@@ -89,6 +93,14 @@ export class ProductService extends Service{
 
     canGoToBack(){
         return this.pages.previous !== null;
+    }
+
+    getCurrentProducts(){
+        return this.products;
+    }
+
+    deleteProducts(){
+        this.products = [];
     }
 
 }
