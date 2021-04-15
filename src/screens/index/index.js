@@ -30,7 +30,7 @@ class Index extends Component {
 
     constructor(){
         super();
-        if(this.service.getCurrentProducts().length <= 0){
+        if(this.service.getCurrentProducts().length <= 0){ // no objects in cache
             this.service.getListProducts(10).then( response => { //gets products
                 // console.log(response);
                 this.setState({

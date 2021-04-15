@@ -7,10 +7,19 @@ import { CartService } from '../../../services/cart-service';
 import RetryMessage from '../../../common/retry';
 
 class CartList extends Component {
-    service = new CartService();
+    // service = new CartService();
+    service = CartService.getService();
     state = {
         cart : null,
         loading : false,
+    }
+
+    componentDidMount(){
+        this.service.getCart().then( res => {
+            this.setState({
+                cart : res
+            });
+        });
     }
 
     keyExtractor = item => item.id.toString();
@@ -25,13 +34,6 @@ class CartList extends Component {
         return (
             <SeparatorLine></SeparatorLine>
         )
-    }
-    componentDidMount(){
-        this.service.getCart().then( res => {
-            this.setState({
-                cart : res
-            });
-        });
     }
 
     emptyCart(){
@@ -76,7 +78,7 @@ class CartList extends Component {
                     <Card>
                         <View style={styles.title_container}>
                             <Text style={styles.cart_title}>Carrito de Compras</Text>
-                            <Text style={styles.cart_total}>Total: ${this.state.cart.total}</Text>
+                            <Text style={styles.cart_total}>Total: ${this.state.cart.data.total}</Text>
                         </View>
                     </Card>
                     <Card>

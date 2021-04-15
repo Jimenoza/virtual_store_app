@@ -11,24 +11,27 @@ import { Colors } from '../common/styles';
 import { CartService } from '../services/cart-service';
 
 class Header extends Component{
-    // service = CartService.getService();
-    service = new CartService();
+    service = CartService.getService();
+    // service = new CartService();
     state = {
         cartLen : 0
     };
-    displayNumber = 0;
     
-    componentDidMount(){
-        console.log('Se monto el header');
-        // this.service.getCart().then( )
+    constructor(){
+        super();
+        console.log('Se va a montar el header');
+        this.service.getCart().then( cart => {
+            this.setState({
+                cartLen : cart.data.cart.length
+            });
+        });
         this.service.amountObservable.subscribe( amount => {
             console.log('hola');
             // console.log(amount);
             // if(amount){
-                this.setState({
-                    cartLen : amount.length
-                });
-                // this.displayNumber = amount.length;
+            this.setState({
+                cartLen : amount.length
+            });
             // }
         });
     }

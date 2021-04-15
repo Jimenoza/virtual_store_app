@@ -1,6 +1,6 @@
 import { Service } from './common/service';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 export class CartService extends Service{
     cart = null;
@@ -38,11 +38,8 @@ export class CartService extends Service{
         });
      }
 
-    getCartData(){
-        if(!this.cart){
-            return [];
-        }
-        return this.cart.data.cart;
+    getLocalCart(){
+        return this.cart;
     }
 
     setCart(cart){
