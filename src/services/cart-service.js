@@ -4,13 +4,7 @@ import { Subject } from 'rxjs';
 
 export class CartService extends Service{
     cart = null;
-    amountObservable = new Subject();
-
-    // constructor(){
-    //     if(this.cart){
-    //         this.amountObservable.next(this.cart.data.cart);
-    //     }
-    // }
+    cartSubscription = new Subject();
 
     getCart(){
         return new Promise((resolve, reject) => {
@@ -46,7 +40,7 @@ export class CartService extends Service{
         return new Promise((resolve, reject) => {
             AsyncStorage.setItem('cart', JSON.stringify(cart)).then( res => {
                 this.cart = cart;
-                this.amountObservable.next(this.cart.data.cart);
+                this.cartSubscription.next(this.cart.data.cart);
                 resolve(res);
             }).catch( err => {
                 reject(err);
@@ -74,7 +68,7 @@ export class CartService extends Service{
             this.http.httpDELETE('/cart').then( response => {
                 AsyncStorage.removeItem('cart').then( res => {
                     this.cart = response;
-                    this.amountObservable.next(this.cart.data.cart);
+                    this.cartSubscription.next(this.cart.data.cart);
                     resolve(this.cart);
                 }).catch( err => {
                     reject(err);

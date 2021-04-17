@@ -6,8 +6,12 @@ import Comment from '../components/comment';
 import { Colors } from '../../../common/styles';
 import {ProductService} from '../../../services/products-service';
 import RetryMessage from '../../../common/retry';
+import { CartService } from '../../../services/cart-service';
 
 class ProductDetail extends Component{
+    cartService = CartService.getService();
+    // cartService = new CartService();
+    service = ProductService.getService();
     state = {
         product : null,
         displayComment : false,
@@ -16,7 +20,6 @@ class ProductDetail extends Component{
             rate : 0,
         }
     }
-    service = new ProductService();
 
     keyExtractor = item => item.id.toString();
     renderItem = ({item}) => {

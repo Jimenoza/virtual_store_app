@@ -17,22 +17,18 @@ class Header extends Component{
         cartLen : 0
     };
     
-    constructor(){
-        super();
-        console.log('Se va a montar el header');
+    componentDidMount(){
+        // super();
+        console.log('Se monto en header');
         this.service.getCart().then( cart => {
             this.setState({
                 cartLen : cart.data.cart.length
             });
         });
-        this.service.amountObservable.subscribe( amount => {
-            console.log('hola');
-            // console.log(amount);
-            // if(amount){
+        this.service.cartSubscription.subscribe( amount => {
             this.setState({
                 cartLen : amount.length
             });
-            // }
         });
     }
 
