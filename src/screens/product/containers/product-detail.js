@@ -7,6 +7,7 @@ import { Colors } from '../../../common/styles';
 import {ProductService} from '../../../services/products-service';
 import RetryMessage from '../../../common/retry';
 import { CartService } from '../../../services/cart-service';
+import ActionButton from '../../../common/actionButton';
 
 class ProductDetail extends Component{
     cartService = CartService.getService();
@@ -19,6 +20,23 @@ class ProductDetail extends Component{
             text : '',
             rate : 0,
         }
+    }
+
+    addToCart(id){
+        console.log(id);
+        console.log(this.state.product.product);
+        // item['loading'] = true;
+        // this.cartService.addItem(item.id).then( response => {
+        //     console.log('response is',response);
+        // }).catch( err => {
+        //     // console.log(err);
+        //     this.props.navigation.navigate('Modal',{message : 'error'});
+        // }).finally( () => {
+        //     item['loading'] = false;
+        //     this.setState({
+        //         refresh : !this.state.refresh
+        //     });
+        // });
     }
 
     keyExtractor = item => item.id.toString();
@@ -79,9 +97,13 @@ class ProductDetail extends Component{
                                     <Stars rate={this.state.product.product.average}/>
                                     <Text style={styles.product_text}>{this.state.product.product.description}</Text>
                                     <Text style={styles.product_price}>${this.state.product.product.price}</Text>
-                                    <TouchableHighlight style={styles.item_add} underlayColor={Colors.darkBlue}>
-                                        <Text style={styles.item_add_text}>Agregar a carrito</Text>
-                                    </TouchableHighlight>
+                                    <ActionButton 
+                                        style={[styles.item_add,styles.item_add_text]} 
+                                        onPress={() => {this.addToCart(this.state.product.product.id)}}
+                                        enabledLabel={'Agregar al Carrito'}
+                                        disabledLabel={'Agotado'}
+                                        disabled={this.state.product.product.stock === 0}
+                                    />
                                 </View>
                                 <View style={styles.section_container}>
                                     <View style={styles.comments_title_border}>

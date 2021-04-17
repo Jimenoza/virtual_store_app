@@ -2,25 +2,9 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableHighlight, ActivityIndicator} from 'react-native';
 import {replace_host, Stars} from '../../../common/utils';
 import { Colors } from '../../../common/styles';
+import ActionButton from '../../../common/actionButton';
 
 function Product(item=null){
-    // console.log(item);
-    const button = () => {
-        const buttonStyles = [styles.item_add];
-        let buttonContent = <Text style={styles.item_add_text}>Agregar a carrito</Text>;
-        if(item.stock === 0){
-            buttonContent = <Text style={styles.item_add_text}>Agotado</Text>;
-            buttonStyles.push({backgroundColor: Colors.red,})
-        }
-        else if(item.loading){
-            buttonContent = <ActivityIndicator animating={true} color='white'></ActivityIndicator>;
-        }
-        return (
-            <TouchableHighlight style={buttonStyles} underlayColor={Colors.darkBlue} onPress={item.stock ? item.onPressAdd : null}>
-                {buttonContent}
-            </TouchableHighlight>
-        )
-    }
     return (
         <TouchableHighlight onPress={item.onPress} style={styles.container} underlayColor="white">
             
@@ -44,7 +28,13 @@ function Product(item=null){
                         <Text style={styles.item_price}>
                             ${item.price}
                         </Text>
-                        {button(item)}
+                        <ActionButton 
+                            onPress={item.onPressAdd}
+                            enabledLabel={'Agregar al Carrito'}
+                            disabledLabel={'Agotado'}
+                            disabled={item.stock === 0}
+                            loading={item.loading}
+                        />
                     </View>
                 </View>
             
