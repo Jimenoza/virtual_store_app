@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, TouchableHighlight} from 'react-native';
 // import App from '../app';
-import Product from '../product/components/product';
 import ProductList from '../product/containers/product-list'
 import { Colors } from '../../common/styles';
 import { ProductService } from '../../services/products-service';
+import { Product } from '../../services/product-interfaces';
 import { Icon } from 'react-native-elements';
 import { Card } from '../../common/utils'
 import RetryMessage from '../../common/retry';
 
-const FIRST_PAGE = 1;
+interface Props {
+    navigation: any
+}
 
-class Index extends Component {
-    service = ProductService.getService();
+class Index extends Component<Props> {
+    service = ProductService.getService() as ProductService;// Casting
     state = {
         products : [],
         previous : { // state of previous button
@@ -28,8 +30,8 @@ class Index extends Component {
         loading : false,
     }
 
-    constructor(){
-        super();
+    constructor(props: any){
+        super(props);
         if(this.service.getCurrentProducts().length <= 0){ // no objects in cache
             this.service.getListProducts(10).then( response => { //gets products
                 // console.log(response);
@@ -45,7 +47,7 @@ class Index extends Component {
         }
     }
 
-    updateState(response){
+    updateState(response: Product[]){
         this.setState({
             next : {
                 disabled : !this.service.canGotoNext(),
