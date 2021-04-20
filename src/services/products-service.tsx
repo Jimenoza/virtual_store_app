@@ -1,17 +1,34 @@
 import HttpService from './common/api';
 import {Service} from './common/service';
+import { ProductOverviewResponse, Product, ProductDetailedResponse, ProductDetail } from './product-interfaces';
+
+interface Pages {
+    currentPage : number,
+    lastPage : number,
+    next?: string,
+    previous?: string,
+
+};
 
 export class ProductService extends Service{
-    pages = null;
-    products = [];
+    private pages: Pages;
+    private products: Product[] = [];
 
-    getListProducts(amount){
+    constructor(){
+        super();
+        this.pages = {
+            currentPage : 0,
+            lastPage: 0,
+        }
+    }
+
+    getListProducts(amount: number): Promise<Product[]>{
         let url = `/products/list`;
         if(amount){
             url += `/${amount}` 
         }
         return new Promise( (resolve, reject) => {
-            this.http.httpGET(url).then( response => {
+            this.http.httpGET(url).then( (response : ProductOverviewResponse) => {
                 this.pages = { 
                     currentPage : response.data.current_page,
                     lastPage : response.data.last_page,
@@ -26,10 +43,10 @@ export class ProductService extends Service{
         });
     }
 
-    getNextPage(){
+    getNextPage(): Promise<Product[]>{
         return new Promise( (resolve, reject) => {
             if(this.pages && this.pages.next){
-                this.http.httpGET(this.pages.next,false).then( response => {
+                this.http.httpGET(this.pages.next,false).then( (response : ProductOverviewResponse) => {
                     this.pages = {
                         currentPage : response.data.current_page,
                         lastPage : response.data.last_page,
@@ -42,12 +59,12 @@ export class ProductService extends Service{
                     reject(err);
                 })
             }else {
-                resolve(null);
+                resolve([]);
             }
         });
     }
 
-    getPreviousPage(){
+    getPreviousPage():Promise<Product[]>{
         return new Promise( (resolve, reject) => {
             if(this.pages && this.pages.previous){
                 this.http.httpGET(this.pages.previous,false).then( response => {
@@ -63,15 +80,15 @@ export class ProductService extends Service{
                     reject(err);
                 })
             }else {
-                resolve(null);
+                resolve([]);
             }
         });
     }
 
-    getProduct(id){
+    getProduct(id: number): Promise<ProductDetail>{
         const url = `/products/${id}`;
         return new Promise( (resolve, reject) => {
-            this.http.httpGET(url).then( response => {
+            this.http.httpGET(url).then( (response : ProductDetailedResponse) => {
                 resolve(response.data);
             }).catch( err => {
                 reject(err);
@@ -79,27 +96,27 @@ export class ProductService extends Service{
         });
     }
 
-    getCurrentPage(){
+    getCurrentPage(): number{
         return this.pages.currentPage;
     }
 
-    getLastPage(){
+    getLastPage(): number{
         return this.pages.lastPage;
     }
 
-    canGotoNext(){
+    canGotoNext(): boolean{
         return this.pages.next !== null;
     }
 
-    canGoToBack(){
+    canGoToBack(): boolean{
         return this.pages.previous !== null;
     }
 
-    getCurrentProducts(){
+    getCurrentProducts(): Product[]{
         return this.products;
     }
 
-    deleteProducts(){
+    deleteProducts(): void{
         this.products = [];
     }
 

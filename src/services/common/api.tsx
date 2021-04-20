@@ -1,10 +1,13 @@
 import {replace_host} from '../../common/utils';
+import { Response } from './interfaces';
 
 const CODES = {
   SUCCESS : 200,
   NOT_FOUND : 404,
   ERROR : 500
 }
+
+type Method = 'GET' | 'POST' | 'DELETE';
 
 class HttpService {
   baseUrl = replace_host('http://localhost:8000/api');
@@ -13,7 +16,7 @@ class HttpService {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
   }
-  static instance = null;
+  private static instance: HttpService;
 
   static getInstance() : HttpService {
     if(!this.instance){
@@ -22,7 +25,7 @@ class HttpService {
     return this.instance;
   }
 
-  httpGET(uri,useBase = true){
+  httpGET(uri : string,useBase: boolean = true): Promise<Response>{
     let url = '';
     if(useBase){
       url = `${this.baseUrl}${uri}`
@@ -33,18 +36,18 @@ class HttpService {
     return this.request(url,'GET');
   }
 
-  httpPOST(uri,body = null){
+  httpPOST(uri : string,body: any = null): Promise<Response>{
     return this.request(`${this.baseUrl}${uri}`,'POST',body);
   }
 
-  httpDELETE(uri){
+  httpDELETE(uri: string): Promise<Response>{
     return this.request(`${this.baseUrl}${uri}`,'DELETE');
   }
 
-  request(url,method,data = null){
+  request(url : string, method : Method,data = null): Promise<Response>{
     // console.log(`${method} to ${url}`);
     return new Promise( (resolve, reject) => {
-      const requestOptions = {
+      const requestOptions: any = {
         method: method,
         headers: this.headers,
       };

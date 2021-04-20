@@ -2,13 +2,13 @@ import HttpService from './api';
 
 export class Service {
     http = HttpService.getInstance();
-    static instance = null;
+    private static instance: Service;
     
     isApiOk(){
         return !this.http.error;
     }
 
-    static getService(): this {
+    static getService(): Service {
         if(!this.instance){
             this.instance = new this();
         }
