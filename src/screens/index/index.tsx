@@ -30,7 +30,7 @@ class Index extends Component<Props> {
         loading : false,
     }
 
-    constructor(props: any){
+    constructor(props: Props){
         super(props);
         if(this.service.getCurrentProducts().length <= 0){ // no objects in cache
             this.service.getListProducts(10).then( response => { //gets products

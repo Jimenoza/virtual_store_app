@@ -1,16 +1,24 @@
-import React, {Component} from 'react';
+import React, {Component, ReactElement} from 'react';
 import { FlatList } from 'react-native';
-import Product from '../components/product'
+import ProductComponet from '../components/product'
 import { CartService } from '../../../services/cart-service';
+import { Product } from '../../../services/product-interfaces';
 
-class ProductList extends Component{
-    cartService = CartService.getService();
+interface Props {
+    navigation: any,
+    items: Product[],
+    footer: ReactElement,
+    loader: ReactElement,
+}
+
+class ProductList extends Component<Props>{
+    cartService = CartService.getService() as CartService;
     // cartService = new CartService();
     state = {
         refresh : false,
     }
 
-    addToCart = (item) => {
+    addToCart = (item : any) => { // item is a Product but it is needed to add loading
         item['loading'] = true;
         this.cartService.addItem(item.id).then( response => {
             console.log('response is',response);
@@ -24,13 +32,13 @@ class ProductList extends Component{
             });
         });
     }
-    goToDetails = (item) => {
+    goToDetails = (item: Product) => {
         this.props.navigation.push('Details',{productId : item.id});
     }
-    keyExtractor = item => item.id.toString();
-    renderItem = ({item}) => {
+    keyExtractor = (item: Product) => item.id.toString();
+    renderItem = ({item} : any) => {
         return (
-            <Product {...item} onPress={() => {this.goToDetails(item)}} onPressAdd={() => { this.addToCart(item)}}/>
+            <ProductComponet {...item} onPress={() => {this.goToDetails(item)}} onPressAdd={() => { this.addToCart(item)}}/>
         );
     }
     render(){
