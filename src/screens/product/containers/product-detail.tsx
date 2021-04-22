@@ -5,16 +5,31 @@ import { SingleComment } from '../components/comment';
 import Comment from '../components/comment';
 import { Colors } from '../../../common/styles';
 import {ProductService} from '../../../services/products-service';
+import { ProductDetail as  ProductDetailType, Comment as CommentType} from '../../../services/product-interfaces';
 import RetryMessage from '../../../common/retry';
 import { CartService } from '../../../services/cart-service';
 import ActionButton from '../../../common/actionButton';
 
-class ProductDetail extends Component{
+interface Props {
+    navigation: any,
+    route: any
+}
+
+interface State {
+    product : ProductDetailType,
+    displayComment : boolean,
+    comment : {
+        text : string,
+        rate : number
+    }
+}
+
+class ProductDetail extends Component<Props>{
     cartService = CartService.getService();
     // cartService = new CartService();
-    service = ProductService.getService();
-    state = {
-        product : null,
+    service = ProductService.getService() as ProductService;
+    state : State = {
+        product : null!,
         displayComment : false,
         comment : {
             text : '',
@@ -22,7 +37,7 @@ class ProductDetail extends Component{
         }
     }
 
-    addToCart(id){
+    addToCart(id : string){
         console.log(id);
         console.log(this.state.product.product);
         // item['loading'] = true;
@@ -39,8 +54,8 @@ class ProductDetail extends Component{
         // });
     }
 
-    keyExtractor = item => item.id.toString();
-    renderItem = ({item}) => {
+    keyExtractor = (item : any) => item.id.toString();
+    renderItem = ({item} : any) => {
         return (
             <Comment {...item}/>
         );
@@ -52,7 +67,7 @@ class ProductDetail extends Component{
         });
     }
 
-    handleText(text){
+    handleText(text : string){
         console.log(text);
         this.setState({
             comment : {
@@ -64,7 +79,7 @@ class ProductDetail extends Component{
 
     loadProduct(){
         const id = this.props.route.params.productId;
-        this.service.getProduct(id).then( response => {
+        this.service.getProduct(id).then( (response: ProductDetailType) => {
             this.setState({
                 product : response
             });
@@ -74,11 +89,11 @@ class ProductDetail extends Component{
     }
 
     displayDetail(){
-        const commentsContainers = this.state.product.comments.map( comment => {
+        const commentsContainers = this.state.product.comments.map( (comment : CommentType) => {
             return <Comment {...comment} key={comment.id}/>
         });
         return (
-                <BottomInputRate focus={true} callBackText={(ev) => { this.handleText(ev)}} display={this.state.displayComment}>
+                <BottomInputRate focus={true} callBackText={(ev : any) => { this.handleText(ev)}} display={this.state.displayComment}>
                     <ScrollView>
                         <View style={styles.screen_container}>
                             <View style={styles.general_container}>
@@ -99,7 +114,7 @@ class ProductDetail extends Component{
                                     <Text style={styles.product_price}>${this.state.product.product.price}</Text>
                                     <ActionButton 
                                         style={[styles.item_add,styles.item_add_text]} 
-                                        onPress={() => {this.addToCart(this.state.product.product.id)}}
+                                        onPress={() => {this.addToCart(`${this.state.product.product.id}`)}}
                                         enabledLabel={'Agregar al Carrito'}
                                         disabledLabel={'Agotado'}
                                         disabled={this.state.product.product.stock === 0}
