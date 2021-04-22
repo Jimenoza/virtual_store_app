@@ -10,7 +10,8 @@ export interface Product {
     califications: number,
     average: number,
     category_id: number,
-    category_name: string
+    category_name: string,
+    loading?: boolean,
 }
 
 interface Link {

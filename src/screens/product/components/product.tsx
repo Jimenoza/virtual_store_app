@@ -1,10 +1,17 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableHighlight, ActivityIndicator} from 'react-native';
+import React, {ReactElement} from 'react';
+import { View, Text, StyleSheet, Image, TouchableHighlight, GestureResponderEvent } from 'react-native';
 import {replace_host, Stars} from '../../../common/utils';
 import { Colors } from '../../../common/styles';
 import ActionButton from '../../../common/actionButton';
+import { Product as ProductInterface} from '../../../services/product-interfaces';
 
-function Product(item=null){
+interface ProductParams {
+    prod : ProductInterface,
+    onPress: (event: GestureResponderEvent) => void,
+    onPressAdd: Function,
+}
+
+function Product(item : ProductParams): ReactElement{
     return (
         <TouchableHighlight onPress={item.onPress} style={styles.container} underlayColor="white">
             
@@ -12,28 +19,28 @@ function Product(item=null){
                     <Image
                         style={styles.item_image}
                         source={{
-                            uri: replace_host(item.image)
+                            uri: replace_host(item.prod.image)
                         }}
                     />
                     <View style={styles.item_content}>
                         <View style={{flexDirection : 'row'}}>
                             <Text style={styles.item_cat}>
-                                En {item.category_name}
+                                En {item.prod.category_name}
                             </Text>
-                            <Stars rate={item.average} size={15}/>
+                            <Stars rate={item.prod.average} size={15}/>
                         </View>
                         <Text style={styles.item_name}>
-                            {item.name}
+                            {item.prod.name}
                         </Text>
                         <Text style={styles.item_price}>
-                            ${item.price}
+                            ${item.prod.price}
                         </Text>
                         <ActionButton 
                             onPress={item.onPressAdd}
                             enabledLabel={'Agregar al Carrito'}
                             disabledLabel={'Agotado'}
-                            disabled={item.stock === 0}
-                            loading={item.loading}
+                            disabled={item.prod.stock === 0}
+                            loading={item.prod.loading}
                         />
                     </View>
                 </View>
