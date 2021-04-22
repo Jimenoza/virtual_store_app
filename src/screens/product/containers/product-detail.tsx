@@ -90,7 +90,7 @@ class ProductDetail extends Component<Props>{
 
     displayDetail(){
         const commentsContainers = this.state.product.comments.map( (comment : CommentType) => {
-            return <Comment {...comment} key={comment.id}/>
+            return <Comment body={comment} key={comment.id}/>
         });
         return (
                 <BottomInputRate focus={true} callBackText={(ev : any) => { this.handleText(ev)}} display={this.state.displayComment}>

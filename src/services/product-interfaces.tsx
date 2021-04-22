@@ -40,7 +40,7 @@ export interface ProductOverviewResponse extends Response {
     data: ProductMetaData
 }
 
-interface Reply {
+export interface Reply {
     id: number,
     reply: string,
     calification_id: number,

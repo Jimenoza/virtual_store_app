@@ -1,38 +1,47 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import {Text, View, StyleSheet, TouchableHighlight} from 'react-native';
 import { Stars } from '../../../common/utils';
 import { Colors } from '../../../common/styles';
+import { Comment as CommentType, Reply as ReplyType} from '../../../services/product-interfaces';
 
-function Reply(reply=null){
+interface CommentProps {
+    body : CommentType,
+}
+
+interface ReplyProps {
+    body : ReplyType,
+}
+
+function Reply(reply:ReplyProps){
     return (
         <View style={styles.replies_container}>
-            <Text style={styles.replies_name}>{reply.userName}</Text>
-            <Text style={styles.replies_text}>{reply.reply}</Text>   
+            <Text style={styles.replies_name}>{reply.body.userName}</Text>
+            <Text style={styles.replies_text}>{reply.body.reply}</Text>   
         </View>
     );
 }
 
-function Comment(body=null){
-    const replies_style = {
+function Comment(props: CommentProps): ReactElement{
+    const replies_style: any = {
         fontSize: 15,
         fontWeight: '400',
         color: Colors.darkGray,
         marginTop: 5,
         paddingLeft: 10
     };
-    const replies = body.replies.map( reply => {
-        return <Reply {...reply} key={reply.id}/>
+    const replies = props.body.replies.map( (reply : ReplyType) => {
+        return <Reply body={reply} key={reply.id}/>
     });
-    if(body.replies.length === 0){
+    if(props.body.replies.length === 0){
         replies_style['display'] = 'none';
     }
     return (
         <View style={styles.comments_container}>
             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <Text style={styles.user_name}>{body.userName}</Text>
-                <Stars rate={body.calification} size={25}/>
+                <Text style={styles.user_name}>{props.body.userName}</Text>
+                <Stars rate={props.body.calification} size={25}/>
             </View>
-            <Text style={styles.comment_text}>{body.comment}</Text>
+            <Text style={styles.comment_text}>{props.body.comment}</Text>
             <Text style={replies_style}>Respuestas:</Text> 
             {replies}
             <TouchableHighlight style={styles.reply} underlayColor={Colors.darkBlue}>
@@ -42,7 +51,7 @@ function Comment(body=null){
     )
 }
 
-export function SingleComment(props){
+export function SingleComment(props : any){
     return (
         <View style={styles.comments_container}>
             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
