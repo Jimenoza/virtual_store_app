@@ -1,6 +1,6 @@
 import HttpService from './common/api';
 import {Service} from './common/service';
-import { ProductOverviewResponse, Product, ProductDetailedResponse, ProductDetail } from './product-interfaces';
+import { ProductOverviewResponse, Product, ProductDetailedResponse, ProductDetail } from './interfaces/product-interfaces';
 
 interface Pages {
     currentPage : number,

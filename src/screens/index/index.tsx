@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, ActivityIndicator, TouchableHighlight} from 're
 import ProductList from '../product/containers/product-list'
 import { Colors } from '../../common/styles';
 import { ProductService } from '../../services/products-service';
-import { Product } from '../../services/product-interfaces';
+import { Product } from '../../services/interfaces/product-interfaces';
 import { Icon } from 'react-native-elements';
 import { Card } from '../../common/utils'
 import RetryMessage from '../../common/retry';

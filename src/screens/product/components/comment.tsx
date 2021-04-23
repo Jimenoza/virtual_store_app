@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import {Text, View, StyleSheet, TouchableHighlight} from 'react-native';
 import { Stars } from '../../../common/utils';
 import { Colors } from '../../../common/styles';
-import { Comment as CommentType, Reply as ReplyType} from '../../../services/product-interfaces';
+import { Comment as CommentType, Reply as ReplyType} from '../../../services/interfaces/product-interfaces';
 
 interface CommentProps {
     body : CommentType,

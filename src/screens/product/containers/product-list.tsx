@@ -2,7 +2,7 @@ import React, {Component, ReactElement} from 'react';
 import { FlatList } from 'react-native';
 import ProductComponet from '../components/product'
 import { CartService } from '../../../services/cart-service';
-import { Product } from '../../../services/product-interfaces';
+import { Product } from '../../../services/interfaces/product-interfaces';
 
 interface Props {
     navigation: any,

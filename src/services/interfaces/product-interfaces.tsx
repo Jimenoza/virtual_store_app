@@ -1,4 +1,4 @@
-import { Response } from './common/interfaces';
+import { Response } from '../common/interfaces';
 export interface Product {
     id: number,
     name: string,

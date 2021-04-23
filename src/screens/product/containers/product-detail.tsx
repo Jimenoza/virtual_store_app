@@ -5,7 +5,7 @@ import { SingleComment } from '../components/comment';
 import Comment from '../components/comment';
 import { Colors } from '../../../common/styles';
 import {ProductService} from '../../../services/products-service';
-import { ProductDetail as  ProductDetailType, Comment as CommentType} from '../../../services/product-interfaces';
+import { ProductDetail as  ProductDetailType, Comment as CommentType} from '../../../services/interfaces/product-interfaces';
 import RetryMessage from '../../../common/retry';
 import { CartService } from '../../../services/cart-service';
 import ActionButton from '../../../common/actionButton';
