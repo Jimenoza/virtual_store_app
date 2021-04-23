@@ -1,27 +1,33 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableHighlight} from 'react-native';
+import React, { ReactElement } from 'react';
+import { View, Text, StyleSheet, Image, TouchableHighlight, GestureResponderEvent} from 'react-native';
 import {replace_host} from '../../../common/utils';
 import { Colors } from '../../../common/styles';
+import { Product } from '../../../services/interfaces/product-interfaces';
 
-function CartItem(item=null){
+interface CartItemProps {
+    item: Product,
+    onPress?: (event: GestureResponderEvent) => void,
+}
+
+function CartItem(props: CartItemProps): ReactElement{
     return (
-        <TouchableHighlight onPress={item.onPress} underlayColor="white">
+        <TouchableHighlight onPress={props.onPress} underlayColor="white">
             <View style={styles.item_container}>
                 <Image
                     style={styles.item_image}
                     source={{
-                        uri: replace_host(item.image)
+                        uri: replace_host(props.item.image)
                     }}
                 />
                 <View style={styles.item_content}>
                     <Text style={styles.item_cat}>
-                        En {item.category_name}
+                        En {props.item.category_name}
                     </Text>
                     <Text style={styles.item_name}>
-                        {item.name}
+                        {props.item.name}
                     </Text>
                     <Text style={styles.item_price}>
-                        ${item.price}
+                        ${props.item.price}
                     </Text>
                     <Text style={styles.item_name}>
                         Cantidad: 1

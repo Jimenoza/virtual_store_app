@@ -4,13 +4,15 @@ import CartItem from '../component/cart-item';
 import {Card, SeparatorLine} from '../../../common/utils';
 import { Colors } from '../../../common/styles';
 import { CartService } from '../../../services/cart-service';
+import { Product } from '../../../services/interfaces/product-interfaces';
+import { CartResponse } from '../../../services/interfaces/cart-interfaces';
 import RetryMessage from '../../../common/retry';
 
 class CartList extends Component {
     // service = new CartService();
-    service = CartService.getService();
-    state = {
-        cart : null,
+    service = CartService.getService() as CartService;
+    state : { cart : CartResponse, loading : boolean} = {
+        cart : null!,
         loading : false,
     }
 
@@ -22,10 +24,10 @@ class CartList extends Component {
         });
     }
 
-    keyExtractor = item => item.id.toString();
-    renderItem = ({item}) => {
+    keyExtractor = (item: Product) => item.id.toString();
+    renderItem = ({item}: any) => {
         return (
-            <CartItem {...item}/>
+            <CartItem item={item}/>
         );
     }
 

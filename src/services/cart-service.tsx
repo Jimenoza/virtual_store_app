@@ -1,9 +1,10 @@
 import { Service } from './common/service';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Subject } from 'rxjs';
+import { CartResponse, Cart} from './interfaces/cart-interfaces';
 
 export class CartService extends Service{
-    cart = null;
+    cart: CartResponse = null!;
     cartSubscription = new Subject();
 
     getCart(){
@@ -15,7 +16,7 @@ export class CartService extends Service{
                     resolve(this.cart);
                 }
                 else {
-                    this.http.httpGET('/cart').then( response => {
+                    this.http.httpGET('/cart').then( (response: CartResponse) => {
                         AsyncStorage.setItem('cart', JSON.stringify(response)).then( res => {
                             this.cart = response;
                             resolve(response);
@@ -36,7 +37,7 @@ export class CartService extends Service{
         return this.cart;
     }
 
-    setCart(cart){
+    setCart(cart : CartResponse){
         return new Promise((resolve, reject) => {
             AsyncStorage.setItem('cart', JSON.stringify(cart)).then( res => {
                 this.cart = cart;
@@ -48,9 +49,9 @@ export class CartService extends Service{
         })
     }
 
-    addItem(id){
+    addItem(id: number){
         return new Promise( (resolve,reject) => {
-            this.http.httpPOST(`/cart/${id}`).then( response => {
+            this.http.httpPOST(`/cart/${id}`).then( (response: CartResponse) => {
                 // console.log(response);
                 this.setCart(response).then( res => {
                     resolve(res);
@@ -65,7 +66,7 @@ export class CartService extends Service{
 
     deleteCart(){
         return new Promise( (resolve,reject) => {
-            this.http.httpDELETE('/cart').then( response => {
+            this.http.httpDELETE('/cart').then( (response: CartResponse) => {
                 AsyncStorage.removeItem('cart').then( res => {
                     this.cart = response;
                     this.cartSubscription.next(this.cart.data.cart);
