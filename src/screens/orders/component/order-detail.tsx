@@ -13,11 +13,6 @@ class OrderDetail extends Component<Props>{
     }
     render(){
         return(
-            // <View>
-            //     <Text>
-            //         Aqui van los productos de la orden
-            //     </Text>
-            // </View>
             <View style={styles.background}>
                 <View style={styles.display}>
                     <ProductList {...this.props} items={this.products}/>
