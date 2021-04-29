@@ -5,13 +5,18 @@ import {
   Image,
   StyleSheet,
   TouchableWithoutFeedback,
+  TouchableHighlight
 } from 'react-native';
 import {Icon} from 'react-native-elements';
-import { Colors } from '../common/styles';
+import { Colors } from './styles';
 import { CartService } from '../services/cart-service';
 
-class Header extends Component{
-    service = CartService.getService();
+interface Props {
+    navigation: any
+}
+
+class Header extends Component<Props>{
+    service = CartService.getService() as CartService;
     // service = new CartService();
     state = {
         cartLen : 0
@@ -66,21 +71,21 @@ class Header extends Component{
                     <View style={styles.column_header}>
                         <View style={styles.header}>
                             <View style={styles.logo_container}>
-                                <TouchableWithoutFeedback style={{flex : 1}}>
+                                {/* <TouchableWithoutFeedback style={{flex : 1}}> */}
                                     <View>
                                         {this.getIcon()}
                                     </View>
-                                </TouchableWithoutFeedback>
+                                {/* </TouchableWithoutFeedback> */}
                                 {/* <TouchableWithoutFeedback style={{flex : 1}} onPress={this.goToSearch} underlayColor="rgba(0,0,0,0.4)"> */}
                                 <View style={{flex : 1, flexDirection: 'row'}}>
-                                    <TouchableWithoutFeedback style={{flex : 1}} onPress={() => {this.goToMain()}} underlayColor="rgba(0,0,0,0.4)">
+                                    <TouchableWithoutFeedback style={{flex : 1}} onPress={() => {this.goToMain()}}>
                                         <Text style={styles.logo}>Tienda Virtual</Text>
                                     </TouchableWithoutFeedback>
                                     <Icon name='search' color='black' size={40} onPress={this.goToSearch}/>
                                 </View>
                                 {/* </TouchableWithoutFeedback> */}
                             </View>
-                            <TouchableWithoutFeedback onPress={this.goToCart} underlayColor="rgba(0,0,0,0.4)">
+                            <TouchableWithoutFeedback onPress={this.goToCart}>
                                 <View style={styles.cart_container}>
                                     <Image source={require('../../assets/images/cart.png')}></Image>
                                     <View style={styles.count_container}>

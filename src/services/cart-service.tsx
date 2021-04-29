@@ -5,9 +5,9 @@ import { CartResponse, Cart} from './interfaces/cart-interfaces';
 
 export class CartService extends Service{
     cart: CartResponse = null!;
-    cartSubscription = new Subject();
+    cartSubscription = new Subject<any[]>();
 
-    getCart(){
+    getCart(): Promise<CartResponse>{
         return new Promise((resolve, reject) => {
          //    resolve(cart);
             AsyncStorage.getItem('cart').then( cart => {
