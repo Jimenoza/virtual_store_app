@@ -7,8 +7,8 @@ import { Product } from '../../../services/interfaces/product-interfaces';
 interface Props {
     navigation: any,
     items: Product[],
-    footer: ReactElement,
-    loader: ReactElement,
+    footer?: ReactElement,
+    loader?: ReactElement,
 }
 
 class ProductList extends Component<Props>{

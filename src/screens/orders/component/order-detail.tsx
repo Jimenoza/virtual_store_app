@@ -2,12 +2,13 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import { Colors } from '../../../common/styles';
 import ProductList from '../../product/containers/product-list';
+import { Props } from '../../../services/common/interfaces';
+import { OrderDetailedResponse } from '../../../services/interfaces/order-interfaces';
 
-class OrderDetail extends Component{
-    products = [];
-    constructor(){
-        super();
-        console.log('construyendo')
+class OrderDetail extends Component<Props>{
+    products: any[]; //TODO: change any[] for Product[]
+    constructor(props: any){
+        super(props);
         this.products = products.data;
     }
     render(){

@@ -4,23 +4,28 @@ import {View, Text, StyleSheet, FlatList} from 'react-native'
 import { Colors } from '../../../common/styles';
 import { Card } from '../../../common/utils';
 import OrderItem from '../component/order-item';
+import { OrderResponse, Order } from '../../../services/interfaces/order-interfaces';
 // import {} from '../../product/containers/product-list';
 
-class Orders extends Component{
+interface Props {
+    navigation: any
+}
 
-    state = {
+class Orders extends Component<Props>{
+
+    state : { orders : OrderResponse } = {
         orders : orders
     }
 
-    goToDetails = (item) => {
+    goToDetails = (item : Order) => {
         this.props.navigation.push('OrderDetail',{order_id : item.id});
     }
 
-    keyExtractor = item => item.id.toString();
-    renderItem = ({item}) => {
+    keyExtractor = (item : Order) => item.id.toString();
+    renderItem = ({item}: any) => {
         return (
             <Card style={{marginBottom : 15}}>
-                <OrderItem {...item} onPress={() => {this.goToDetails(item)}}/>
+                <OrderItem item={item} onPress={() => {this.goToDetails(item)}}/>
             </Card>
         );
     }
@@ -63,7 +68,7 @@ const styles = StyleSheet.create({
 
 })
 
-const orders = {
+const orders: OrderResponse = {
     "data": [
         {
             "id": 3,
