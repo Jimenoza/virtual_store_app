@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import { Colors } from '../../../common/styles';
 import ProductList from '../../product/containers/product-list';
-import { Props } from '../../../services/common/interfaces';
-import { OrderDetailedResponse } from '../../../services/interfaces/order-interfaces';
+import { Props } from '../../../interfaces/common';
+import { OrderDetailedResponse } from '../../../interfaces/order-interfaces';
+import { Product } from '../../../interfaces/product-interfaces';
 
 class OrderDetail extends Component<Props>{
-    products: any[]; //TODO: change any[] for Product[]
+    products: Product[]; //TODO: change any[] for Product[]
     constructor(props: any){
         super(props);
         this.products = products.data;
@@ -32,27 +33,33 @@ const styles = StyleSheet.create({
     }
 })
 
-const products = {
+const products : OrderDetailedResponse = {
     "data": [
         {
             "name": "Fallout 4",
             "description": "Un mundo postapocalíptico después de una guerra nuclear",
             "image": "http://localhost:8000/images/productos/1603339114.webp",
             "price": 45,
-            "available": 1,
+            "available": true,
             "category_id": 2,
             "category_name": "Videojuegos",
             "id" : 4,
+            "stock" : 1,
+            "average" : 1,
+            "califications" : 1
         },
         {
             "name": "The last of us",
             "description": "Juego del año 2013",
             "image": "http://localhost:8000/images/productos/1601437419.jpg",
             "price": 19.99,
-            "available": 1,
+            "available": true,
             "category_id": 2,
             "category_name": "Videojuegos",
-            "id" : 5
+            "id" : 5,
+            "stock" : 1,
+            "average" : 1,
+            "califications" : 1
         }
     ],
     "error": null

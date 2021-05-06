@@ -10,10 +10,7 @@ import {
 import {Icon} from 'react-native-elements';
 import { Colors } from './styles';
 import { CartService } from '../services/cart-service';
-
-interface Props {
-    navigation: any
-}
+import { Props } from '../interfaces/common';
 
 class Header extends Component<Props>{
     service = CartService.getService() as CartService;

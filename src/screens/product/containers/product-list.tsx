@@ -2,16 +2,16 @@ import React, {Component, ReactElement} from 'react';
 import { FlatList } from 'react-native';
 import ProductComponet from '../components/product'
 import { CartService } from '../../../services/cart-service';
-import { Product } from '../../../services/interfaces/product-interfaces';
+import { Product } from '../../../interfaces/product-interfaces';
+import { Props } from '../../../interfaces/common';
 
-interface Props {
-    navigation: any,
+interface ProductListProps extends Props {
     items: Product[],
     footer?: ReactElement,
     loader?: ReactElement,
 }
 
-class ProductList extends Component<Props>{
+class ProductList extends Component<ProductListProps>{
     cartService = CartService.getService() as CartService;
     // cartService = new CartService();
     state = {

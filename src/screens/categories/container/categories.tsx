@@ -3,20 +3,32 @@ import { View, Text, StyleSheet, TouchableHighlight, TouchableWithoutFeedback } 
 import { Colors } from '../../../common/styles';
 import { Icon } from 'react-native-elements';
 import ProductList from '../../product/containers/product-list';
+import { Category as CatInterface, CategoryResponse } from '../../../interfaces/category-interfaces';
+import { Product } from '../../../interfaces/product-interfaces';
+import { Props } from '../../../interfaces/common';
 
-class Category extends Component{
-    state = {
+
+interface CategoryClassState {
+    icon : string,
+    categories: CatInterface[],
+    products : Product[],
+    displayCat: boolean,
+    categorySelected: CatInterface
+}
+
+class Category extends Component<Props>{
+    state: CategoryClassState = {
         icon : 'keyboard-arrow-down',
         categories : categories.data,
-        products : categoryProducts,
+        products : categoryProducts.data,
         displayCat : false,
         categorySelected: categories.data[0], 
     }
 
-    categoriesOptions = [];
+    categoriesOptions: any[] = [];
 
-    constructor(){
-        super();
+    constructor(props: any){
+        super(props);
         this.state.categories.forEach(element => {
             this.categoriesOptions.push(
                 <TouchableHighlight onPress={() => {this.selectCategory(element)}} underlayColor={'#9db9c7'} key={element.id}>
@@ -43,7 +55,7 @@ class Category extends Component{
         }
     }
 
-    selectCategory(category){
+    selectCategory(category: CatInterface){
         this.setState({
             categorySelected: category,
             displayCat : false,
@@ -59,7 +71,7 @@ class Category extends Component{
 
     renderProducts(){
         if(this.state.products){
-            return <ProductList {...this.props} items={this.state.products.data}/>
+            return <ProductList {...this.props} items={this.state.products}/>
         }
     }
 
@@ -126,7 +138,7 @@ const styles = StyleSheet.create({
         height: 40,
         paddingLeft: 20,
         justifyContent: 'center',
-        paddingLeft: 7,
+        // paddingLeft: 7,
     },
     categoryName : {
         color : Colors.darkGray,
@@ -153,79 +165,79 @@ const styles = StyleSheet.create({
 
 export default Category;
 
-const categories = {
+const categories: CategoryResponse = {
     "data": [
         {
             "id": 1,
             "name": "Escolar",
             "description": "Productos para la escuela, colegio y univesidad",
-            "enable": 1
+            "enable": true
         },
         {
             "id": 2,
             "name": "Videojuegos",
             "description": "Diferentes videojuegos para consolas",
-            "enable": 1
+            "enable": true
         },
         {
             "id": 3,
             "name": "Consolas",
             "description": "Diversión para toda la familia",
-            "enable": 1
+            "enable": true
         },
         {
             "id": 4,
             "name": "Accesorios",
             "description": "Accesorios para la vida diaria",
-            "enable": 1
+            "enable": true
         },
         {
             "id": 5,
             "name": "Fáciles",
             "description": "Personas baratas para pasar el rato",
-            "enable": 0
+            "enable": false
         },
         {
             "id": 6,
             "name": "Deporte",
             "description": "Productos para el deporte",
-            "enable": 1
+            "enable": true
         },
         {
             "id": 7,
             "name": "prueba",
             "description": "algo de prueba dos años después",
-            "enable": 0
+            "enable": false
         },
         {
             "id": 8,
             "name": "Salud",
             "description": "Medicinas y vacunas varias",
-            "enable": 1
+            "enable": true
         },
         {
             "id": 9,
             "name": "Celulares",
             "description": "Celulares varios, desde ladrillos hasta smartphones",
-            "enable": 1
+            "enable": true
         },
         {
             "id": 10,
             "name": "Electrónica",
             "description": "Electrónica en general",
-            "enable": 0
+            "enable": false
         },
         {
             "id": 11,
             "name": "Tattoos",
             "description": "Diferentes diseños de tatuajes",
-            "enable": 1
+            "enable": true
         }
     ],
     "error": null
 }
 
-const categoryProducts = {
+const categoryProducts: {data : Product[], error : string | null} = {
     "data": [
         {
             "id": 4,
@@ -234,10 +246,11 @@ const categoryProducts = {
             "image": "http://localhost:8000/images/productos/1603339114.webp",
             "price": 45,
             "stock": 18,
-            "available": 1,
+            "available": true,
             "califications": 0,
             "average": 0,
-            "category_id": 2
+            "category_id": 2,
+            "category_name" : "Videojuegos"
         },
         {
             "id": 5,
@@ -246,10 +259,11 @@ const categoryProducts = {
             "image": "http://localhost:8000/images/productos/1601437419.jpg",
             "price": 19.99,
             "stock": 18,
-            "available": 1,
+            "available": true,
             "califications": 0,
             "average": 0,
-            "category_id": 2
+            "category_id": 2,
+            "category_name" : "Videojuegos"
         },
         {
             "id": 11,
@@ -258,10 +272,11 @@ const categoryProducts = {
             "image": "http://localhost:8000/images/productos/1601437528.jpg",
             "price": 59.99,
             "stock": 27,
-            "available": 1,
+            "available": true,
             "califications": 1,
             "average": 5,
-            "category_id": 2
+            "category_id": 2,
+            "category_name" : "Videojuegos"
         },
         {
             "id": 19,
@@ -270,10 +285,11 @@ const categoryProducts = {
             "image": "http://localhost:8000/images/productos/1601437723.jpg",
             "price": 59.99,
             "stock": 8,
-            "available": 1,
+            "available": true,
             "califications": 1,
             "average": 4,
-            "category_id": 2
+            "category_id": 2,
+            "category_name" : "Videojuegos"
         }
     ],
     "error": null

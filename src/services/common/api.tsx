@@ -1,5 +1,5 @@
 import {replace_host} from '../../common/utils';
-import { Response } from './interfaces';
+import { Response } from '../../interfaces/common';
 
 const CODES = {
   SUCCESS : 200,

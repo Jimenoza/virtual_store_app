@@ -4,12 +4,9 @@ import {View, Text, StyleSheet, FlatList} from 'react-native'
 import { Colors } from '../../../common/styles';
 import { Card } from '../../../common/utils';
 import OrderItem from '../component/order-item';
-import { OrderResponse, Order } from '../../../services/interfaces/order-interfaces';
+import { OrderResponse, Order } from '../../../interfaces/order-interfaces';
+import { Props } from '../../../interfaces/common';
 // import {} from '../../product/containers/product-list';
-
-interface Props {
-    navigation: any
-}
 
 class Orders extends Component<Props>{
 

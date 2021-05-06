@@ -4,8 +4,8 @@ import CartItem from '../component/cart-item';
 import {Card, SeparatorLine} from '../../../common/utils';
 import { Colors } from '../../../common/styles';
 import { CartService } from '../../../services/cart-service';
-import { Product } from '../../../services/interfaces/product-interfaces';
-import { CartResponse } from '../../../services/interfaces/cart-interfaces';
+import { Product } from '../../../interfaces/product-interfaces';
+import { CartResponse } from '../../../interfaces/cart-interfaces';
 import RetryMessage from '../../../common/retry';
 
 class CartList extends Component {

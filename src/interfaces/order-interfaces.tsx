@@ -1,4 +1,4 @@
-import { Response } from '../common/interfaces';
+import { Response } from './common';
 import { Product } from './product-interfaces';
 
 export interface Order {
