@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, StyleSheet, TouchableHighlight, ActivityIndicator} from 'react-native';
 import { Colors } from './styles';
 
-function ActionButton(props){
+function ActionButton(props: any){
     // console.log(props);
     const buttonStyles = [styles.item_add,props.style];
     let buttonContent = <Text style={styles.item_add_text}>{props.enabledLabel}</Text>;

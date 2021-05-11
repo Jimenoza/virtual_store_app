@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, TouchableWithoutFeedback, StyleSheet, ActivityIndicator} from 'react-native';
+import { View, Text, TouchableWithoutFeedback, StyleSheet, ActivityIndicator, GestureResponderEvent} from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Colors } from './styles';
 
-function RetryMessage(props){
+function RetryMessage(props: { loading: boolean, action?: (event: GestureResponderEvent) => void}){
     if(props.loading){
         return (
             <View style={styles.centerLoader}>

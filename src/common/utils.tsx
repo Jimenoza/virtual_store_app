@@ -1,16 +1,16 @@
 import React from 'react';
 import { Platform, View, StyleSheet, TextInput,Text,KeyboardAvoidingView } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { Colors } from '../common/styles';
+import { Colors } from './styles';
 
-export function replace_host(url){
+export function replace_host(url: string){
     if ( Platform.OS === 'android'){
         return url.replace('localhost','10.0.2.2');
     }
     return url;
 }
 
-export function Stars(props, size=40){
+export function Stars(props: {rate: number, size?: number}, size=40){
     const stars = [];
     const integer = Math.trunc(props.rate);
     for( let i = 0; i < integer; i++){
@@ -28,7 +28,7 @@ export function Stars(props, size=40){
             </View>);
 }
 
-export function Card(props){
+export function Card(props: any){
     return (
         <View style={[styles.section_container,props.style]}>
             {props.children}
@@ -36,13 +36,13 @@ export function Card(props){
     )
 }
 
-function getBehavior(){
+function getBehavior(): 'padding' | null{
     if( Platform.OS === 'ios' ){
         return 'padding';
     }
 }
 
-export function BottomInputRate(props){
+export function BottomInputRate(props : any){
     const input = <View style={{height : 50}}>
                     <View style={styles.input_container}>
                         <View style={styles.input_sub_container}>
