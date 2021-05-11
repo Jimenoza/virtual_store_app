@@ -30,7 +30,7 @@ interface ProductMetaData {
     links: Link[],
     next_page_url?: string,
     path: string,
-    per_page: string,
+    per_page: number,
     prev_page_url?: string,
     to: number,
     total: number
