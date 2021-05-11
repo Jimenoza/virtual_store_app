@@ -2,9 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import { Colors } from '../../../common/styles';
 import ProductList from '../../product/containers/product-list';
-import { Props } from '../../../interfaces/common';
-import { OrderDetailedResponse } from '../../../interfaces/order-interfaces';
-import { Product } from '../../../interfaces/product-interfaces';
+import { Props, OrderDetailedResponse, Product } from '../../../interfaces';
 
 class OrderDetail extends Component<Props>{
     products: Product[]; //TODO: change any[] for Product[]

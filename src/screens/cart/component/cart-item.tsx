@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import { View, Text, StyleSheet, Image, TouchableHighlight, GestureResponderEvent} from 'react-native';
 import {replace_host} from '../../../common/utils';
 import { Colors } from '../../../common/styles';
-import { Product } from '../../../interfaces/product-interfaces';
+import { Product } from '../../../interfaces';
 
 interface CartItemProps {
     item: Product,

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableHighlight, GestureResponderEven
 import {replace_host, Stars} from '../../../common/utils';
 import { Colors } from '../../../common/styles';
 import ActionButton from '../../../common/actionButton';
-import { Product as ProductInterface} from '../../../interfaces/product-interfaces';
+import { Product as ProductInterface} from '../../../interfaces';
 
 interface ProductParams {
     prod : ProductInterface,

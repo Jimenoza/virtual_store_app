@@ -4,11 +4,10 @@ import { View, Text, StyleSheet, ActivityIndicator, TouchableHighlight} from 're
 import ProductList from '../product/containers/product-list'
 import { Colors } from '../../common/styles';
 import { ProductService } from '../../services/products-service';
-import { Product } from '../../interfaces/product-interfaces';
+import { Product, Props } from '../../interfaces';
 import { Icon } from 'react-native-elements';
 import { Card } from '../../common/utils'
 import RetryMessage from '../../common/retry';
-import { Props } from '../../interfaces/common';
 
 class Index extends Component<Props> {
     service = ProductService.getService() as ProductService;// Casting

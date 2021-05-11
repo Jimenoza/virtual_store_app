@@ -3,9 +3,7 @@ import { View, Text, StyleSheet, TouchableHighlight, TouchableWithoutFeedback } 
 import { Colors } from '../../../common/styles';
 import { Icon } from 'react-native-elements';
 import ProductList from '../../product/containers/product-list';
-import { Category as CatInterface, CategoryResponse } from '../../../interfaces/category-interfaces';
-import { Product } from '../../../interfaces/product-interfaces';
-import { Props } from '../../../interfaces/common';
+import { Category as CatInterface, CategoryResponse, Product, Props } from '../../../interfaces';
 
 
 interface CategoryClassState {

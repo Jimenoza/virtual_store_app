@@ -2,8 +2,7 @@ import React, {Component, ReactElement} from 'react';
 import { FlatList } from 'react-native';
 import ProductComponet from '../components/product'
 import { CartService } from '../../../services/cart-service';
-import { Product } from '../../../interfaces/product-interfaces';
-import { Props } from '../../../interfaces/common';
+import { Product, Props } from '../../../interfaces';
 
 interface ProductListProps extends Props {
     items: Product[],
