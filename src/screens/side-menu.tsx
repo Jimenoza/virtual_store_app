@@ -5,13 +5,14 @@ import { NavigationContainer } from '@react-navigation/native'
 import {Icon} from 'react-native-elements';
 import { Colors } from '../common/styles';
 import { ProductService } from '../services/products-service';
+import { Props } from '../interfaces';
 
 const Drawer = createDrawerNavigator();
 
-class SideMenu extends Component{
+class SideMenu extends Component<Props>{
   currentCategoryIcon = 'keyboard-arrow-down';
   isCategoryOpen = false;
-  service = ProductService.getService();
+  service = ProductService.getService() as ProductService;
 
   toggleCategories(){
     this.isCategoryOpen = !this.isCategoryOpen;
