@@ -36,7 +36,7 @@ export function Card(props: any){
     )
 }
 
-function getBehavior(): 'padding' | null{
+function getBehavior(): 'padding' | undefined{
     if( Platform.OS === 'ios' ){
         return 'padding';
     }
@@ -69,7 +69,7 @@ export function BottomInputRate(props : any){
     }
 }
 
-export function SeparatorLine(style){
+export function SeparatorLine(){
     return <View style={styles.separator}></View>
 }
 

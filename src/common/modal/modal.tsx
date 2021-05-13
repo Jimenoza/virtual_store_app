@@ -2,9 +2,10 @@ import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {Colors} from '../styles'
 import ErrorModalCard from './modal-cards/error-modal-card';
+import { Props } from '../../interfaces';
 
-function AppModal(props){
-    const cards = {
+function AppModal(props: Props){
+    const cards: {[name : string] : Element} = {
         error : <ErrorModalCard {...props}>
                     <Text style={styles.message}>Lo sentimos. Hubo un error al establecer conexión con el servidor</Text>
                     <Text style={styles.message}>Intente más tarde</Text>
