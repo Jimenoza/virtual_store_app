@@ -32,7 +32,7 @@ class ProductList extends Component<ProductListProps>{
         });
     }
     goToDetails(item: Product){
-        this.props.navigation.push('Details',{productId : item.id});
+        this.props.navigation.navigate('Details',{productId : item.id});
     }
     keyExtractor = (item: Product) => item.id.toString();
     renderItem = ({item} : any) => {
