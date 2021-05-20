@@ -2,10 +2,16 @@ import { Service } from './common/service';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Subject } from 'rxjs';
 import { CartResponse, Cart} from '../interfaces/cart-interfaces';
+import { cartStore } from '../redux/store/cart-store';
+import { CART_ACTION } from '../redux/common';
 
 export class CartService extends Service{
     cart: CartResponse = null!;
-    cartSubscription = new Subject<any[]>();
+    // cartSubscription = new Subject<any[]>();
+
+    subscribe(handler : () => void){
+        return cartStore.subscribe(handler);
+    }
 
     getCart(): Promise<CartResponse>{
         return new Promise((resolve, reject) => {
@@ -41,7 +47,8 @@ export class CartService extends Service{
         return new Promise((resolve, reject) => {
             AsyncStorage.setItem('cart', JSON.stringify(cart)).then( res => {
                 this.cart = cart;
-                this.cartSubscription.next(this.cart.data.cart);
+                // this.cartSubscription.next(this.cart.data.cart);
+                cartStore.dispatch({type : CART_ACTION.set,payload : cart.data.cart});
                 resolve(res);
             }).catch( err => {
                 reject(err);
@@ -69,7 +76,8 @@ export class CartService extends Service{
             this.http.httpDELETE('/cart').then( (response: CartResponse) => {
                 AsyncStorage.removeItem('cart').then( res => {
                     this.cart = response;
-                    this.cartSubscription.next(this.cart.data.cart);
+                    cartStore.dispatch({type : CART_ACTION.set,payload : response.data.cart});
+                    // this.cartSubscription.next(this.cart.data.cart);
                     resolve(this.cart);
                 }).catch( err => {
                     reject(err);

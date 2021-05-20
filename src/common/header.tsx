@@ -27,11 +27,12 @@ class Header extends Component<Props>{
                 cartLen : cart.data.cart.length
             });
         });
-        this.service.cartSubscription.subscribe( amount => {
-            this.setState({
-                cartLen : amount.length
-            });
-        });
+        // this.service.cartSubscription.subscribe( amount => {
+        //     this.setState({
+        //         cartLen : amount.length
+        //     });
+        // });
+        this.service.subscribe( () => console.log('hola'));
     }
 
     getIcon() {
