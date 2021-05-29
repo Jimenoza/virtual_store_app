@@ -1,9 +1,12 @@
+import { Cart } from '../interfaces';
+
 export enum CART_ACTION {
     add = 'cart/add',
-    set = 'cart/set'
+    set = 'cart/set',
+    delete = 'cart/delete'
 }
 
 export interface CartAction {
     type: CART_ACTION,
-    payload?: any,
+    payload?: Cart,
 }

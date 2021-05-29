@@ -20,6 +20,10 @@ import Category from './src/screens/categories/container/categories';
 import Orders from './src/screens/orders/container/orders'
 import OrderDetail from './src/screens/orders/component/order-detail';
 import AppModal from './src/common/modal/modal';
+import { PersistGate } from 'redux-persist/integration/react'
+import { cartStore, cartPersitor } from './src/redux/store/cart-store';
+import { Provider } from 'react-redux'
+import { RetryMessage } from './src/common/retry';
 
 const Drawer = createDrawerNavigator();
 const navigatorStack = createStackNavigator();
@@ -27,9 +31,13 @@ const modalStack = createStackNavigator();
 
 const App: () => React$Node = () => {
   return (
-    <NavigationContainer>
-      <ModalNavigator />
-    </NavigationContainer>
+    <Provider store={cartStore}>
+      <PersistGate persistor={cartPersitor} loading={null}>
+        <NavigationContainer>
+          <ModalNavigator />
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
   );
 };
 

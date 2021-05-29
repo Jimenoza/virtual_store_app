@@ -10,33 +10,34 @@ export class CartService extends Service{
     // cartSubscription = new Subject<any[]>();
 
     subscribe(handler : () => void){
-        return cartStore.subscribe(handler);
+        cartStore.subscribe(handler);
     }
 
-    getCart(): Promise<CartResponse>{
-        return new Promise((resolve, reject) => {
-         //    resolve(cart);
-            AsyncStorage.getItem('cart').then( cart => {
-                if(cart){
-                    this.cart = JSON.parse(cart);
-                    resolve(this.cart);
-                }
-                else {
-                    this.http.httpGET('/cart').then( (response: CartResponse) => {
-                        AsyncStorage.setItem('cart', JSON.stringify(response)).then( res => {
-                            this.cart = response;
-                            resolve(response);
-                        }).catch( err => {
-                            reject(err);
-                        });
-                    }).catch( err => {
-                        reject(err);
-                    });
-                }
-            }).catch( err => {
-                reject(err);
-            })
-        });
+    getCart(){
+        return cartStore.getState();
+        // return new Promise((resolve, reject) => {
+        //  //    resolve(cart);
+        //     AsyncStorage.getItem('cart').then( cart => {
+        //         if(cart){
+        //             this.cart = JSON.parse(cart);
+        //             resolve(this.cart);
+        //         }
+        //         else {
+        //             this.http.httpGET('/cart').then( (response: CartResponse) => {
+        //                 AsyncStorage.setItem('cart', JSON.stringify(response)).then( res => {
+        //                     this.cart = response;
+        //                     resolve(response);
+        //                 }).catch( err => {
+        //                     reject(err);
+        //                 });
+        //             }).catch( err => {
+        //                 reject(err);
+        //             });
+        //         }
+        //     }).catch( err => {
+        //         reject(err);
+        //     })
+        // });
      }
 
     getLocalCart(){
@@ -48,7 +49,7 @@ export class CartService extends Service{
             AsyncStorage.setItem('cart', JSON.stringify(cart)).then( res => {
                 this.cart = cart;
                 // this.cartSubscription.next(this.cart.data.cart);
-                cartStore.dispatch({type : CART_ACTION.set,payload : cart.data.cart});
+                // cartStore().store.dispatch({type : CART_ACTION.set,payload : res});
                 resolve(res);
             }).catch( err => {
                 reject(err);
@@ -60,28 +61,22 @@ export class CartService extends Service{
         return new Promise( (resolve,reject) => {
             this.http.httpPOST(`/cart/${id}`).then( (response: CartResponse) => {
                 // console.log(response);
-                this.setCart(response).then( res => {
-                    resolve(res);
-                }).catch( err => {
-                    reject(err);
-                });
+                this.cart = response;
+                // this.cartSubscription.next(this.cart.data.cart);
+                cartStore.dispatch({type : CART_ACTION.set,payload : response.data});
             }).catch( err => {
                 reject(err)
             });
         });
     }
 
-    deleteCart(){
+    deleteCart(): Promise<void>{
         return new Promise( (resolve,reject) => {
             this.http.httpDELETE('/cart').then( (response: CartResponse) => {
-                AsyncStorage.removeItem('cart').then( res => {
-                    this.cart = response;
-                    cartStore.dispatch({type : CART_ACTION.set,payload : response.data.cart});
-                    // this.cartSubscription.next(this.cart.data.cart);
-                    resolve(this.cart);
-                }).catch( err => {
-                    reject(err);
-                });
+                this.cart = response;
+                // this.cartSubscription.next(this.cart.data.cart);
+                cartStore.dispatch({type : CART_ACTION.delete});
+                resolve();
             }).catch(err => {
                 reject(err);
             });

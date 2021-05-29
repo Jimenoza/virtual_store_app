@@ -21,18 +21,21 @@ class Header extends Component<Props>{
     
     componentDidMount(){
         // super();
-        console.log('Se monto en header');
-        this.service.getCart().then( cart => {
-            this.setState({
-                cartLen : cart.data.cart.length
-            });
-        });
+        console.log('Se monto el header');
+        // this.service.getCart().then( cart => {
+        //     this.setState({
+        //         cartLen : cart.data.cart.length
+        //     });
+        // });
         // this.service.cartSubscription.subscribe( amount => {
         //     this.setState({
         //         cartLen : amount.length
         //     });
         // });
-        this.service.subscribe( () => console.log('hola'));
+        this.service.subscribe( () => {
+            console.log('I heard something');
+            console.log('current state',this.service.getCart())
+        });
     }
 
     getIcon() {

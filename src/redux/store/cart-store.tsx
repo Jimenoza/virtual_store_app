@@ -1,4 +1,12 @@
 import { createStore } from 'redux';
-import { cartReducer } from '../reducers/cart';
+import { cartPersitedReducer } from '../reducers/cart';
+import { persistStore } from 'redux-persist';
 
-export var cartStore = createStore(cartReducer);
+export const cartStore = createStore(cartPersitedReducer);
+export const cartPersitor = persistStore(cartStore)
+
+// export const cartStore = () =>{
+//     let store =  createStore(cartPersitedReducer);
+//     let persistor = persistStore(store);
+//     return { store, persistor }
+// };

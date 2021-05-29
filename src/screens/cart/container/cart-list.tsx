@@ -8,19 +8,23 @@ import { Product, CartResponse } from '../../../interfaces';
 import RetryMessage from '../../../common/retry';
 
 class CartList extends Component {
-    // service = new CartService();
-    service = CartService.getService() as CartService;
-    state : { cart : CartResponse, loading : boolean} = {
-        cart : null!,
+    service = new CartService();
+    // service = CartService.getService() as CartService;
+    state : { loading : boolean} = {
         loading : false,
     }
 
     componentDidMount(){
-        this.service.getCart().then( res => {
-            this.setState({
-                cart : res
-            });
-        });
+        // this.service.getCart().then( res => {
+        //     this.setState({
+        //         cart : res
+        //     });
+        // });
+        // this.setState({
+        //     cart : this.service.getCart()
+        // });
+        // console.log('state is',this.state)
+        // console.log('store',this.service.getCart())
     }
 
     keyExtractor = (item: Product) => item.id.toString();
@@ -50,9 +54,6 @@ class CartList extends Component {
             loading : true
         });
         this.service.deleteCart().then( res => {
-            this.setState({
-                cart : res,
-            });
         }).finally( () => {
             this.setState({
                 loading : false,
@@ -70,8 +71,8 @@ class CartList extends Component {
     }
 
     render(){
-        if(!this.state.cart){
-            return(<RetryMessage loading={this.state.cart === null}></RetryMessage>);
+        if(!this.service.getCart()){
+            return(<RetryMessage loading={this.service.getCart() === null}></RetryMessage>);
         }
         return (
             <View style={styles.screen_container}>
@@ -79,13 +80,13 @@ class CartList extends Component {
                     <Card>
                         <View style={styles.title_container}>
                             <Text style={styles.cart_title}>Carrito de Compras</Text>
-                            <Text style={styles.cart_total}>Total: ${this.state.cart.data.total}</Text>
+                            <Text style={styles.cart_total}>Total: ${this.service.getCart().total}</Text>
                         </View>
                     </Card>
                     <Card>
                         <FlatList style={{height : 575}}
                             keyExtractor={this.keyExtractor}
-                            data={this.state.cart.data.cart}
+                            data={this.service.getCart().cart}
                             ItemSeparatorComponent={this.separator}
                             renderItem={this.renderItem}
                             ListEmptyComponent={this.emptyCart}
