@@ -12,7 +12,6 @@ import RetryMessage from '../../common/retry';
 class Index extends Component<Props> {
     service = ProductService.getService() as ProductService;// Casting
     state = {
-        products : [],
         previous : { // state of previous button
             disabled : true,
             styles : [styles.navButton,styles.marginRight, styles.disabled],
@@ -28,12 +27,8 @@ class Index extends Component<Props> {
 
     constructor(props: Props){
         super(props);
-        if(this.service.getCurrentProducts().length <= 0){ // no objects in cache
+        if(this.service.getCacheProducts().length <= 0){ // no objects in cache
             this.service.getListProducts(10).then( response => { //gets products
-                // console.log(response);
-                this.setState({
-                    products : response
-                });
             }).catch( err => {
                 this.props.navigation.navigate('Modal',{message : 'error'});
                 this.setState({
@@ -41,9 +36,15 @@ class Index extends Component<Props> {
                 })
             });
         }
+        this.service.subscribe( () => {
+            // this.setState({
+            //     loading : false,
+            // });
+            this.updateState();
+        });
     }
 
-    updateState(response: Product[]){
+    updateState(){
         this.setState({
             next : {
                 disabled : !this.service.canGotoNext(),
@@ -54,8 +55,7 @@ class Index extends Component<Props> {
                 disabled : !this.service.canGoToBack(),
                 styles : [styles.navButton, styles.marginLeft, this.service.canGoToBack()? styles.enabled : styles.disabled],
                 color : this.service.canGoToBack()? Colors.bluePrimary : Colors.disabled,
-            },
-            products : response,
+            }
         })
     }
 
@@ -64,12 +64,7 @@ class Index extends Component<Props> {
      * Also sets previous button enabled or disabled
      */
     goToNextPage(){
-        this.setState({
-            products : [],
-        });
-        this.service.getNextPage().then( response => {
-            this.updateState(response);
-        }).catch( err => {
+        this.service.getNextPage().then( response => {}).catch( err => {
             console.log(err);
             this.props.navigation.navigate('Modal',{message : 'error'})
         });
@@ -80,12 +75,7 @@ class Index extends Component<Props> {
      * Also sets next button enabled or disabled
      */
     goToPreviousPage(){
-        this.setState({
-            products : [],
-        });
-        this.service.getPreviousPage().then( response => {
-            this.updateState(response);
-        }).catch( err => {
+        this.service.getPreviousPage().then( response => {}).catch( err => {
             console.log(err);
             this.props.navigation.navigate('Modal',{message : 'error'});
         });
@@ -99,7 +89,7 @@ class Index extends Component<Props> {
         return(
             <View style={{width : 380}}>
                 <Card style={{marginTop : 20,marginBottom: 10}}>
-                    <Text>Resutados página 1 de 4</Text>
+                    <Text>Resutados página {this.service.getCurrentPage().toString()} de {this.service.getLastPage().toString()}</Text>
                 </Card>
                 <View style={styles.buttonsContainer}>
                     <TouchableHighlight style={this.state.previous.styles} underlayColor={Colors.underlayLightBlue} onPress={() => {this.goToPreviousPage()}} disabled={this.state.previous.disabled}>
@@ -137,7 +127,7 @@ class Index extends Component<Props> {
         return (
             <View style={styles.display}>
                 <View style={{marginBottom: 20}}>
-                    <ProductList {...this.props} items={this.state.products} footer={this.footer()} loader={this.loader()}/>
+                    <ProductList {...this.props} items={this.service.getCacheProducts()} footer={this.footer()} loader={this.loader()}/>
                 </View>
             </View>
         )
@@ -148,11 +138,7 @@ class Index extends Component<Props> {
         this.setState({
             loading : true,
         })
-        this.service.getListProducts(10).then( response => {
-            this.setState({
-                products : response,
-            });
-        }).catch( err => {
+        this.service.getListProducts(10).then( response => {}).catch( err => {
             this.props.navigation.navigate('Modal',{message : 'error'});
         }).finally( () => {
             this.setState({

@@ -1,6 +1,7 @@
 import HttpService from './common/api';
 import {Service} from './common/service';
 import { ProductOverviewResponse, Product, ProductDetailedResponse, ProductDetail } from '../interfaces/product-interfaces';
+import { productStore, PRODUCT_ACTION, ProductsIndex } from '../redux';
 
 interface Pages {
     currentPage : number,
@@ -22,66 +23,58 @@ export class ProductService extends Service{
         }
     }
 
-    getListProducts(amount: number): Promise<Product[]>{
-        let url = `/products/list`;
-        if(amount){
-            url += `/${amount}` 
-        }
+    getListProducts(amount: number): Promise<void>{
+        let url = `/products/list/${amount}`;
         return new Promise( (resolve, reject) => {
             this.http.httpGET(url).then( (response : ProductOverviewResponse) => {
-                this.pages = { 
-                    currentPage : response.data.current_page,
-                    lastPage : response.data.last_page,
-                    next : response.data.next_page_url,
-                    previous : response.data.prev_page_url
-                }
-                this.products = response.data.data;
-                resolve(response.data.data);
+                // this.pages = { 
+                //     currentPage : response.data.current_page,
+                //     lastPage : response.data.last_page,
+                //     next : response.data.next_page_url,
+                //     previous : response.data.prev_page_url
+                // }
+                // this.products = response.data.data;
+                this.setState(response);
+                resolve();
             }).catch( err => {
                 reject(err);
             })
         });
     }
 
-    getNextPage(): Promise<Product[]>{
+    getNextPage(): Promise<void>{
         return new Promise( (resolve, reject) => {
-            if(this.pages && this.pages.next){
-                this.http.httpGET(this.pages.next,false).then( (response : ProductOverviewResponse) => {
-                    this.pages = {
-                        currentPage : response.data.current_page,
-                        lastPage : response.data.last_page,
-                        next : response.data.next_page_url,
-                        previous : response.data.prev_page_url
-                    }
-                    this.products = response.data.data;
-                    resolve(response.data.data)
-                }).catch( err => {
-                    reject(err);
-                })
-            }else {
-                resolve([]);
-            }
+            this.http.httpGET(productStore.getState().next_page_url!,false).then( (response : ProductOverviewResponse) => {
+                // this.pages = {
+                //     currentPage : response.data.current_page,
+                //     lastPage : response.data.last_page,
+                //     next : response.data.next_page_url,
+                //     previous : response.data.prev_page_url
+                // }
+                // this.products = response.data.data;
+                this.setState(response);
+                resolve()
+            }).catch( err => {
+                reject(err);
+            })
         });
     }
 
-    getPreviousPage():Promise<Product[]>{
+    getPreviousPage():Promise<void>{
         return new Promise( (resolve, reject) => {
-            if(this.pages && this.pages.previous){
-                this.http.httpGET(this.pages.previous,false).then( response => {
-                    this.pages = {
-                        currentPage : response.data.current_page,
-                        lastPage : response.data.last_page,
-                        next : response.data.next_page_url,
-                        previous : response.data.prev_page_url
-                    }
-                    this.products = response.data.data;
-                    resolve(response.data.data)
-                }).catch( err => {
-                    reject(err);
-                })
-            }else {
-                resolve([]);
-            }
+            this.http.httpGET(productStore.getState().prev_page_url!,false).then( response => {
+                // this.pages = {
+                //     currentPage : response.data.current_page,
+                //     lastPage : response.data.last_page,
+                //     next : response.data.next_page_url,
+                //     previous : response.data.prev_page_url
+                // }
+                // this.products = response.data.data;
+                this.setState(response);
+                resolve()
+            }).catch( err => {
+                reject(err);
+            })
         });
     }
 
@@ -97,27 +90,42 @@ export class ProductService extends Service{
     }
 
     getCurrentPage(): number{
-        return this.pages.currentPage;
+        return productStore.getState().current_page
     }
 
     getLastPage(): number{
-        return this.pages.lastPage;
+        return productStore.getState().last_page;
     }
 
     canGotoNext(): boolean{
-        return this.pages.next !== null;
+        return productStore.getState().next_page_url !== null;
     }
 
     canGoToBack(): boolean{
-        return this.pages.previous !== null;
+        return productStore.getState().prev_page_url !== null;
     }
 
-    getCurrentProducts(): Product[]{
-        return this.products;
+    getCacheProducts(): Product[]{
+        return productStore.getState().products;
     }
 
     deleteProducts(): void{
-        this.products = [];
+        productStore.dispatch({type : PRODUCT_ACTION.delete});
+    }
+
+    subscribe(handler : () => void){
+        productStore.subscribe(handler);
+    }
+
+    setState(data : ProductOverviewResponse){
+        let body: ProductsIndex = {
+            current_page : data.data.current_page,
+            last_page: data.data.last_page,
+            next_page_url : data.data.next_page_url,
+            prev_page_url : data.data.prev_page_url,
+            products : data.data.data,
+        };
+        productStore.dispatch({type : PRODUCT_ACTION.set,payload : body});
     }
 
 }
