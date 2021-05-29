@@ -13,28 +13,20 @@ import { CartService } from '../services/cart-service';
 import { Props } from '../interfaces/common';
 
 class Header extends Component<Props>{
-    service = CartService.getService() as CartService;
-    // service = new CartService();
+    // service = CartService.getService() as CartService;
+    service = new CartService();
     state = {
         cartLen : 0
     };
     
     componentDidMount(){
-        // super();
-        console.log('Se monto el header');
-        // this.service.getCart().then( cart => {
-        //     this.setState({
-        //         cartLen : cart.data.cart.length
-        //     });
-        // });
-        // this.service.cartSubscription.subscribe( amount => {
-        //     this.setState({
-        //         cartLen : amount.length
-        //     });
-        // });
+        this.setState({
+            cartLen : this.service.getCart().cart.length
+        });
         this.service.subscribe( () => {
-            console.log('I heard something');
-            console.log('current state',this.service.getCart())
+            this.setState({
+                cartLen : this.service.getCart().cart.length
+            });
         });
     }
 

@@ -6,12 +6,13 @@ import { Product } from '../../../interfaces';
 
 interface CartItemProps {
     item: Product,
-    onPress?: (event: GestureResponderEvent) => void,
+    onPressContainer?: (event: GestureResponderEvent) => void,
+    onPressRemove?: (event: GestureResponderEvent) => void,
 }
 
 function CartItem(props: CartItemProps): ReactElement{
     return (
-        <TouchableHighlight onPress={props.onPress} underlayColor="white">
+        <TouchableHighlight onPress={props.onPressContainer} underlayColor="white">
             <View style={styles.item_container}>
                 <Image
                     style={styles.item_image}
@@ -34,7 +35,7 @@ function CartItem(props: CartItemProps): ReactElement{
                     </Text>
                 </View>
                 <View style={styles.cancel_container}>
-                    <TouchableHighlight style={styles.item_remove} underlayColor={Colors.darkBlue}>
+                    <TouchableHighlight style={styles.item_remove} underlayColor={Colors.darkBlue} onPress={props.onPressRemove}>
                         <Text style={styles.item_remove_text}>X</Text>
                     </TouchableHighlight>
                 </View>

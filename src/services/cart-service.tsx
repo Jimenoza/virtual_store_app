@@ -38,10 +38,6 @@ export class CartService extends Service{
         //         reject(err);
         //     })
         // });
-     }
-
-    getLocalCart(){
-        return this.cart;
     }
 
     setCart(cart : CartResponse){
@@ -60,23 +56,30 @@ export class CartService extends Service{
     addItem(id: number){
         return new Promise( (resolve,reject) => {
             this.http.httpPOST(`/cart/${id}`).then( (response: CartResponse) => {
-                // console.log(response);
-                this.cart = response;
-                // this.cartSubscription.next(this.cart.data.cart);
                 cartStore.dispatch({type : CART_ACTION.set,payload : response.data});
+                resolve(response);
             }).catch( err => {
                 reject(err)
             });
         });
     }
 
-    deleteCart(): Promise<void>{
+    removeItem(id: number){
+        return new Promise( (resolve,reject) => {
+            this.http.httpDELETE(`/cart/${id}`).then( (response: CartResponse) => {
+                cartStore.dispatch({type : CART_ACTION.set,payload : response.data});
+                resolve(response);
+            }).catch( err => {
+                reject(err)
+            });
+        });
+    }
+
+    deleteCart(){
         return new Promise( (resolve,reject) => {
             this.http.httpDELETE('/cart').then( (response: CartResponse) => {
-                this.cart = response;
-                // this.cartSubscription.next(this.cart.data.cart);
                 cartStore.dispatch({type : CART_ACTION.delete});
-                resolve();
+                resolve(response);
             }).catch(err => {
                 reject(err);
             });

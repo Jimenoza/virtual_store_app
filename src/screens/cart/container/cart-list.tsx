@@ -6,36 +6,25 @@ import { Colors } from '../../../common/styles';
 import { CartService } from '../../../services/cart-service';
 import { Product, CartResponse } from '../../../interfaces';
 import RetryMessage from '../../../common/retry';
+import { Props } from '../../../interfaces';
 
-class CartList extends Component {
+class CartList extends Component<Props> {
     service = new CartService();
     // service = CartService.getService() as CartService;
     state : { loading : boolean} = {
         loading : false,
     }
 
-    componentDidMount(){
-        // this.service.getCart().then( res => {
-        //     this.setState({
-        //         cart : res
-        //     });
-        // });
-        // this.setState({
-        //     cart : this.service.getCart()
-        // });
-        // console.log('state is',this.state)
-        // console.log('store',this.service.getCart())
-    }
-
-    keyExtractor = (item: Product) => item.id.toString();
+    keyExtractor = (item: Product, index: number) => `${index}-${item.id.toString()}`;
     renderItem = ({item}: any) => {
         return (
-            <CartItem item={item}/>
+            <CartItem item={item}
+                onPressContainer={ () => { this.props.navigation.navigate('Details',{productId : item.id});}}
+                onPressRemove={ () => { this.removeItem(item.id)}}/>
         );
     }
 
     separator = () => {
-        // <CartItem {...cart.data.cart[0]}/>
         return (
             <SeparatorLine></SeparatorLine>
         )
@@ -61,18 +50,32 @@ class CartList extends Component {
         });
     }
 
-    deleteCartContent(){
+    removeItem(id: number){
+        // this.service
+        this.setState({
+            loading : true
+        });
+        this.service.removeItem(id).then( res => {
+        }).finally( () => {
+            this.setState({
+                loading : false,
+            });
+        });
+    }
+
+    removeContent(){
         if(this.state.loading){
-            return <ActivityIndicator animating={true} color='white'></ActivityIndicator>;
-        }
-        else {
-            return <Text style={styles.delete_cart_text}>Eliminar Carrito</Text>;
+            return (
+                <View style={styles.loadingPanel}>
+                    <ActivityIndicator animating={true} color='white' size={'large'}></ActivityIndicator>
+                </View>
+            );
         }
     }
 
     render(){
-        if(!this.service.getCart()){
-            return(<RetryMessage loading={this.service.getCart() === null}></RetryMessage>);
+        if(!this.service.isApiOk()){
+            return(<RetryMessage loading={true}></RetryMessage>);
         }
         return (
             <View style={styles.screen_container}>
@@ -84,19 +87,22 @@ class CartList extends Component {
                         </View>
                     </Card>
                     <Card>
-                        <FlatList style={{height : 575}}
-                            keyExtractor={this.keyExtractor}
-                            data={this.service.getCart().cart}
-                            ItemSeparatorComponent={this.separator}
-                            renderItem={this.renderItem}
-                            ListEmptyComponent={this.emptyCart}
-                        />
+                        <View style={{height : 575}}>
+                            {/* {this.removeContent()} */}
+                            <FlatList style={{height : '100%'}}
+                                keyExtractor={this.keyExtractor}
+                                data={this.service.getCart().cart}
+                                ItemSeparatorComponent={this.separator}
+                                renderItem={this.renderItem}
+                                ListEmptyComponent={this.emptyCart}
+                            />
+                        </View>
                     </Card>
                     <View style={styles.buttons_container}>
-                        <TouchableHighlight style={styles.delete_cart} underlayColor={Colors.darkBlue} onPress={() => {this.deleteCart()}}>
-                            {this.deleteCartContent()}
+                        <TouchableHighlight style={styles.delete_cart} underlayColor={Colors.darkBlue} onPress={() => {this.deleteCart()}} disabled={this.state.loading}>
+                            <Text style={styles.delete_cart_text}>Eliminar Carrito</Text>
                         </TouchableHighlight>
-                        <TouchableHighlight style={styles.proceed} underlayColor={Colors.darkBlue}>
+                        <TouchableHighlight style={styles.proceed} underlayColor={Colors.darkBlue} disabled={this.state.loading}>
                             <Text style={styles.proceed_text}>Proceder con pago</Text>
                         </TouchableHighlight>
                     </View>
@@ -163,6 +169,14 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: 'rgba(0,0,0,0.5)'
     },
+    loadingPanel : {
+        height : '100%',
+        width : '100%',
+        backgroundColor : Colors.disabled,
+        position: 'absolute',
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
 })
 
 export default CartList;
