@@ -2,8 +2,7 @@ import { Service } from './common/service';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Subject } from 'rxjs';
 import { CartResponse, Cart} from '../interfaces/cart-interfaces';
-import { cartStore } from '../redux/store/cart-store';
-import { CART_ACTION } from '../redux/common';
+import { cartStore, CART_ACTION } from '../redux';
 
 export class CartService extends Service{
     cart: CartResponse = null!;

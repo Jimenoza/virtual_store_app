@@ -1,4 +1,4 @@
-import { Cart } from '../interfaces';
+import { Cart } from '../../interfaces';
 
 export enum CART_ACTION {
     add = 'cart/add',

@@ -21,7 +21,7 @@ import Orders from './src/screens/orders/container/orders'
 import OrderDetail from './src/screens/orders/component/order-detail';
 import AppModal from './src/common/modal/modal';
 import { PersistGate } from 'redux-persist/integration/react'
-import { cartStore, cartPersitor } from './src/redux/store/cart-store';
+import { cartStore, cartPersitor } from './src/redux';
 import { Provider } from 'react-redux'
 import { RetryMessage } from './src/common/retry';
 

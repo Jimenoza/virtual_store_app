@@ -1,4 +1,4 @@
-import { CartAction } from '../common';
+import { CartAction } from './interfaces';
 
 import { persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
