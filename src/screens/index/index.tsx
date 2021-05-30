@@ -7,6 +7,7 @@ import { ProductService } from '../../services/products-service';
 import { Product, Props } from '../../interfaces';
 import { Icon } from 'react-native-elements';
 import { Card } from '../../common/utils'
+import Button from '../../common/generalButton';
 import RetryMessage from '../../common/retry';
 
 class Index extends Component<Props> {
@@ -14,12 +15,10 @@ class Index extends Component<Props> {
     state = {
         previous : { // state of previous button
             disabled : true,
-            styles : [styles.navButton,styles.marginRight, styles.disabled],
             color : Colors.disabled
         },
         next : {// state of next button
             disabled : false,
-            styles : [styles.navButton, styles.marginLeft, styles.enabled],
             color : Colors.bluePrimary,
         },
         loading : false,
@@ -92,18 +91,18 @@ class Index extends Component<Props> {
                     <Text>Resutados página {this.service.getCurrentPage().toString()} de {this.service.getLastPage().toString()}</Text>
                 </Card>
                 <View style={styles.buttonsContainer}>
-                    <TouchableHighlight style={this.state.previous.styles} underlayColor={Colors.underlayLightBlue} onPress={() => {this.goToPreviousPage()}} disabled={this.state.previous.disabled}>
+                    <Button onPress={() => {this.goToPreviousPage()}} disabled={this.state.previous.disabled} style={styles.marginRight}>
                         <View style={styles.buttonContent}>
                             <Icon name="navigate-before" size={30} color={this.state.previous.color}></Icon>
                             <Text style={[styles.buttonText, {color : this.state.previous.color}]}>Anterior</Text>
                         </View>
-                    </TouchableHighlight>
-                    <TouchableHighlight style={this.state.next.styles} underlayColor={Colors.underlayLightBlue} onPress={() => {this.goToNextPage()}} disabled={this.state.next.disabled}>
+                    </Button>
+                    <Button onPress={() => {this.goToNextPage()}} disabled={this.state.next.disabled} style={styles.marginLeft}>
                         <View style={styles.buttonContent}>
                             <Text style={[styles.buttonText, {color : this.state.next.color}]}>Siguiente</Text>
                             <Icon name="navigate-next" size={30} color={this.state.next.color}></Icon>
                         </View>
-                    </TouchableHighlight>
+                    </Button>
                 </View>
             </View>
         );
