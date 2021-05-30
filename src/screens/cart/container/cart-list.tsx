@@ -7,6 +7,7 @@ import { CartService } from '../../../services/cart-service';
 import { Product, CartResponse } from '../../../interfaces';
 import RetryMessage from '../../../common/retry';
 import { Props } from '../../../interfaces';
+import Button from '../../../common/generalButton';
 
 class CartList extends Component<Props> {
     service = new CartService();
@@ -99,12 +100,12 @@ class CartList extends Component<Props> {
                         </View>
                     </Card>
                     <View style={styles.buttons_container}>
-                        <TouchableHighlight style={styles.delete_cart} underlayColor={Colors.darkBlue} onPress={() => {this.deleteCart()}} disabled={this.state.loading}>
+                        <Button style={styles.delete_cart} underlayColor={Colors.gray} onPress={() => {this.deleteCart()}} disabled={this.state.loading}>
                             <Text style={styles.delete_cart_text}>Eliminar Carrito</Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight style={styles.proceed} underlayColor={Colors.darkBlue} disabled={this.state.loading}>
+                        </Button>
+                        <Button style={styles.proceed} underlayColor={Colors.darkBlue} disabled={this.state.loading}>
                             <Text style={styles.proceed_text}>Proceder con pago</Text>
-                        </TouchableHighlight>
+                        </Button>
                     </View>
                 </View>
             </View>

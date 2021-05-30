@@ -5,8 +5,9 @@ import { Colors } from './styles';
 interface Props {
     style? : any,
     children: JSX.Element,
-    onPress : (event: GestureResponderEvent) => void,
-    disabled : boolean
+    onPress?: (event: GestureResponderEvent) => void,
+    disabled : boolean,
+    underlayColor?: any,
 }
 
 function Button(props: Props) {
@@ -21,7 +22,7 @@ function Button(props: Props) {
         stylesState.push(props.style);
     }
     return (
-        <TouchableHighlight style={stylesState} underlayColor={Colors.underlayLightBlue} onPress={props.onPress} disabled={props.disabled}>
+        <TouchableHighlight style={stylesState} underlayColor={props.underlayColor ? props.underlayColor : Colors.underlayLightBlue} onPress={props.onPress} disabled={props.disabled}>
             {props.children}
         </TouchableHighlight>
     )
