@@ -12,28 +12,11 @@ interface Pages {
 };
 
 export class ProductService extends Service{
-    private pages: Pages;
-    private products: Product[] = [];
-
-    constructor(){
-        super();
-        this.pages = {
-            currentPage : 0,
-            lastPage: 0,
-        }
-    }
 
     getListProducts(amount: number): Promise<void>{
         let url = `/products/list/${amount}`;
         return new Promise( (resolve, reject) => {
             this.http.httpGET(url).then( (response : ProductOverviewResponse) => {
-                // this.pages = { 
-                //     currentPage : response.data.current_page,
-                //     lastPage : response.data.last_page,
-                //     next : response.data.next_page_url,
-                //     previous : response.data.prev_page_url
-                // }
-                // this.products = response.data.data;
                 this.setState(response);
                 resolve();
             }).catch( err => {
@@ -45,13 +28,6 @@ export class ProductService extends Service{
     getNextPage(): Promise<void>{
         return new Promise( (resolve, reject) => {
             this.http.httpGET(productStore.getState().next_page_url!,false).then( (response : ProductOverviewResponse) => {
-                // this.pages = {
-                //     currentPage : response.data.current_page,
-                //     lastPage : response.data.last_page,
-                //     next : response.data.next_page_url,
-                //     previous : response.data.prev_page_url
-                // }
-                // this.products = response.data.data;
                 this.setState(response);
                 resolve()
             }).catch( err => {
@@ -63,13 +39,6 @@ export class ProductService extends Service{
     getPreviousPage():Promise<void>{
         return new Promise( (resolve, reject) => {
             this.http.httpGET(productStore.getState().prev_page_url!,false).then( response => {
-                // this.pages = {
-                //     currentPage : response.data.current_page,
-                //     lastPage : response.data.last_page,
-                //     next : response.data.next_page_url,
-                //     previous : response.data.prev_page_url
-                // }
-                // this.products = response.data.data;
                 this.setState(response);
                 resolve()
             }).catch( err => {
@@ -83,6 +52,16 @@ export class ProductService extends Service{
         return new Promise( (resolve, reject) => {
             this.http.httpGET(url).then( (response : ProductDetailedResponse) => {
                 resolve(response.data);
+            }).catch( err => {
+                reject(err);
+            })
+        });
+    }
+
+    getProductsByCategory(categoryID : number): Promise<ProductOverviewResponse>{
+        return new Promise( (resolve, reject) => {
+            this.http.httpGET(`/products/category/${categoryID}`).then( (response : ProductOverviewResponse) => {
+                resolve(response);
             }).catch( err => {
                 reject(err);
             })
