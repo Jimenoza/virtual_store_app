@@ -9,18 +9,11 @@ import { Icon } from 'react-native-elements';
 import { Card } from '../../common/utils'
 import Button from '../../common/generalButton';
 import RetryMessage from '../../common/retry';
+import ProductListPaginated from '../product/containers/product-list-paginated';
 
 class Index extends Component<Props> {
     service = ProductService.getService() as ProductService;// Casting
     state = {
-        previous : { // state of previous button
-            disabled : true,
-            color : Colors.disabled
-        },
-        next : {// state of next button
-            disabled : false,
-            color : Colors.bluePrimary,
-        },
         loading : false,
     }
 
@@ -36,26 +29,11 @@ class Index extends Component<Props> {
             });
         }
         this.service.subscribe( () => {
-            // this.setState({
-            //     loading : false,
-            // });
-            this.updateState();
+            this.setState({
+                loading : false,
+            });
+            // this.updateState();
         });
-    }
-
-    updateState(){
-        this.setState({
-            next : {
-                disabled : !this.service.canGotoNext(),
-                styles : [styles.navButton, styles.marginLeft, this.service.canGotoNext()? styles.enabled : styles.disabled],
-                color : this.service.canGotoNext()? Colors.bluePrimary : Colors.disabled,
-            },
-            previous : {
-                disabled : !this.service.canGoToBack(),
-                styles : [styles.navButton, styles.marginLeft, this.service.canGoToBack()? styles.enabled : styles.disabled],
-                color : this.service.canGoToBack()? Colors.bluePrimary : Colors.disabled,
-            }
-        })
     }
 
     /**
@@ -80,34 +58,6 @@ class Index extends Component<Props> {
         });
     }
 
-    /**
-     * Method that returns pagination buttons for results pagination
-     * @returns render
-     */
-    footer(){
-        return(
-            <View style={{width : 380}}>
-                <Card style={{marginTop : 20,marginBottom: 10}}>
-                    <Text>Resutados página {this.service.getCurrentPage().toString()} de {this.service.getLastPage().toString()}</Text>
-                </Card>
-                <View style={styles.buttonsContainer}>
-                    <Button onPress={() => {this.goToPreviousPage()}} disabled={this.state.previous.disabled} style={styles.marginRight}>
-                        <View style={styles.buttonContent}>
-                            <Icon name="navigate-before" size={30} color={this.state.previous.color}></Icon>
-                            <Text style={[styles.buttonText, {color : this.state.previous.color}]}>Anterior</Text>
-                        </View>
-                    </Button>
-                    <Button onPress={() => {this.goToNextPage()}} disabled={this.state.next.disabled} style={styles.marginLeft}>
-                        <View style={styles.buttonContent}>
-                            <Text style={[styles.buttonText, {color : this.state.next.color}]}>Siguiente</Text>
-                            <Icon name="navigate-next" size={30} color={this.state.next.color}></Icon>
-                        </View>
-                    </Button>
-                </View>
-            </View>
-        );
-    }
-
     loader(){
         return (
             <View style={styles.centerLoader}>
@@ -118,6 +68,15 @@ class Index extends Component<Props> {
         );
     }
 
+    getConfig(){
+        return {
+            current_page: this.service.getCurrentPage(),
+            last_page: this.service.getLastPage(),
+            onGoPrevious : () => {this.goToPreviousPage()},
+            onGoNext : () => {this.goToNextPage()},
+        }
+    }
+
     /**
      * Checks the state and returns the component to display item or retry message
      */
@@ -126,7 +85,7 @@ class Index extends Component<Props> {
         return (
             <View style={styles.display}>
                 <View style={{marginBottom: 20}}>
-                    <ProductList {...this.props} items={this.service.getCacheProducts()} footer={this.footer()} loader={this.loader()}/>
+                    <ProductListPaginated {...this.props} config={this.getConfig()} items={this.service.getCacheProducts()} loader={this.loader()}></ProductListPaginated>
                 </View>
             </View>
         )
