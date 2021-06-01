@@ -23,10 +23,7 @@ class Category extends Component<Props>{
 
     state: CategoryClassState = {
         icon : 'keyboard-arrow-down',
-        // categories : categories.data,
-        // products : categoryProducts.data,
         displayCat : false,
-        // categorySelected: categories.data[0],
         loading : true,
     }
 
