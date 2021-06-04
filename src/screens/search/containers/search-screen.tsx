@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, StyleSheet, ActivityIndicator } from 'react-native';
-import ProductList from '../../product/containers/product-list';
+import { View, Text, TextInput, StyleSheet, ActivityIndicator, TextInputSubmitEditingEventData } from 'react-native';
+import ProductListPaginated from '../../product/containers/product-list-paginated';
 import { Colors } from '../../../common/styles';
 import { ProductOverviewResponse, Props, Product } from '../../../interfaces';
+import { ProductService } from '../../../services';
+import { productSearchStore } from '../../../redux';
 
 const results: ProductOverviewResponse = {
     "data": {
@@ -78,40 +80,85 @@ const results: ProductOverviewResponse = {
 }
 
 class SearchScreen extends Component<Props>{
-    state: {products : Product[], searching : boolean} = {
-        products: null!,
+    service = new ProductService(productSearchStore);
+
+    state: { searching : boolean} = {
         searching: false,
     };
     
-    search(event: string){
-        if(event){
-            this.setState( {
-                searching : true,
-                products: results,
-            });
-        }
-        if(!event){
-            this.setState( {
+    search(event: TextInputSubmitEditingEventData){
+        this.setState({
+            searching : true,
+        });
+        this.service.searchProducts(event.text).then( () => {
+            this.setState({
                 searching : false,
-                products: null,
             });
+        });
+        // if(event){
+        //     this.setState( {
+        //         searching : true,
+        //         products: results,
+        //     });
+        // }
+        // if(!event){
+        //     this.setState( {
+        //         searching : false,
+        //         products: null,
+        //     });
+        // }
+    }
+    /**
+     * Goes to next page if there are pages
+     * Also sets previous button enabled or disabled
+     */
+     goToNextPage(){
+        this.service.getNextPage().then( () => {}).catch( err => {
+            console.log(err);
+            this.props.navigation.navigate('Modal',{message : 'error'})
+        });
+    }
+
+    /**
+     * Goes to previous page if there are pages
+     * Also sets next button enabled or disabled
+     */
+    goToPreviousPage(){
+        this.service.getPreviousPage().then( () => {}).catch( err => {
+            console.log(err);
+            this.props.navigation.navigate('Modal',{message : 'error'});
+        });
+    }
+
+    getConfig(){
+        return {
+            current_page: this.service.getCurrentPage(),
+            last_page: this.service.getLastPage(),
+            onGoPrevious : () => {this.goToPreviousPage()},
+            onGoNext : () => {this.goToNextPage()},
         }
     }
 
     renderResults(){
-        if(this.state.products){
-            return <ProductList {...this.props} items={this.state.products}/>
+        if(this.state.searching){
+            return (<ActivityIndicator size='large' color={Colors.bluePrimary} animating={true}/>);
         }
+        return (
+            <ProductListPaginated {...this.props} 
+                items={this.service.getCacheProducts()} 
+                config={this.getConfig()}
+                loader={<Text>No hay productos</Text>}
+            />
+        )
     }
 
     render(){
         return (
             <View style={styles.screen_container}>
                 <View style={styles.search_container}>
-                    <TextInput autoFocus={true} style={styles.box} placeholder='Buscar...' onChangeText={(ev) => this.search(ev)}/>
+                    <TextInput autoFocus={true} style={styles.box} placeholder='Buscar...' onSubmitEditing={(ev) => this.search(ev.nativeEvent)}/>
                 </View>
                 <View style={styles.display}>
-                    <ActivityIndicator size='large' color={Colors.bluePrimary} animating={this.state.searching}/>
                     {this.renderResults()}
                 </View>
             </View>
@@ -144,6 +191,8 @@ const styles = StyleSheet.create({
     },
     display : {
         alignItems: 'center',
+        backgroundColor: 'red',
+        flex : 1
     }
 });
 

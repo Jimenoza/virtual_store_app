@@ -6,6 +6,7 @@ import ProductList from '../../product/containers/product-list';
 import { Category as CatInterface, CategoryResponse, Product, Props } from '../../../interfaces';
 import { CategoryService } from '../../../services/category-service';
 import { ProductService } from '../../../services/products-service';
+import { productsCategoryStore } from '../../../redux';
 import RetryMessage from '../../../common/retry';
 
 interface CategoryClassState {
@@ -19,7 +20,7 @@ interface CategoryClassState {
 
 class Category extends Component<Props>{
     categoryService: CategoryService = new CategoryService();
-    productService: ProductService = new ProductService();
+    productService: ProductService = new ProductService(productsCategoryStore);
 
     state: CategoryClassState = {
         icon : 'keyboard-arrow-down',
@@ -32,9 +33,9 @@ class Category extends Component<Props>{
     componentDidMount(){
         this.categoryService.getCategories().then( () => {
             this.setState({
-                categorySelected : this.categoryService.getStateCategories()![0]
+                categorySelected : this.categoryService.getState()![0]
             });
-            this.categoryService.getStateCategories()!.forEach(element => {
+            this.categoryService.getState()!.forEach(element => {
                 this.categoriesOptions.push(
                     <TouchableHighlight onPress={() => {this.selectCategory(element)}} underlayColor={Colors.lightGray} key={element.id}>
                         <View style={[styles.categoryListItem,styles.underline]}>
@@ -44,7 +45,7 @@ class Category extends Component<Props>{
                 )
             });
             this.productService.getProductsByCategory(this.state.categorySelected!.id).then( response => {
-                this.categoryService.setProductsState(response);
+                // this.categoryService.setProductsState(response);
                 this.setState({
                     loading : false
                 })
@@ -73,15 +74,13 @@ class Category extends Component<Props>{
             loading : true,
             categorySelected: category,
         })
-        this.productService.getProductsByCategory(category.id).then( response => {
-            this.categoryService.setProductsState(response);
-        }).finally( () => {
+        this.productService.getProductsByCategory(category.id).then( () => {
             this.setState({
                 displayCat : false,
                 icon : 'keyboard-arrow-down',
                 loading : false
             });
-        });
+        })
     }
 
     renderPanel(){
@@ -117,7 +116,7 @@ class Category extends Component<Props>{
                     </View>
                     <View style={styles.display}>
                         <ProductList {...this.props} 
-                            items={this.categoryService.getStateProducts()!.products}
+                            items={this.productService.getCacheProducts()}
                         />
                     </View>
                 </View>    

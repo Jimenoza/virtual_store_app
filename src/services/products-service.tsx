@@ -1,7 +1,8 @@
 import HttpService from './common/api';
 import {Service} from './common/service';
 import { ProductOverviewResponse, Product, ProductDetailedResponse, ProductDetail } from '../interfaces/product-interfaces';
-import { productStore, PRODUCT_ACTION, ProductsIndex } from '../redux';
+import { PRODUCT_ACTION, ProductsIndex, ProductAction } from '../redux';
+import { Store } from 'redux';
 
 interface Pages {
     currentPage : number,
@@ -12,8 +13,13 @@ interface Pages {
 };
 
 export class ProductService extends Service{
+    store: Store<ProductsIndex, ProductAction>;
+    constructor(store: Store<ProductsIndex, ProductAction>){
+        super();
+        this.store = store;
+    }
 
-    getListProducts(amount: number): Promise<void>{
+    getProducts(amount: number): Promise<void>{
         let url = `/products/list/${amount}`;
         return new Promise( (resolve, reject) => {
             this.http.httpGET(url).then( (response : ProductOverviewResponse) => {
@@ -25,9 +31,27 @@ export class ProductService extends Service{
         });
     }
 
+    searchProducts(expression: string, category? : number): Promise<void>{
+        const body: any = {
+            expression : expression,
+            pagination : 10
+        }
+        if(category){
+            body.category = category;
+        }
+        return new Promise( (resolve, reject) => {
+            this.http.httpPOST('/products/search',body).then( (response : ProductOverviewResponse) => {
+                this.setState(response);
+                resolve();
+            }).catch( err => {
+                reject(err);
+            })
+        });
+    }
+
     getNextPage(): Promise<void>{
         return new Promise( (resolve, reject) => {
-            this.http.httpGET(productStore.getState().next_page_url!,false).then( (response : ProductOverviewResponse) => {
+            this.http.httpGET(this.store.getState().next_page_url!,false).then( (response : ProductOverviewResponse) => {
                 this.setState(response);
                 resolve()
             }).catch( err => {
@@ -38,7 +62,7 @@ export class ProductService extends Service{
 
     getPreviousPage():Promise<void>{
         return new Promise( (resolve, reject) => {
-            this.http.httpGET(productStore.getState().prev_page_url!,false).then( response => {
+            this.http.httpGET(this.store.getState().prev_page_url!,false).then( response => {
                 this.setState(response);
                 resolve()
             }).catch( err => {
@@ -58,10 +82,11 @@ export class ProductService extends Service{
         });
     }
 
-    getProductsByCategory(categoryID : number): Promise<ProductOverviewResponse>{
+    getProductsByCategory(categoryID : number): Promise<void>{
         return new Promise( (resolve, reject) => {
             this.http.httpGET(`/products/category/${categoryID}`).then( (response : ProductOverviewResponse) => {
-                resolve(response);
+                this.setState(response);
+                resolve();
             }).catch( err => {
                 reject(err);
             })
@@ -69,31 +94,31 @@ export class ProductService extends Service{
     }
 
     getCurrentPage(): number{
-        return productStore.getState().current_page
+        return this.store.getState().current_page
     }
 
     getLastPage(): number{
-        return productStore.getState().last_page;
+        return this.store.getState().last_page;
     }
 
     canGotoNext(): boolean{
-        return productStore.getState().next_page_url !== null;
+        return this.store.getState().next_page_url !== null;
     }
 
     canGoToBack(): boolean{
-        return productStore.getState().prev_page_url !== null;
+        return this.store.getState().prev_page_url !== null;
     }
 
     getCacheProducts(): Product[]{
-        return productStore.getState().products;
+        return this.store.getState().products;
     }
 
     deleteProducts(): void{
-        productStore.dispatch({type : PRODUCT_ACTION.delete});
+        this.store.dispatch({type : PRODUCT_ACTION.delete});
     }
 
     subscribe(handler : () => void){
-        productStore.subscribe(handler);
+        this.store.subscribe(handler);
     }
 
     setState(data : ProductOverviewResponse){
@@ -104,7 +129,11 @@ export class ProductService extends Service{
             prev_page_url : data.data.prev_page_url,
             products : data.data.data,
         };
-        productStore.dispatch({type : PRODUCT_ACTION.set,payload : body});
+        this.store.dispatch({type : PRODUCT_ACTION.set,payload : body});
+    }
+
+    getProductsState(){
+        return this.store.getState();
     }
 
 }

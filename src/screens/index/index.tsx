@@ -5,14 +5,12 @@ import ProductList from '../product/containers/product-list'
 import { Colors } from '../../common/styles';
 import { ProductService } from '../../services/products-service';
 import { Product, Props } from '../../interfaces';
-import { Icon } from 'react-native-elements';
-import { Card } from '../../common/utils'
-import Button from '../../common/generalButton';
 import RetryMessage from '../../common/retry';
 import ProductListPaginated from '../product/containers/product-list-paginated';
+import { productStore } from '../../redux';
 
 class Index extends Component<Props> {
-    service = ProductService.getService() as ProductService;// Casting
+    service = new ProductService(productStore)// Casting
     state = {
         loading : false,
     }
@@ -20,7 +18,7 @@ class Index extends Component<Props> {
     constructor(props: Props){
         super(props);
         if(this.service.getCacheProducts().length <= 0){ // no objects in cache
-            this.service.getListProducts(10).then( response => { //gets products
+            this.service.getProducts(10).then( response => { //gets products
             }).catch( err => {
                 this.props.navigation.navigate('Modal',{message : 'error'});
                 this.setState({
@@ -96,7 +94,7 @@ class Index extends Component<Props> {
         this.setState({
             loading : true,
         })
-        this.service.getListProducts(10).then( response => {}).catch( err => {
+        this.service.getProducts(10).then( response => {}).catch( err => {
             this.props.navigation.navigate('Modal',{message : 'error'});
         }).finally( () => {
             this.setState({

@@ -84,6 +84,7 @@ class ProductListPaginated extends Component<ProductListPaginatedProps>{
             keyExtractor={this.keyExtractor}
             data={this.props.items}
             renderItem={this.renderItem}
+            ListFooterComponentStyle={{flex:1, justifyContent: 'flex-end'}}
             ListFooterComponent={this.footer()}
             ListEmptyComponent={this.props.loader}
             // extraData={this.state.refresh}

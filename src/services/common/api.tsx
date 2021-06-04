@@ -52,7 +52,7 @@ class HttpService {
         headers: this.headers,
       };
       if(data){
-        requestOptions.data = JSON.stringify(data);
+        requestOptions.body = JSON.stringify(data);
       }
       fetch(url,requestOptions).then( response => {
         console.log('fetching....');
@@ -66,10 +66,6 @@ class HttpService {
             if(this.error){ this.error = false;}
             resolve(json);
           }
-        }).catch( err => { // Error parsing response into json
-          console.log('fetching.... failed');
-          console.log(err);
-          reject(err);
         });
       }).catch( err => { // Error requesting to server
         console.log('fetching.... failed');

@@ -11,7 +11,7 @@ export class CategoryService extends Service{
     getCategories(): Promise<void>{
         return new Promise( (resolve, reject) => {
             this.http.httpGET(`/categories`).then( (response : CategoryResponse) => {
-                categoriesStore.dispatch({type : CATEGORY_ACTION.setCategories,payload : { categories : response.data}});
+                categoriesStore.dispatch({type : CATEGORY_ACTION.set,payload : { categories : response.data}});
                 resolve();
             }).catch( err => {
                 reject(err);
@@ -19,29 +19,8 @@ export class CategoryService extends Service{
         });
     }
 
-    getStateCategories(){
+    getState(){
         return categoriesStore.getState().categories;
-    }
-
-    getStateProducts(){
-        return categoriesStore.getState().products;
-    }
-
-    setProductsState(data : ProductOverviewResponse){
-        categoriesStore.dispatch(
-            {
-                type : CATEGORY_ACTION.setProducts,
-                payload : { 
-                    products : {
-                        current_page : data.data.current_page,
-                        last_page: data.data.last_page,
-                        next_page_url : data.data.next_page_url,
-                        prev_page_url : data.data.prev_page_url,
-                        products : data.data.data,
-                    }
-                }
-            }
-        );
     }
 
 }
