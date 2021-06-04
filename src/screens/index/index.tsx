@@ -17,7 +17,7 @@ class Index extends Component<Props> {
 
     constructor(props: Props){
         super(props);
-        if(this.service.getCacheProducts().length <= 0){ // no objects in cache
+        if(this.service.getProductsState().length <= 0){ // no objects in cache
             this.service.getProducts(10).then( response => { //gets products
             }).catch( err => {
                 this.props.navigation.navigate('Modal',{message : 'error'});
@@ -80,10 +80,13 @@ class Index extends Component<Props> {
      */
     displayScreen(){
         // this.props.navigation.navigate('Modal');
+        if(this.service.getProductsState().length === 0){
+            return this.loader();
+        }
         return (
             <View style={styles.display}>
                 <View style={{marginBottom: 20}}>
-                    <ProductListPaginated {...this.props} config={this.getConfig()} items={this.service.getCacheProducts()} loader={this.loader()}></ProductListPaginated>
+                    <ProductListPaginated {...this.props} config={this.getConfig()} items={this.service.getProductsState()} loader={this.loader()}></ProductListPaginated>
                 </View>
             </View>
         )

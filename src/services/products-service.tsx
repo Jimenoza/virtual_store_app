@@ -109,7 +109,7 @@ export class ProductService extends Service{
         return this.store.getState().prev_page_url !== null;
     }
 
-    getCacheProducts(): Product[]{
+    getProductsState(): Product[]{
         return this.store.getState().products;
     }
 
@@ -130,10 +130,6 @@ export class ProductService extends Service{
             products : data.data.data,
         };
         this.store.dispatch({type : PRODUCT_ACTION.set,payload : body});
-    }
-
-    getProductsState(){
-        return this.store.getState();
     }
 
 }

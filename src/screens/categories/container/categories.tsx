@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableHighlight, TouchableWithoutFeedback } from 'react-native';
 import { Colors } from '../../../common/styles';
 import { Icon } from 'react-native-elements';
-import ProductList from '../../product/containers/product-list';
+import ProductListPaginated from '../../product/containers/product-list-paginated';
 import { Category as CatInterface, CategoryResponse, Product, Props } from '../../../interfaces';
 import { CategoryService } from '../../../services/category-service';
 import { ProductService } from '../../../services/products-service';
@@ -98,6 +98,37 @@ class Category extends Component<Props>{
         }
     }
 
+    /**
+     * Goes to next page if there are pages
+     * Also sets previous button enabled or disabled
+     */
+     goToNextPage(){
+        this.productService.getNextPage().then( () => {}).catch( err => {
+            console.log(err);
+            this.props.navigation.navigate('Modal',{message : 'error'})
+        });
+    }
+
+    /**
+     * Goes to previous page if there are pages
+     * Also sets next button enabled or disabled
+     */
+    goToPreviousPage(){
+        this.productService.getPreviousPage().then( () => {}).catch( err => {
+            console.log(err);
+            this.props.navigation.navigate('Modal',{message : 'error'});
+        });
+    }
+
+    getConfig(){
+        return {
+            current_page: this.productService.getCurrentPage(),
+            last_page: this.productService.getLastPage(),
+            onGoPrevious : () => {this.goToPreviousPage()},
+            onGoNext : () => {this.goToNextPage()},
+        }
+    }
+
     render(){
         if(this.state.loading){
             return (<RetryMessage loading={true}></RetryMessage>);
@@ -115,8 +146,9 @@ class Category extends Component<Props>{
                         {this.renderPanel()}
                     </View>
                     <View style={styles.display}>
-                        <ProductList {...this.props} 
-                            items={this.productService.getCacheProducts()}
+                        <ProductListPaginated {...this.props} 
+                            items={this.productService.getProductsState()}
+                            config={this.getConfig()}
                         />
                     </View>
                 </View>    
@@ -165,6 +197,8 @@ const styles = StyleSheet.create({
     },
     display : {
         alignItems: 'center',
+        flex : 1,
+        marginBottom : 10
     },
     underline : {
         borderBottomColor: '#f2f2f2',

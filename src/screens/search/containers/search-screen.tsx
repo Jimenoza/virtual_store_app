@@ -77,7 +77,7 @@ class SearchScreen extends Component<Props>{
         }
         return (
             <ProductListPaginated {...this.props} 
-                items={this.service.getCacheProducts()} 
+                items={this.service.getProductsState()} 
                 config={this.getConfig()}
                 loader={this.displayEmptyList()}
             />

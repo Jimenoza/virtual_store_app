@@ -69,7 +69,7 @@ class SideMenu extends Component<Props>{
           </TouchableHighlight>
 
           <TouchableHighlight underlayColor={Colors.bluePrimary} onPress={ () => {
-            this.service.deleteProducts();
+            // this.service.deleteProducts();
             this.props.navigation.navigate("login")
             }}>
             <View style={styles.option}>
