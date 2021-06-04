@@ -19,8 +19,8 @@ interface ProductListPaginatedProps extends Props {
 }
 
 class ProductListPaginated extends Component<ProductListPaginatedProps>{
-    cartService = CartService.getService() as CartService;
-    // cartService = new CartService();
+    // cartService = CartService.getService() as CartService;
+    cartService = new CartService();
 
     addToCart = (item : Product) => { // item is a Product but it is needed to add loading
         item.loading = true;
@@ -80,15 +80,18 @@ class ProductListPaginated extends Component<ProductListPaginatedProps>{
         )
     }
     render(){
-        return <FlatList
-            keyExtractor={this.keyExtractor}
-            data={this.props.items}
-            renderItem={this.renderItem}
-            ListFooterComponentStyle={{flex:1, justifyContent: 'flex-end'}}
-            ListFooterComponent={this.footer()}
-            ListEmptyComponent={this.props.loader}
-            // extraData={this.state.refresh}
-        />
+        return(
+            <FlatList
+                keyExtractor={this.keyExtractor}
+                data={this.props.items}
+                renderItem={this.renderItem}
+                ListFooterComponentStyle={{ flexGrow: 1, justifyContent: 'flex-end' }}
+                contentContainerStyle={{ flexGrow: 1 }}
+                ListFooterComponent={this.footer()}
+                ListEmptyComponent={this.props.loader}
+                // extraData={this.state.refresh}
+            />
+        )
     }
 }
 

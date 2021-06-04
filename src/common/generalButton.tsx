@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StyleSheet, TouchableHighlight, GestureResponderEvent} from 'react-native';
+import { Text, StyleSheet, TouchableHighlight, GestureResponderEvent, StyleProp} from 'react-native';
 import { Colors } from './styles';
 
 interface Props {

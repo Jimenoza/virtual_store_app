@@ -5,6 +5,7 @@ import { Colors } from '../../../common/styles';
 import { ProductOverviewResponse, Props, Product } from '../../../interfaces';
 import { ProductService } from '../../../services';
 import { productSearchStore } from '../../../redux';
+import { Icon } from 'react-native-elements';
 
 const results: ProductOverviewResponse = {
     "data": {
@@ -82,31 +83,21 @@ const results: ProductOverviewResponse = {
 class SearchScreen extends Component<Props>{
     service = new ProductService(productSearchStore);
 
-    state: { searching : boolean} = {
+    state: { searching : boolean, hasSearched : boolean} = {
         searching: false,
+        hasSearched : false,
     };
     
     search(event: TextInputSubmitEditingEventData){
         this.setState({
             searching : true,
+            hasSearched: true,
         });
         this.service.searchProducts(event.text).then( () => {
             this.setState({
                 searching : false,
             });
         });
-        // if(event){
-        //     this.setState( {
-        //         searching : true,
-        //         products: results,
-        //     });
-        // }
-        // if(!event){
-        //     this.setState( {
-        //         searching : false,
-        //         products: null,
-        //     });
-        // }
     }
     /**
      * Goes to next page if there are pages
@@ -139,6 +130,20 @@ class SearchScreen extends Component<Props>{
         }
     }
 
+    displayEmptyList(){
+        const message = this.state.hasSearched? 'Ooops, no encontramos nada con tu búsqueda' : 'Primero realiza una búsqueda';
+        const icon = this.state.hasSearched? 'cancel' : 'search';
+        return(
+            // <Text>No hay productos</Text>
+            <View style={styles.messageContainer}>
+                <Icon name={icon} size={40} color={Colors.bluePrimary}></Icon>
+                <View style={{width : 250}}>
+                    <Text style={{ fontSize : 20, textAlign: 'center', fontFamily : 'Rubik'}}>{message}</Text>
+                </View>
+            </View>
+        )
+    }
+
     renderResults(){
         if(this.state.searching){
             return (<ActivityIndicator size='large' color={Colors.bluePrimary} animating={true}/>);
@@ -147,7 +152,7 @@ class SearchScreen extends Component<Props>{
             <ProductListPaginated {...this.props} 
                 items={this.service.getCacheProducts()} 
                 config={this.getConfig()}
-                loader={<Text>No hay productos</Text>}
+                loader={this.displayEmptyList()}
             />
         )
     }
@@ -191,8 +196,13 @@ const styles = StyleSheet.create({
     },
     display : {
         alignItems: 'center',
-        backgroundColor: 'red',
-        flex : 1
+        flex : 1,
+        marginBottom : 10,
+    },
+    messageContainer : {
+        flex : 1,
+        justifyContent : 'center',
+        alignItems : 'center'
     }
 });
 
