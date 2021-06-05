@@ -4,3 +4,5 @@ export * from './product/interfaces';
 export * from './product/product-store';
 export * from './categories/interfaces';
 export * from './categories/categories-store';
+export * from './user/interfaces';
+export * from './common-persist';

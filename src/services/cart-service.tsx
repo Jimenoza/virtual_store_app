@@ -2,18 +2,18 @@ import { Service } from './common/service';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Subject } from 'rxjs';
 import { CartResponse, Cart} from '../interfaces/cart-interfaces';
-import { cartStore, CART_ACTION } from '../redux';
+import { combinedStores, CART_ACTION } from '../redux';
 
 export class CartService extends Service{
     cart: CartResponse = null!;
     // cartSubscription = new Subject<any[]>();
 
     subscribe(handler : () => void){
-        cartStore.subscribe(handler);
+        combinedStores.subscribe(handler);
     }
 
     getCart(){
-        return cartStore.getState();
+        return combinedStores.getState().cartReducer;
         // return new Promise((resolve, reject) => {
         //  //    resolve(cart);
         //     AsyncStorage.getItem('cart').then( cart => {
@@ -55,7 +55,7 @@ export class CartService extends Service{
     addItem(id: number): Promise<void>{
         return new Promise( (resolve,reject) => {
             this.http.httpPOST(`/cart/${id}`).then( (response: CartResponse) => {
-                cartStore.dispatch({type : CART_ACTION.set,payload : response.data});
+                combinedStores.dispatch({type : CART_ACTION.set,payload : response.data});
                 resolve();
             }).catch( err => {
                 reject(err)
@@ -66,7 +66,7 @@ export class CartService extends Service{
     removeItem(id: number){
         return new Promise( (resolve,reject) => {
             this.http.httpDELETE(`/cart/${id}`).then( (response: CartResponse) => {
-                cartStore.dispatch({type : CART_ACTION.set,payload : response.data});
+                combinedStores.dispatch({type : CART_ACTION.set,payload : response.data});
                 resolve(response);
             }).catch( err => {
                 reject(err)
@@ -77,7 +77,7 @@ export class CartService extends Service{
     deleteCart(): Promise<void>{
         return new Promise( (resolve,reject) => {
             this.http.httpDELETE('/cart').then( (response: CartResponse) => {
-                cartStore.dispatch({type : CART_ACTION.delete});
+                combinedStores.dispatch({type : CART_ACTION.delete});
                 resolve();
             }).catch(err => {
                 reject(err);

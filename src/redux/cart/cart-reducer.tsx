@@ -1,15 +1,7 @@
 import { CartAction } from './interfaces';
-
-import { persistReducer} from 'redux-persist';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Cart } from '../../interfaces';
 
-const persistConfig = {
-    key: 'root',
-    storage: AsyncStorage,
-}
-
-function cartReducer(state:Cart = { cart : [], total : 0}, action: CartAction) {
+export function cartReducer(state:Cart = { cart : [], total : 0}, action: CartAction) {
   // console.log(state);
   // console.log(action);
     switch (action.type) {
@@ -28,4 +20,4 @@ function cartReducer(state:Cart = { cart : [], total : 0}, action: CartAction) {
     }
 }
 
-export const cartPersitedReducer = persistReducer(persistConfig,cartReducer);
+// export const cartPersitedReducer = persistReducer(persistConfig,cartReducer);
