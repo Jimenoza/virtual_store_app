@@ -52,11 +52,11 @@ export class CartService extends Service{
         })
     }
 
-    addItem(id: number){
+    addItem(id: number): Promise<void>{
         return new Promise( (resolve,reject) => {
             this.http.httpPOST(`/cart/${id}`).then( (response: CartResponse) => {
                 cartStore.dispatch({type : CART_ACTION.set,payload : response.data});
-                resolve(response);
+                resolve();
             }).catch( err => {
                 reject(err)
             });
@@ -74,11 +74,11 @@ export class CartService extends Service{
         });
     }
 
-    deleteCart(){
+    deleteCart(): Promise<void>{
         return new Promise( (resolve,reject) => {
             this.http.httpDELETE('/cart').then( (response: CartResponse) => {
                 cartStore.dispatch({type : CART_ACTION.delete});
-                resolve(response);
+                resolve();
             }).catch(err => {
                 reject(err);
             });

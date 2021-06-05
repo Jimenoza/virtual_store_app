@@ -19,9 +19,7 @@ class ProductList extends Component<ProductListProps>{
 
     addToCart = (item : Product) => { // item is a Product but it is needed to add loading
         item.loading = true;
-        this.cartService.addItem(item.id).then( response => {
-            console.log('response is',response);
-        }).catch( err => {
+        this.cartService.addItem(item.id).then( () => {}).catch( err => {
             // console.log(err);
             this.props.navigation.navigate('Modal',{message : 'error'});
         }).finally( () => {

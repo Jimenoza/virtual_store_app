@@ -24,8 +24,8 @@ class ProductListPaginated extends Component<ProductListPaginatedProps>{
 
     addToCart = (item : Product) => { // item is a Product but it is needed to add loading
         item.loading = true;
-        this.cartService.addItem(item.id).then( response => {
-            console.log('response is',response);
+        this.cartService.addItem(item.id).then( () => {
+            // console.log('response is',response);
         }).catch( err => {
             // console.log(err);
             this.props.navigation.navigate('Modal',{message : 'error'});

@@ -20,8 +20,8 @@ interface State {
 }
 
 class ProductDetail extends Component<Props>{
-    cartService = CartService.getService();
-    // cartService = new CartService();
+    // cartService = CartService.getService();
+    cartService = new CartService();
     service = ProductService.getService() as ProductService;
     state : State = {
         product : null!,
@@ -30,23 +30,6 @@ class ProductDetail extends Component<Props>{
             text : '',
             rate : 0,
         }
-    }
-
-    addToCart(id : string){
-        console.log(id);
-        console.log(this.state.product.product);
-        // item['loading'] = true;
-        // this.cartService.addItem(item.id).then( response => {
-        //     console.log('response is',response);
-        // }).catch( err => {
-        //     // console.log(err);
-        //     this.props.navigation.navigate('Modal',{message : 'error'});
-        // }).finally( () => {
-        //     item['loading'] = false;
-        //     this.setState({
-        //         refresh : !this.state.refresh
-        //     });
-        // });
     }
 
     keyExtractor = (item : any) => item.id.toString();
@@ -59,6 +42,13 @@ class ProductDetail extends Component<Props>{
     setDisplay(){
         this.setState({
             displayComment : !this.state.displayComment
+        });
+    }
+
+    addToCart(item : number){ // item is a Product but it is needed to add loading
+        this.cartService.addItem(item).catch( err => {
+            // console.log(err);
+            this.props.navigation.navigate('Modal',{message : 'error'});
         });
     }
 
@@ -109,7 +99,7 @@ class ProductDetail extends Component<Props>{
                                     <Text style={styles.product_price}>${this.state.product.product.price}</Text>
                                     <ActionButton 
                                         style={[styles.item_add,styles.item_add_text]} 
-                                        onPress={() => {this.addToCart(`${this.state.product.product.id}`)}}
+                                        onPress={() => {this.addToCart(this.state.product.product.id)}}
                                         enabledLabel={'Agregar al Carrito'}
                                         disabledLabel={'Agotado'}
                                         disabled={this.state.product.product.stock === 0}

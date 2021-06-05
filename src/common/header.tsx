@@ -16,16 +16,13 @@ class Header extends Component<Props>{
     // service = CartService.getService() as CartService;
     service = new CartService();
     state = {
-        cartLen : 0
-    };
+        reload : false
+    }
     
     componentDidMount(){
-        this.setState({
-            cartLen : this.service.getCart().cart.length
-        });
         this.service.subscribe( () => {
             this.setState({
-                cartLen : this.service.getCart().cart.length
+                reload : !this.state.reload
             });
         });
     }
@@ -83,7 +80,7 @@ class Header extends Component<Props>{
                                     <Image source={require('../../assets/images/cart.png')}></Image>
                                     <View style={styles.count_container}>
                                         <Text style={styles.cart_size}>
-                                            {this.state.cartLen}
+                                            {this.service.getCart().cart.length}
                                         </Text>
                                     </View>
                                 </View>

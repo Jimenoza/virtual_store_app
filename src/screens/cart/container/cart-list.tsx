@@ -43,12 +43,11 @@ class CartList extends Component<Props> {
         this.setState({
             loading : true
         });
-        this.service.deleteCart().then( res => {
-        }).finally( () => {
+        this.service.deleteCart().then( () => {
             this.setState({
                 loading : false,
             });
-        });
+        })
     }
 
     removeItem(id: number){
