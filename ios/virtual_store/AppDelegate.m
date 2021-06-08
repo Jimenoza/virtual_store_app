@@ -31,12 +31,17 @@ static void InitializeFlipper(UIApplication *application) {
   InitializeFlipper(application);
 #endif
 
-  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions initWithBundleURL:jsCodeLocation moduleProvider:nil];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"virtual_store"
                                             initialProperties:nil];
 
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
+
+  #if RCT_DEV
+  [bridge moduleForClass:[RCTDevLoadingView class]];
+  #endif
+    RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge moduleName:@"virtual_store" initialProperties:nil];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
