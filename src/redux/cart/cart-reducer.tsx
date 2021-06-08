@@ -1,7 +1,12 @@
 import { CartAction } from './interfaces';
 import { Cart } from '../../interfaces';
 
-export function cartReducer(state:Cart = { cart : [], total : 0}, action: CartAction) {
+const INITIAL_STATE: Cart = {
+  cart : [],
+  total : 0,
+}
+
+export function cartReducer(state:Cart = INITIAL_STATE, action: CartAction) {
   // console.log(state);
   // console.log(action);
     switch (action.type) {
@@ -11,7 +16,7 @@ export function cartReducer(state:Cart = { cart : [], total : 0}, action: CartAc
       }
       case 'cart/delete':{
         // console.log(`delete with ${action.type}`);
-        return { cart : [], total : 0};
+        return INITIAL_STATE;
       }
       default:{
         // console.log(`default with ${action.type}`)

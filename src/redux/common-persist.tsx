@@ -9,9 +9,20 @@ const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
 }
+const cartPersistConfig = {
+    key: 'cart',
+    storage: AsyncStorage,
+}
+const userPersistConfig = {
+    key: 'root',
+    storage: AsyncStorage,
+}
 
-const combinedReducers = combineReducers({cartReducer, userReducer})
+const rootReducer = combineReducers({
+    cartState : persistReducer(cartPersistConfig,cartReducer),
+    userState : persistReducer(userPersistConfig,userReducer)
+});
 
-export const combinedPersistedReducers = persistReducer(persistConfig,combinedReducers);
-export const combinedStores = createStore(combinedPersistedReducers);
+export const combinedPersistedReducers = persistReducer(persistConfig,rootReducer);
+export const combinedStores = createStore(rootReducer);
 export const combinedPersitors = persistStore(combinedStores)

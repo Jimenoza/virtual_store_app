@@ -1,5 +1,9 @@
 import { Cart } from '../../interfaces';
 
+export interface CartStateProps {
+    state: Cart,
+}
+
 export enum CART_ACTION {
     add = 'cart/add',
     set = 'cart/set',

@@ -13,7 +13,7 @@ export class CartService extends Service{
     }
 
     getCart(){
-        return combinedStores.getState().cartReducer;
+        return combinedStores.getState().cartState;
         // return new Promise((resolve, reject) => {
         //  //    resolve(cart);
         //     AsyncStorage.getItem('cart').then( cart => {

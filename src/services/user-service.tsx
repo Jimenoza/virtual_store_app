@@ -4,12 +4,32 @@ import { combinedStores, USER_ACTION } from '../redux';
 
 export class UserService extends Service {
 
-    login( email: string, pass : string){
+    login( email: string, pass : string): Promise<void>{
         return new Promise((resolve,reject) => {
             this.http.httpPOST('/login',{ email : email, password : pass}).then( (response: UserResponse) => {
-                console.log(response.data);
-                combinedStores.dispatch({type : USER_ACTION.login, payload : response.data});
+                // console.log(response.data);
+                if(response.error){
+                    reject(response.error);
+                }
+                else {
+                    combinedStores.dispatch({type : USER_ACTION.login, payload : response.data});
+                    resolve();
+                }
+            }).catch( err => {
+                reject(err);
             })
         });
+    }
+
+    getUser(){
+        return combinedStores.getState().userState.user;
+    }
+
+    getToken(){
+        return combinedStores.getState().userState.token;
+    }
+
+    userHasLoggedIn(){
+        return combinedStores.getState().userState.user !== null;
     }
 }

@@ -23,7 +23,14 @@ import AppModal from './src/common/modal/modal';
 import { PersistGate } from 'redux-persist/integration/react'
 import { combinedStores, combinedPersitors } from './src/redux';
 import { Provider } from 'react-redux'
-import { RetryMessage } from './src/common/retry';
+import { UserService } from './src/services';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const user = () => {
+  const user = new UserService().getUser();
+  console.log('user: ',user);
+  return user;
+}
 
 const Drawer = createDrawerNavigator();
 const navigatorStack = createStackNavigator();
@@ -42,11 +49,12 @@ const App: () => React$Node = () => {
 };
 
 function StackNavigator({navigation}){
+  const initialRoute = user() !== null?  'Index' : 'login';
   return (
     
       <SafeAreaView style={{flex:1}}>
         <StatusBar barStyle="dark-content" />
-          <navigatorStack.Navigator screenOptions={{ header: (props) => <Header {...props}/>}} initialRouteName="login">
+          <navigatorStack.Navigator screenOptions={{ header: (props) => <Header {...props}/>}} initialRouteName={initialRoute}>
             <navigatorStack.Screen name="login" component={LoginScreen} options={{headerShown : false}}></navigatorStack.Screen>
             <navigatorStack.Screen name="Index" component={Index} options={{gestureEnabled: false}} ></navigatorStack.Screen>
             <navigatorStack.Screen name="Details" component={ProductDetail}></navigatorStack.Screen>

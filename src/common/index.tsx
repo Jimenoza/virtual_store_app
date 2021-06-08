@@ -1,5 +1,6 @@
 export * from './utils';
-export * from './actionButton';
+export * from './loadingButton';
 export * from './generalButton';
 export * from './retry';
 export * from './styles';
+export * from './alert';

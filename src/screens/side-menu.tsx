@@ -4,15 +4,16 @@ import { DrawerContentScrollView, createDrawerNavigator} from '@react-navigation
 import { NavigationContainer } from '@react-navigation/native'
 import {Icon} from 'react-native-elements';
 import { Colors } from '../common/styles';
-import { ProductService } from '../services/products-service';
 import { Props } from '../interfaces';
+import { UserService, ProductService } from '../services';
 
 const Drawer = createDrawerNavigator();
 
 class SideMenu extends Component<Props>{
   currentCategoryIcon = 'keyboard-arrow-down';
   isCategoryOpen = false;
-  service = ProductService.getService() as ProductService;
+  // service = ProductService.getService() as ProductService;
+  service = new UserService();
 
   toggleCategories(){
     this.isCategoryOpen = !this.isCategoryOpen;
@@ -24,12 +25,23 @@ class SideMenu extends Component<Props>{
     }
   }
 
+  displayUserName(): string{
+    let saludo: string;
+    if(!this.service.getUser()){
+      saludo = 'Hola Usuario'
+    }
+    else{
+      saludo = `Hola ${this.service.getUser()?.name}`;
+    }
+    return saludo;
+  }
+
   render () {
     return (
       <DrawerContentScrollView {...this.props} style={styles.background}>
           <View style={styles.user}>
             <Text style={styles.userName}>
-              Hola Usuario
+              {this.displayUserName()}
             </Text>
           </View>
           <TouchableHighlight underlayColor={Colors.bluePrimary} onPress={ () => { this.props.navigation.navigate("Index")}}>

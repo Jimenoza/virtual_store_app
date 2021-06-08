@@ -8,7 +8,7 @@ import {ProductService} from '../../../services/products-service';
 import { ProductDetail as  ProductDetailType, Comment as CommentType, Props} from '../../../interfaces';
 import RetryMessage from '../../../common/retry';
 import { CartService } from '../../../services/cart-service';
-import ActionButton from '../../../common/actionButton';
+import LoadingButton from '../../../common/loadingButton';
 
 interface State {
     product : ProductDetailType,
@@ -97,7 +97,7 @@ class ProductDetail extends Component<Props>{
                                     <Stars rate={this.state.product.product.average}/>
                                     <Text style={styles.product_text}>{this.state.product.product.description}</Text>
                                     <Text style={styles.product_price}>${this.state.product.product.price}</Text>
-                                    <ActionButton 
+                                    <LoadingButton 
                                         style={[styles.item_add,styles.item_add_text]} 
                                         onPress={() => {this.addToCart(this.state.product.product.id)}}
                                         enabledLabel={'Agregar al Carrito'}

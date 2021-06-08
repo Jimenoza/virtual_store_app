@@ -9,6 +9,9 @@ function AppModal(props: Props){
         error : <ErrorModalCard {...props}>
                     <Text style={styles.message}>Lo sentimos. Hubo un error al establecer conexión con el servidor</Text>
                     <Text style={styles.message}>Intente más tarde</Text>
+                </ErrorModalCard>,
+        login : <ErrorModalCard {...props}>
+                    <Text style={styles.message}>{props.route.params.content}</Text>
                 </ErrorModalCard>
     }
     return (

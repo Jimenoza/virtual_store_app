@@ -2,13 +2,13 @@ import React, {ReactElement} from 'react';
 import { View, Text, StyleSheet, Image, TouchableHighlight, GestureResponderEvent } from 'react-native';
 import {replace_host, Stars} from '../../../common/utils';
 import { Colors } from '../../../common/styles';
-import ActionButton from '../../../common/actionButton';
+import LoadingButton from '../../../common/loadingButton';
 import { Product as ProductInterface} from '../../../interfaces';
 
 interface ProductParams {
     prod : ProductInterface,
     onPress: (event: GestureResponderEvent) => void,
-    onPressAdd: Function,
+    onPressAdd: (event: GestureResponderEvent) => void,
 }
 
 function Product(item : ProductParams): ReactElement{
@@ -35,7 +35,7 @@ function Product(item : ProductParams): ReactElement{
                         <Text style={styles.item_price}>
                             ${item.prod.price}
                         </Text>
-                        <ActionButton 
+                        <LoadingButton 
                             onPress={item.onPressAdd}
                             enabledLabel={'Agregar al Carrito'}
                             disabledLabel={'Agotado'}

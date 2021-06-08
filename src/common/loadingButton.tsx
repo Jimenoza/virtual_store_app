@@ -1,8 +1,18 @@
 import React from 'react';
-import { Text, StyleSheet, TouchableHighlight, ActivityIndicator} from 'react-native';
+import { Text, StyleSheet, TouchableHighlight, ActivityIndicator, GestureResponderEvent} from 'react-native';
 import { Colors } from './styles';
 
-function ActionButton(props: any){
+interface Props {
+    style?: any,
+    enabledLabel?: string,
+    disabledLabel?: string,
+    disabled?: boolean,
+    loading?: boolean,
+    children?: JSX.Element,
+    onPress?: (event: GestureResponderEvent) => void,
+}
+
+function LoadingButton(props: Props){
     // console.log(props);
     const buttonStyles = [styles.item_add,props.style];
     let buttonContent = <Text style={styles.item_add_text}>{props.enabledLabel}</Text>;
@@ -14,8 +24,8 @@ function ActionButton(props: any){
         buttonContent = <ActivityIndicator animating={true} color='white'></ActivityIndicator>;
     }
     return (
-        <TouchableHighlight style={buttonStyles} underlayColor={Colors.darkBlue} onPress={!props.disabled ? props.onPress : null}>
-            {buttonContent}
+        <TouchableHighlight style={buttonStyles} underlayColor={Colors.darkBlue} onPress={!props.disabled ? props.onPress : undefined}>
+            {props.children? (props.loading? buttonContent : props.children) : buttonContent}
         </TouchableHighlight>
     )
 }
@@ -35,4 +45,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ActionButton;
+export default LoadingButton;
