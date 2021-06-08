@@ -28,7 +28,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const user = () => {
   const user = new UserService().getUser();
-  console.log('user: ',user);
   return user;
 }
 
