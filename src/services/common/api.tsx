@@ -12,7 +12,7 @@ type Method = 'GET' | 'POST' | 'DELETE';
 class HttpService {
   baseUrl = replace_host('http://localhost:8000/api');
   error = false;
-  headers = {
+  headers: any = {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
   }
@@ -23,6 +23,12 @@ class HttpService {
       this.instance = new HttpService();
     }
     return this.instance;
+  }
+
+  setHeaders(headers : any){
+    Object.keys(headers).forEach( key => {
+      this.headers[key] = headers[key];
+    });
   }
 
   httpGET(uri : string,useBase: boolean = true): Promise<Response>{
@@ -44,7 +50,7 @@ class HttpService {
     return this.request(`${this.baseUrl}${uri}`,'DELETE');
   }
 
-  request(url : string, method : Method,data = null): Promise<Response>{
+  private request(url : string, method : Method,data = null): Promise<Response>{
     // console.log(`${method} to ${url}`);
     return new Promise( (resolve, reject) => {
       const requestOptions: any = {

@@ -6,3 +6,5 @@ export * from './categories/interfaces';
 export * from './categories/categories-store';
 export * from './user/interfaces';
 export * from './common-persist';
+export * from './orders/interfaces';
+export * from './orders/orders-store';

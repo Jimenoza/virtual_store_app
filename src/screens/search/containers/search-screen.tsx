@@ -6,6 +6,7 @@ import { ProductOverviewResponse, Props, Product } from '../../../interfaces';
 import { ProductService } from '../../../services';
 import { productSearchStore } from '../../../redux';
 import { Icon } from 'react-native-elements';
+import ScreenMessage from '../../../common/screenMessage';
 
 class SearchScreen extends Component<Props>{
     service = new ProductService(productSearchStore);
@@ -62,12 +63,7 @@ class SearchScreen extends Component<Props>{
         const icon = this.state.hasSearched? 'cancel' : 'search';
         return(
             // <Text>No hay productos</Text>
-            <View style={styles.messageContainer}>
-                <Icon name={icon} size={40} color={Colors.bluePrimary}></Icon>
-                <View style={{width : 250}}>
-                    <Text style={{ fontSize : 20, textAlign: 'center', fontFamily : 'Rubik'}}>{message}</Text>
-                </View>
-            </View>
+            <ScreenMessage message={message} iconName={icon}/>
         )
     }
 

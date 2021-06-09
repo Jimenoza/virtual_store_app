@@ -52,33 +52,21 @@ class SideMenu extends Component<Props>{
   }
 
   displayLoginOptions(){
-    if(this.service.userHasLoggedIn()){
-      return(
-        <TouchableHighlight underlayColor={Colors.bluePrimary} onPress={ () => {
-          // this.service.deleteProducts();
-          this.props.navigation.navigate("login")
-          }}>
-          <View style={styles.option}>
-            <Text style={styles.optionText}>
-              Salir
-            </Text>
-            <Icon name='exit-to-app' color='black' size={25} style={styles.icon}/>
-          </View>
-        </TouchableHighlight>
-      );
-    }
-    else {
-      return (
-        <TouchableHighlight underlayColor={Colors.bluePrimary} onPress={ () => {this.props.navigation.navigate("login")}}>
-          <View style={styles.option}>
-            <Text style={styles.optionText}>
-            Iniciar Sesión
-            </Text>
-            <Icon name='login' color='black' size={25} style={styles.icon}/>
-          </View>
-        </TouchableHighlight>
-      );
-    }
+    let content = this.service.userHasLoggedIn()? 'Salir' : 'Iniciar Sesión';
+    let icon = this.service.userHasLoggedIn()? 'exit-to-app' : 'login';
+    return (
+      <TouchableHighlight underlayColor={Colors.bluePrimary} onPress={ () => {
+        // this.service.deleteProducts();
+        this.props.navigation.navigate("login")
+        }}>
+        <View style={styles.option}>
+          <Text style={styles.optionText}>
+          {content}
+          </Text>
+          <Icon name={icon} color='black' size={25} style={styles.icon}/>
+        </View>
+      </TouchableHighlight>
+    );
   }
 
   render () {
