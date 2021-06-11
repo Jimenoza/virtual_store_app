@@ -1,20 +1,42 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
 import { Colors } from '../../../common/styles';
 import ProductList from '../../product/containers/product-list';
 import { Props, OrderDetailedResponse, Product } from '../../../interfaces';
+import { OrderService } from '../../../services';
 
 class OrderDetail extends Component<Props>{
-    products: Product[]; //TODO: change any[] for Product[]
+    service = new OrderService();
+    state : { loading: boolean, products: Product[]  } = {
+        loading : true,
+        products: []
+    }
     constructor(props: any){
         super(props);
-        this.products = products.data;
     }
+
+    componentDidMount(){
+        const orderId = this.props.route.params.order_id;
+        this.service.getOrder(orderId).then( res => {
+            this.setState({
+                products : res,
+                loading : false
+            })
+        });
+    }
+
     render(){
+        if(this.state.loading){
+            return(
+                <View style={styles.centerLoader}>
+                    <ActivityIndicator size='large' color={Colors.bluePrimary} animating={true}/>
+                </View>
+            )
+        }
         return(
             <View style={styles.background}>
                 <View style={styles.display}>
-                    <ProductList {...this.props} items={this.products}/>
+                    <ProductList {...this.props} items={this.state.products}/>
                 </View>
             </View>
         )
@@ -28,7 +50,12 @@ const styles = StyleSheet.create({
     },
     display : {
         alignItems: 'center'
-    }
+    },
+    centerLoader : {
+        marginTop: 20,
+        justifyContent: 'center',
+        flex: 1,
+    },
 })
 
 const products : OrderDetailedResponse = {
