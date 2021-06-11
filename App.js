@@ -10,7 +10,7 @@ import { NavigationContainer, StackActions} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './src/screens/login';
 import Index from './src/screens/index/index';
-import Header from './src/common/header';
+import Header from './src/screens/header';
 import ProductDetail from './src/screens/product/containers/product-detail';
 import CartList from './src/screens/cart/container/cart-list';
 import SearchScreen from './src/screens/search/containers/search-screen'

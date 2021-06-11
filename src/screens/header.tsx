@@ -8,7 +8,7 @@ import {
   TouchableHighlight
 } from 'react-native';
 import {Icon} from 'react-native-elements';
-import { Colors } from './styles';
+import { Colors } from '../common/styles';
 import { CartService } from '../services/cart-service';
 import { Props } from '../interfaces/common';
 
