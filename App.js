@@ -59,8 +59,8 @@ function StackNavigator({navigation}){
             <navigatorStack.Screen name="Details" component={ProductDetail}></navigatorStack.Screen>
             <navigatorStack.Screen name="Cart" component={CartList}></navigatorStack.Screen>
             <navigatorStack.Screen name="Search" component={SearchScreen}></navigatorStack.Screen>
-            <navigatorStack.Screen name="Categories" component={Category}></navigatorStack.Screen>
-            <navigatorStack.Screen name="Orders" component={Orders}></navigatorStack.Screen>
+            <navigatorStack.Screen name="Categories" component={Category} options={{gestureEnabled: false}}></navigatorStack.Screen>
+            <navigatorStack.Screen name="Orders" component={Orders} options={{gestureEnabled: false}}></navigatorStack.Screen>
             <navigatorStack.Screen name="OrderDetail" component={OrderDetail}></navigatorStack.Screen>
           </navigatorStack.Navigator>
         </SafeAreaView>

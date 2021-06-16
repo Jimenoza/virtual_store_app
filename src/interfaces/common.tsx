@@ -1,26 +1,9 @@
-interface Navigation {
-    // addListener: (a: string, e: Function) => Function,
-    addListener: Function,
-    canGoBack: Function,
-    closeDrawer: Function,
-    dangerouslyGetParent: Function,
-    dangerouslyGetState: Function,
-    dispatch: Function,
-    goBack: Function,
-    isFocused: Function,
-    jumpTo: Function,
-    navigate: (name: string,  params?: any) => void,
-    openDrawer: Function,
-    pop: Function,
-    popToTop: Function,
-    push: Function,
-    removeListener: Function,
-    replace: Function,
-    reset: Function,
-    setOptions: Function,
-    setParams: Function,
-    toggleDrawer: Function
-}
+import { CommonActions, StackActions } from '@react-navigation/native';
+import { CompositeNavigationProp } from '@react-navigation/native';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { StackNavigationProp } from '@react-navigation/stack';
+
+export type NavigationProp = CompositeNavigationProp<DrawerNavigationProp<any>,StackNavigationProp<any>>;
 
 export interface Response {
     data : any,
@@ -28,7 +11,7 @@ export interface Response {
 }
 
 export interface Props {
-    navigation: Navigation,
+    navigation: NavigationProp,
     route: {
         key : string,
         name: string,

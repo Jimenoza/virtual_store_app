@@ -1,19 +1,33 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Text, StyleSheet, TouchableHighlight } from 'react-native';
-import { DrawerContentScrollView, createDrawerNavigator} from '@react-navigation/drawer';
+import { DrawerContentScrollView, createDrawerNavigator, DrawerContentComponentProps, DrawerContentOptions} from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native'
 import {Icon} from 'react-native-elements';
 import { Colors } from '../common/styles';
 import { Props } from '../interfaces';
 import { UserService, ProductService } from '../services';
+import { CommonActions, StackActions } from '@react-navigation/native';
 
 const Drawer = createDrawerNavigator();
 
-class SideMenu extends Component<Props>{
+class SideMenu extends Component<DrawerContentComponentProps<DrawerContentOptions>>{
   currentCategoryIcon = 'keyboard-arrow-down';
   isCategoryOpen = false;
   // service = ProductService.getService() as ProductService;
   service = new UserService();
+
+  navigate(screen : string){
+    // console.log('side menu:',this.props.navigation.dangerouslyGetState());
+    // this.props.navigation.dispatch(CommonActions.reset({
+    //   index : 0,
+    //   key : undefined,
+    //   routes : [
+    //     {name : screen}
+    //   ]
+    // }))
+    console.log(this.props.state);
+    this.props.navigation.navigate(screen, { allowGoBack : false});
+  }
 
   toggleCategories(){
     this.isCategoryOpen = !this.isCategoryOpen;
@@ -39,7 +53,7 @@ class SideMenu extends Component<Props>{
   displayOrderOptions(){
     if(this.service.userHasLoggedIn()){
       return (
-        <TouchableHighlight underlayColor={Colors.bluePrimary} onPress={() => { this.props.navigation.navigate("Orders")}}> 
+        <TouchableHighlight underlayColor={Colors.bluePrimary} onPress={() => { this.navigate("Orders")}}> 
           <View style={styles.option}>
             <Text style={styles.optionText}>
             Mis órdenes
@@ -57,7 +71,7 @@ class SideMenu extends Component<Props>{
     return (
       <TouchableHighlight underlayColor={Colors.bluePrimary} onPress={ () => {
         // this.service.deleteProducts();
-        this.props.navigation.navigate("login")
+        this.navigate("login")
         }}>
         <View style={styles.option}>
           <Text style={styles.optionText}>
@@ -77,7 +91,7 @@ class SideMenu extends Component<Props>{
               {this.displayUserName()}
             </Text>
           </View>
-          <TouchableHighlight underlayColor={Colors.bluePrimary} onPress={ () => { this.props.navigation.navigate("Index")}}>
+          <TouchableHighlight underlayColor={Colors.bluePrimary} onPress={ () => { this.navigate("Index")}}>
             <View style={styles.option}>
               <Text style={styles.optionText}>
               Inicio
@@ -88,7 +102,7 @@ class SideMenu extends Component<Props>{
 
           {this.displayOrderOptions()}
 
-          <TouchableHighlight underlayColor={Colors.bluePrimary} onPress={ () => { this.props.navigation.navigate('Categories')}}>
+          <TouchableHighlight underlayColor={Colors.bluePrimary} onPress={ () => { this.navigate('Categories')}}>
             <View style={styles.option}>
               <Text style={styles.optionText}>
               Categorías
