@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 import { Colors } from '../common/styles';
-import { CartService } from '../services/cart-service';
+import { CartService, UserService } from '../services';
 import { Props, NavigationProp } from '../interfaces/common';
 import { StackHeaderProps } from '@react-navigation/stack';
 import { Scene } from '@react-navigation/stack/lib/typescript/src/types';
@@ -23,6 +23,7 @@ interface HeaderProps extends Omit<StackHeaderProps,'navigation'> {
 class Header extends Component<HeaderProps>{
     // service = CartService.getService() as CartService;
     service = new CartService();
+    user = new UserService();
     state = {
         reload : false
     }
@@ -39,7 +40,8 @@ class Header extends Component<HeaderProps>{
         // console.log('params',this.props.scene.route.params);
         //Display back if can go back and params are defined and inside params exists allowGoBack with a false value
         // if( this.props.navigation.canGoBack() && !(this.props.scene.route.params !== undefined && this.props.scene.route.params['allowGoBack'] !== undefined)){
-        if(this.props.navigation.dangerouslyGetState().index > 1){
+        //If a user exists, index = 0 in index screen, if user doesn't exitst index = 1 in index screen
+        if(!this.user.userHasLoggedIn() && this.props.navigation.dangerouslyGetState().index > 1 || this.user.userHasLoggedIn() && this.props.navigation.dangerouslyGetState().index >= 1){
             return <Icon name='arrow-back' color='black' size={40} onPress={() => this.props.navigation.goBack()}/>
         }
         else{

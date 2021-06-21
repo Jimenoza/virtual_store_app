@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, FlatList, TouchableHighlight, ActivityIndicator } from 'react-native';
 import CartItem from '../component/cart-item';
 import {Card, SeparatorLine} from '../../../common/utils';
-import { Colors } from '../../../common/styles';
-import { CartService } from '../../../services/cart-service';
+import { Colors, alert } from '../../../common';
+import { CartService, UserService } from '../../../services';
 import { Product, CartResponse } from '../../../interfaces';
 import RetryMessage from '../../../common/retry';
 import { Props } from '../../../interfaces';
@@ -11,6 +11,7 @@ import Button from '../../../common/generalButton';
 
 class CartList extends Component<Props> {
     service = new CartService();
+    userService = new UserService();
     // service = CartService.getService() as CartService;
     state : { loading : boolean} = {
         loading : false,
@@ -73,6 +74,44 @@ class CartList extends Component<Props> {
         }
     }
 
+    /**
+     * Checks if a user is logged in and navigates to proceed screen, otherwise ask the user to login
+     */
+    proceed(){
+        if(!this.userService.userHasLoggedIn()){
+            alert({
+                title : 'Iniciar Sesión',
+                message : 'Primero inicie sesión para proceder con la orden',
+                options : [
+                    {
+                        style : 'cancel',
+                        text : 'Ok'
+                    },
+                    {
+                        style : 'default',
+                        text : 'Iniciar sesión',
+                        onPress : () => { this.props.navigation.navigate('login')}
+                    },
+                ]
+            })
+        }
+        else if(this.service.getCart().cart.length === 0){
+            alert({
+                title : 'Carrito vacío',
+                message : 'Primero agregue productos al carrito',
+                options : [
+                    {
+                        style : 'cancel',
+                        text : 'Ok'
+                    },
+                ]
+            })
+        }
+        else {
+            this.props.navigation.navigate('Proceed');
+        }
+    }
+
     render(){
         if(!this.service.isApiOk()){
             return(<RetryMessage loading={true}></RetryMessage>);
@@ -102,7 +141,7 @@ class CartList extends Component<Props> {
                         <Button style={styles.delete_cart} underlayColor={Colors.gray} onPress={() => {this.deleteCart()}} disabled={this.state.loading}>
                             <Text style={styles.delete_cart_text}>Eliminar Carrito</Text>
                         </Button>
-                        <Button style={styles.proceed} underlayColor={Colors.darkBlue} disabled={this.state.loading}>
+                        <Button style={styles.proceed} underlayColor={Colors.darkBlue} disabled={this.state.loading} onPress={() => { this.proceed()}}>
                             <Text style={styles.proceed_text}>Proceder con pago</Text>
                         </Button>
                     </View>
@@ -118,7 +157,7 @@ const styles = StyleSheet.create({
         backgroundColor : Colors.backgroundBlue,
     },
     cart_container : {
-        paddingTop: 25,
+        paddingTop: 10,
         paddingLeft: 15,
         paddingRight: 15
     },

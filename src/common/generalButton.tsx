@@ -20,6 +20,9 @@ function Button(props: Props) {
     }
     if(props.style){
         stylesState.push(props.style);
+        if(props.disabled){
+            stylesState.push(styles.inactive);
+        }
     }
     return (
         <TouchableHighlight style={stylesState} underlayColor={props.underlayColor ? props.underlayColor : Colors.underlayLightBlue} onPress={props.onPress} disabled={props.disabled}>
@@ -34,7 +37,7 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         backgroundColor: 'white',
         borderRadius: 5,
-        flex: 1,
+        // flex: 1,
         alignItems : 'center'
     },
     inactive : {

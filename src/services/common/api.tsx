@@ -7,7 +7,7 @@ const CODES = {
   ERROR : 500
 }
 
-type Method = 'GET' | 'POST' | 'DELETE';
+type Method = 'GET' | 'POST' | 'DELETE' | 'PUT';
 
 class HttpService {
   baseUrl = replace_host('http://localhost:8000/api');
@@ -48,6 +48,10 @@ class HttpService {
 
   httpDELETE(uri: string): Promise<Response>{
     return this.request(`${this.baseUrl}${uri}`,'DELETE');
+  }
+
+  httpPUT(uri : string,body: any = null): Promise<Response>{
+    return this.request(`${this.baseUrl}${uri}`,'PUT',body);
   }
 
   private request(url : string, method : Method,data = null): Promise<Response>{

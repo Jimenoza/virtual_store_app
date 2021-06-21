@@ -1,5 +1,5 @@
 import { Service } from './common/service';
-import { Order, OrderDetailedResponse, OrderResponse, Product} from '../interfaces';
+import { Order, OrderDetailedResponse, OrderResponse, Product, CartResponse} from '../interfaces';
 import { combinedStores, ordersStore, ORDER_ACTION } from '../redux';
 
 export class OrderService extends Service {
@@ -37,5 +37,39 @@ export class OrderService extends Service {
 
     getState(): Order[]{
         return ordersStore.getState().orders;
+    }
+
+    generateOrder(address: string): Promise<void>{
+        return new Promise( (resolve,reject) => {
+            this.http.httpGET('/cart').then( (response: CartResponse) => {
+                if(response.data.cart.length === 0){
+                    const cart = {
+                        cart : combinedStores.getState().cartState.cart,
+                        total : combinedStores.getState().cartState.total
+                    }
+                    this.http.httpPUT('/cart',{data : cart}).then( res => {
+                        this.http.httpPOST('/orders', {data : { address : address}}).then( res => {
+                            if(res.data){
+                                resolve();
+                            }
+                            else {
+                                reject();
+                            }
+                        }).catch( err => reject(err));
+                    }).catch( err => { reject(err)});
+                }
+                else{
+                    this.http.httpPOST('/orders', { address : address}).then( res => {
+                        console.log(res);
+                        if(res.data){
+                            resolve();
+                        }
+                        else {
+                            reject();
+                        }
+                    }).catch( err => {console.log(err),reject(err)});
+                }
+            });
+        });
     }
 }

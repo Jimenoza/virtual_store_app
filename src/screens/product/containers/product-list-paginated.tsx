@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignSelf: 'stretch',
         height: 50,
+        flex : 1,
     },
     buttonText : {
         fontSize : 20
@@ -110,10 +111,12 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     marginLeft : {
-        marginLeft : 5
+        marginLeft : 5,
+        flex : 1
     },
     marginRight : {
-        marginRight : 5
+        marginRight : 5,
+        flex : 1
     }
 })
 

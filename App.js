@@ -17,14 +17,14 @@ import SearchScreen from './src/screens/search/containers/search-screen'
 import SideMenu from './src/screens/side-menu';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Category from './src/screens/categories/container/categories';
-import Orders from './src/screens/orders/container/orders'
+import Orders from './src/screens/orders/container/orders';
+import Proceed from './src/screens/cart/proceed';
 import OrderDetail from './src/screens/orders/component/order-detail';
 import AppModal from './src/common/modal/modal';
 import { PersistGate } from 'redux-persist/integration/react'
 import { combinedStores, combinedPersitors } from './src/redux';
 import { Provider } from 'react-redux'
 import { UserService } from './src/services';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const user = () => {
   const user = new UserService().getUser();
@@ -62,6 +62,7 @@ function StackNavigator({navigation}){
             <navigatorStack.Screen name="Categories" component={Category} options={{gestureEnabled: false}}></navigatorStack.Screen>
             <navigatorStack.Screen name="Orders" component={Orders} options={{gestureEnabled: false}}></navigatorStack.Screen>
             <navigatorStack.Screen name="OrderDetail" component={OrderDetail}></navigatorStack.Screen>
+            <navigatorStack.Screen name="Proceed" component={Proceed}></navigatorStack.Screen>
           </navigatorStack.Navigator>
         </SafeAreaView>
     
