@@ -86,7 +86,7 @@ class Index extends Component<Props> {
         return (
             <View style={styles.display}>
                 <View style={{marginBottom: 20}}>
-                    <ProductListPaginated {...this.props} config={this.getConfig()} items={this.service.getProductsState()} loader={this.loader()}></ProductListPaginated>
+                    <ProductListPaginated {...this.props} config={this.getConfig()} items={this.service.getProductsState()} loader={this.loader()}/>
                 </View>
             </View>
         )
