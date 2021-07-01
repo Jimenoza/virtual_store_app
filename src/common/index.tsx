@@ -5,3 +5,4 @@ export * from './retry';
 export * from './styles';
 export * from './alert';
 export * from './screenMessage';
+export * from './inputKeyboard';

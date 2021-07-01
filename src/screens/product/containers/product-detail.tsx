@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Text, View, StyleSheet, Image, ScrollView, TouchableHighlight } from 'react-native';
-import { replace_host, Stars, BottomInputRate} from '../../../common/utils';
+import { replace_host, Stars, BottomInputRate} from '../../../common';
 import { SingleComment } from '../components/comment';
 import Comment from '../components/comment';
 import { Colors } from '../../../common/styles';
@@ -28,8 +28,16 @@ class ProductDetail extends Component<Props>{
         displayComment : false,
         comment : {
             text : '',
-            rate : 0,
+            rate : 1,
         }
+    }
+
+    handleRate(value : any){
+        this.setState({
+            comment : {
+                rate : value
+            }
+        })
     }
 
     keyExtractor = (item : any) => item.id.toString();
@@ -78,7 +86,7 @@ class ProductDetail extends Component<Props>{
             return <Comment body={comment} key={comment.id}/>
         });
         return (
-                <BottomInputRate focus={true} callBackText={(ev : any) => { this.handleText(ev)}} display={this.state.displayComment}>
+                <BottomInputRate focus={true} callBackText={(ev : any) => { this.handleText(ev)}} display={this.state.displayComment} callBackPicker={(value : any) => this.handleRate(value)} selectedValue={this.state.comment.rate}>
                     <ScrollView>
                         <View style={styles.screen_container}>
                             <View style={styles.general_container}>

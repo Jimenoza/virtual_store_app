@@ -297,7 +297,7 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				CB6A4938B0B0D3380D6C3E1A /* [CP] Copy Pods Resources */,
+				E2762B186489F0AE6084F314 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
