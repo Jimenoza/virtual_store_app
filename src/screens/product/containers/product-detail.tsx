@@ -85,6 +85,7 @@ class ProductDetail extends Component<Props>{
             this.setState({
                 loading : false,
                 comments : this.state.comments.concat(response),
+                displayComment: false,
                 allowComment : true,
                 comment : {
                     text : '',
@@ -117,7 +118,7 @@ class ProductDetail extends Component<Props>{
     }
 
     goToScreenEnd(){
-        if(this.state.displayComment && this.userService.getUser() !== null){
+        if(this.userService.getUser() !== null){
             this.scrollView!.scrollToEnd({animated: true});
         }
     }
