@@ -40,6 +40,14 @@ export interface ProductOverviewResponse extends Response {
     data: ProductMetaData
 }
 
+export interface ProductCommentInterface extends Response {
+    data : {
+        result : boolean,
+        comments : {
+            comments : Comment[]},
+    }
+}
+
 export interface Reply {
     id: number,
     reply: string,
@@ -54,7 +62,7 @@ export interface Comment {
     calification: number,
     product_id: number,
     user_id: number,
-    userName: number,
+    userName: string,
     replies: Reply[]
 }
 

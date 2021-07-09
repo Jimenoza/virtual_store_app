@@ -1,7 +1,7 @@
 import HttpService from './common/api';
 import {Service} from './common/service';
-import { ProductOverviewResponse, Product, ProductDetailedResponse, ProductDetail } from '../interfaces';
-import { PRODUCT_ACTION, ProductsIndex, ProductAction } from '../redux';
+import { ProductOverviewResponse, Product, ProductDetailedResponse, ProductDetail,ProductCommentInterface,Comment } from '../interfaces';
+import { PRODUCT_ACTION, ProductsIndex, ProductAction, combinedStores } from '../redux';
 import { Store } from 'redux';
 
 interface Pages {
@@ -13,10 +13,12 @@ interface Pages {
 };
 
 export class ProductService extends Service{
-    store: Store<ProductsIndex, ProductAction>;
-    constructor(store: Store<ProductsIndex, ProductAction>){
+    store?: Store<ProductsIndex, ProductAction>;
+    constructor(store?: Store<ProductsIndex, ProductAction>){
         super();
-        this.store = store;
+        if(store){
+            this.store = store;
+        }
     }
 
     getProducts(amount: number): Promise<void>{
@@ -50,8 +52,11 @@ export class ProductService extends Service{
     }
 
     getNextPage(): Promise<void>{
+        if(!this.store){
+            throw new Error('This method needs store defined to work');
+        }
         return new Promise( (resolve, reject) => {
-            this.http.httpGET(this.store.getState().next_page_url!,false).then( (response : ProductOverviewResponse) => {
+            this.http.httpGET(this.store!.getState().next_page_url!,false).then( (response : ProductOverviewResponse) => {
                 this.setState(response);
                 resolve()
             }).catch( err => {
@@ -61,8 +66,11 @@ export class ProductService extends Service{
     }
 
     getPreviousPage():Promise<void>{
+        if(!this.store){
+            throw new Error('This method needs store defined to work');
+        }
         return new Promise( (resolve, reject) => {
-            this.http.httpGET(this.store.getState().prev_page_url!,false).then( response => {
+            this.http.httpGET(this.store!.getState().prev_page_url!,false).then( response => {
                 this.setState(response);
                 resolve()
             }).catch( err => {
@@ -93,35 +101,79 @@ export class ProductService extends Service{
         });
     }
 
+    rateProduct(product: number,comment: string, rate: number): Promise<Comment[]> {
+        const body = {
+            comment : comment,
+            rate : rate,
+        }
+        return new Promise( (resolve,reject) => {
+            this.http.setHeaders({'Authorization' : `Bearer ${combinedStores.getState().userState.token}`})
+            this.http.httpPOST(`/products/comment/${product}`,body).then( (response: ProductCommentInterface) => {
+                console.log(response);
+                if(response.data.result){
+                    resolve(response.data.comments.comments);
+                }
+                else {
+                    reject();
+                }
+            })
+            .catch( err => { console.error(err); reject(err)})
+        });
+    }
+
     getCurrentPage(): number{
+        if(!this.store){
+            throw new Error('This method needs store defined to work');
+        }
         return this.store.getState().current_page
     }
 
     getLastPage(): number{
+        if(!this.store){
+            throw new Error('This method needs store defined to work');
+        }
         return this.store.getState().last_page;
     }
 
     canGotoNext(): boolean{
+        if(!this.store){
+            throw new Error('This method needs store defined to work');
+        }
         return this.store.getState().next_page_url !== null;
     }
 
     canGoToBack(): boolean{
+        if(!this.store){
+            throw new Error('This method needs store defined to work');
+        }
         return this.store.getState().prev_page_url !== null;
     }
 
     getProductsState(): Product[]{
+        if(!this.store){
+            throw new Error('This method needs store defined to work');
+        }
         return this.store.getState().products;
     }
 
     deleteProducts(): void{
+        if(!this.store){
+            throw new Error('This method needs store defined to work');
+        }
         this.store.dispatch({type : PRODUCT_ACTION.delete});
     }
 
     subscribe(handler : () => void){
+        if(!this.store){
+            throw new Error('This method needs store defined to work');
+        }
         this.store.subscribe(handler);
     }
 
     setState(data : ProductOverviewResponse){
+        if(!this.store){
+            throw new Error('This method needs store defined to work');
+        }
         let body: ProductsIndex = {
             current_page : data.data.current_page,
             last_page: data.data.last_page,

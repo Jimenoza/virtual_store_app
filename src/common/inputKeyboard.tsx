@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, StyleSheet, TextInput,Text,KeyboardAvoidingView, Platform, TouchableHighlight, TouchableWithoutFeedback } from 'react-native';
+import { View, StyleSheet, TextInput,Text,KeyboardAvoidingView, Platform, TouchableHighlight, TouchableWithoutFeedback, NativeSyntheticEvent, TextInputSubmitEditingEventData } from 'react-native';
 import { Colors } from './styles';
 
 interface Props {
@@ -8,7 +8,9 @@ interface Props {
     children : JSX.Element,
     callBackText? : ((text: string) => void),
     callBackPicker? : ((value: number) => void),
-    selectedValue : any
+    callBackEnter? : ((e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => void)
+    selectedValue : any,
+    enabled: boolean,
 }
 
 /**
@@ -25,6 +27,7 @@ function getBehavior(): 'padding' | undefined{
 
 
 export function BottomInputRate(props : Props){
+    let textInput: TextInput | null = null;
     const [displayPanel,setDisplayPanel] = useState<boolean>(false);
     const [rateValue,setRateValue] = useState<number>(0);
 
@@ -34,6 +37,12 @@ export function BottomInputRate(props : Props){
         if(props.callBackPicker){
             props.callBackPicker(value);
         }
+    }
+
+    const disabledStyles : {input : any[],select : any[]} = {input : [styles.input], select : [styles.rateTitle]};
+    if(!props.enabled){
+        disabledStyles.input.push({backgroundColor : Colors.lightGray, borderBottomRightRadius: 0,borderTopRightRadius : 0});
+        disabledStyles.select.push({backgroundColor : Colors.disabled,});
     }
 
     const optionsPanel = () => {
@@ -72,9 +81,17 @@ export function BottomInputRate(props : Props){
     const input = <View style={{height : 50}}>
                     <View style={styles.input_container}>
                         <View style={styles.input_sub_container}>
-                            <TextInput style={styles.input} placeholder='Comentario...' autoFocus={props.focus} onChangeText={props.callBackText}/>
+                            <TextInput editable={props.enabled} style={disabledStyles.input} placeholder='Comentario...' 
+                                autoFocus={props.focus} onChangeText={props.callBackText}
+                                ref={input => { textInput = input }}
+                                onSubmitEditing={(e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
+                                    if(props.callBackEnter){
+                                        props.callBackEnter(e);
+                                        textInput?.clear();
+                                    }
+                                }}/>
                             {/* <Text style={styles.rate}>Reseñas</Text> */}
-                            <TouchableHighlight style={styles.rateTitle} underlayColor={Colors.lightGray} onPress={() => { setDisplayPanel(!displayPanel)}}>
+                            <TouchableHighlight disabled={!props.enabled} style={disabledStyles.select} underlayColor={Colors.lightGray} onPress={() => { setDisplayPanel(!displayPanel)}}>
                                 <View>
                                     {optionsPanel()}
                                     <Text style={{ textAlign : 'center'}}>{displayTitle()}</Text>

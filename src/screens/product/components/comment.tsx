@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import {Text, View, StyleSheet, TouchableHighlight} from 'react-native';
+import {Text, View, StyleSheet, TouchableHighlight, TextInput} from 'react-native';
 import { Stars } from '../../../common/utils';
 import { Colors } from '../../../common/styles';
 import { Comment as CommentType, Reply as ReplyType} from '../../../interfaces';
@@ -21,7 +21,7 @@ function Reply(reply:ReplyProps){
     );
 }
 
-function Comment(props: CommentProps): ReactElement{
+const Comment = (props: CommentProps): ReactElement => {
     const replies_style: any = {
         fontSize: 15,
         fontWeight: '400',
@@ -51,11 +51,11 @@ function Comment(props: CommentProps): ReactElement{
     )
 }
 
-export function SingleComment(props : any){
+export function SingleComment(props : {stars: number, text : string, name : string}){
     return (
         <View style={styles.comments_container}>
             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <Text style={styles.user_name}>Usuario dummy</Text>
+                <Text style={styles.user_name}>{props.name}</Text>
                 <Stars rate={props.stars} size={25}/>
             </View>
             <Text style={styles.comment_text}>{props.text}</Text>  
