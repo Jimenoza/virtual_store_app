@@ -1,27 +1,26 @@
-import React, { ReactElement } from 'react';
-import {Text, View, StyleSheet, TouchableHighlight, TextInput} from 'react-native';
-import { Stars } from '../../../common/utils';
-import { Colors } from '../../../common/styles';
+import React, { ReactElement , useState} from 'react';
+import {Text, View, StyleSheet, TouchableHighlight, TextInput, GestureResponderEvent} from 'react-native';
 import { Comment as CommentType, Reply as ReplyType} from '../../../interfaces';
-
-interface CommentProps {
-    body : CommentType,
-}
+import { Colors, Stars, BottomInput} from '../../../common';
 
 interface ReplyProps {
-    body : ReplyType,
+    body : CommentType,
+    content? : { text : string, user : string}
+    onPress?: ((event: GestureResponderEvent) => void)
+    newReply: boolean;
 }
 
-function Reply(reply:ReplyProps){
+export const SingleReply = ( props : {userName: string, text: string} ): ReactElement => {
     return (
         <View style={styles.replies_container}>
-            <Text style={styles.replies_name}>{reply.body.userName}</Text>
-            <Text style={styles.replies_text}>{reply.body.reply}</Text>   
+            <Text style={styles.replies_name}>{props.userName}</Text>
+            <Text style={styles.replies_text}>{props.text}</Text>   
         </View>
     );
 }
 
-const Comment = (props: CommentProps): ReactElement => {
+const Comment = (props: ReplyProps): ReactElement => {
+    const [newReply,setNewReply] = useState<boolean>(props.newReply);
     const replies_style: any = {
         fontSize: 15,
         fontWeight: '400',
@@ -30,8 +29,27 @@ const Comment = (props: CommentProps): ReactElement => {
         paddingLeft: 10
     };
     const replies = props.body.replies.map( (reply : ReplyType) => {
-        return <Reply body={reply} key={reply.id}/>
+        return <SingleReply text={reply.reply} userName={reply.userName} key={reply.id}/>
     });
+    const displayReply = () => {
+        if(newReply && props.content){
+            return <SingleReply text={props.content.text} userName={props.content.user}/>
+        }
+    }
+    const displayReplyButton = () => {
+        if(!newReply){
+            return (
+                <TouchableHighlight style={styles.reply} underlayColor={Colors.darkBlue} 
+                onPress={(e) => {
+                    setNewReply(true);
+                    if(props.onPress){props.onPress(e)}
+                }}>
+                    <Text style={styles.reply_text}>Dejar una respuesta</Text>
+                </TouchableHighlight>
+            );
+        }
+    }
+
     if(props.body.replies.length === 0){
         replies_style['display'] = 'none';
     }
@@ -44,14 +62,13 @@ const Comment = (props: CommentProps): ReactElement => {
             <Text style={styles.comment_text}>{props.body.comment}</Text>
             <Text style={replies_style}>Respuestas:</Text> 
             {replies}
-            <TouchableHighlight style={styles.reply} underlayColor={Colors.darkBlue}>
-                <Text style={styles.reply_text}>Dejar una respuesta</Text>
-            </TouchableHighlight>  
+            {displayReply()}
+            {displayReplyButton()}
         </View>
     )
 }
 
-export function SingleComment(props : {stars: number, text : string, name : string}){
+export const SingleComment = (props : {stars: number, text : string, name : string}) =>{
     return (
         <View style={styles.comments_container}>
             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>

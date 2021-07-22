@@ -1,6 +1,6 @@
 import HttpService from './common/api';
 import {Service} from './common/service';
-import { ProductOverviewResponse, Product, ProductDetailedResponse, ProductDetail,ProductCommentInterface,Comment } from '../interfaces';
+import { ProductOverviewResponse, Product, ProductDetailedResponse, ProductDetail,ProductCommentInterface,Comment, Reply } from '../interfaces';
 import { PRODUCT_ACTION, ProductsIndex, ProductAction, combinedStores } from '../redux';
 import { Store } from 'redux';
 
@@ -98,26 +98,6 @@ export class ProductService extends Service{
             }).catch( err => {
                 reject(err);
             })
-        });
-    }
-
-    rateProduct(product: number,comment: string, rate: number): Promise<Comment[]> {
-        const body = {
-            comment : comment,
-            rate : rate,
-        }
-        return new Promise( (resolve,reject) => {
-            this.http.setHeaders({'Authorization' : `Bearer ${combinedStores.getState().userState.token}`})
-            this.http.httpPOST(`/products/comment/${product}`,body).then( (response: ProductCommentInterface) => {
-                console.log(response);
-                if(response.data.result){
-                    resolve(response.data.comments.comments);
-                }
-                else {
-                    reject();
-                }
-            })
-            .catch( err => { console.error(err); reject(err)})
         });
     }
 

@@ -7,10 +7,12 @@ interface Props {
     focus : boolean,
     children : JSX.Element,
     callBackText? : ((text: string) => void),
-    callBackPicker? : ((value: number) => void),
     callBackEnter? : ((e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => void)
-    selectedValue : any,
     enabled: boolean,
+}
+interface BottomInputRateProps extends Props{
+    callBackPicker? : ((value: number) => void),
+    selectedValue : any,
 }
 
 /**
@@ -26,7 +28,7 @@ function getBehavior(): 'padding' | undefined{
 
 
 
-export function BottomInputRate(props : Props){
+export function BottomInputRate(props : BottomInputRateProps){
     let textInput: TextInput | null = null;
     const [displayPanel,setDisplayPanel] = useState<boolean>(false);
     const [rateValue,setRateValue] = useState<number>(0);
@@ -90,7 +92,6 @@ export function BottomInputRate(props : Props){
                                         textInput?.clear();
                                     }
                                 }}/>
-                            {/* <Text style={styles.rate}>Reseñas</Text> */}
                             <TouchableHighlight disabled={!props.enabled} style={disabledStyles.select} underlayColor={Colors.lightGray} onPress={() => { setDisplayPanel(!displayPanel)}}>
                                 <View>
                                     {optionsPanel()}
@@ -119,6 +120,52 @@ export function BottomInputRate(props : Props){
         )
     }
 }
+
+export const BottomInput = (props : Props) => {
+    let textInput: TextInput | null = null;
+
+    const disabledStyles : {input : any[],select : any[]} = {input : [styles.input], select : [styles.rateTitle]};
+    if(!props.enabled){
+        disabledStyles.input.push({backgroundColor : Colors.lightGray, borderBottomRightRadius: 0,borderTopRightRadius : 0});
+        disabledStyles.select.push({backgroundColor : Colors.disabled,});
+    }
+    
+    const input = <View style={{height : 50}}>
+                    <View style={styles.input_container}>
+                        <View style={styles.input_sub_container}>
+                            <TextInput editable={props.enabled} style={disabledStyles.input} placeholder='Comentario...' 
+                                autoFocus={props.focus} onChangeText={props.callBackText}
+                                ref={input => { textInput = input }}
+                                onSubmitEditing={(e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
+                                    if(props.callBackEnter){
+                                        props.callBackEnter(e);
+                                        textInput?.clear();
+                                    }
+                                }}/>
+                        </View>
+                    </View>
+                </View>
+    
+    if(props.display){
+        return(
+            <TouchableWithoutFeedback style={styles.absoluteBackroud}>
+                <KeyboardAvoidingView style={{flex : 1}} behavior={getBehavior()} keyboardVerticalOffset={120}>
+                    {props.children}
+                    {input}
+                </KeyboardAvoidingView>
+            </TouchableWithoutFeedback>
+        )
+    }
+    else {
+        return(
+            <KeyboardAvoidingView style={{flex : 1}} behavior={getBehavior()} keyboardVerticalOffset={120}>
+                {props.children}
+            </KeyboardAvoidingView>
+        )
+    }
+}
+
+
 
 const styles = StyleSheet.create({
     section_container : {
