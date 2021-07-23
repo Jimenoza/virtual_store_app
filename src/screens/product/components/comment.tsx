@@ -2,6 +2,7 @@ import React, { ReactElement , useState} from 'react';
 import {Text, View, StyleSheet, TouchableHighlight, TextInput, GestureResponderEvent} from 'react-native';
 import { Comment as CommentType, Reply as ReplyType} from '../../../interfaces';
 import { Colors, Stars, BottomInput} from '../../../common';
+import { ReplyService } from '../../../services';
 
 interface ReplyProps {
     body : CommentType,
@@ -41,6 +42,7 @@ const Comment = (props: ReplyProps): ReactElement => {
             return (
                 <TouchableHighlight style={styles.reply} underlayColor={Colors.darkBlue} 
                 onPress={(e) => {
+                    ReplyService.setSelectedReply(props.body.id);
                     setNewReply(true);
                     if(props.onPress){props.onPress(e)}
                 }}>

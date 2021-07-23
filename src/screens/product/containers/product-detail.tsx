@@ -21,6 +21,7 @@ interface State {
         rate : number
     }
     reply : string,
+    selectedRate?: CommentType,
 }
 
 class ProductDetail extends Component<Props>{
@@ -68,15 +69,15 @@ class ProductDetail extends Component<Props>{
      * Sets the flag displayComment to true or false which displays the input and keyboard according
      * if user is going to rate a product or reply a rate
      */
-     displayKeyboard(type : 'rate' | 'reply'){
+     displayKeyboard(type : 'rate' | 'reply', rateId?: CommentType){
         if(type === 'rate'){
-            this.setState({isRepling : false})
+            this.setState({isRepling : false, selectedRate : rateId})
             this.setState({
                 displayComment : !this.state.displayComment,
             });
         }
         else {
-            this.setState({isRepling : true});
+            this.setState({isRepling : true, selectedRate : rateId});
             this.setState({
                 displayComment : true,
             });
@@ -148,18 +149,21 @@ class ProductDetail extends Component<Props>{
             loading : true, // flag for loading at comments section
             allowComment : false, // if false it does not allow user to use input
         });
-        // this.replyService.leaveReply(1,this.state.reply).then( response => {
-        //     this.setState({
-        //         loading : false,
-        //         comments : this.state.comments.concat(response), // concats current list with new rate
-        //         displayComment: false,
-        //         allowComment : true,
-        //         comment : {
-        //             text : '',
-        //             rate : 0,
-        //         }
-        //     })
-        // });
+        this.replyService.leaveReply(this.state.selectedRate!.id,this.state.reply).then( response => {
+            this.state.selectedRate!.replies = response;
+            this.setState({
+                loading : false,
+                displayComment: false,
+                allowComment : true,
+                comment : {
+                    text : '',
+                    rate : 0,
+                },
+                reply: '',
+                selectedRate: undefined,
+                isRepling: false,
+            });
+        });
         // this.goToScreenEnd();
     }
 
@@ -168,14 +172,16 @@ class ProductDetail extends Component<Props>{
      */
     loadProduct(){
         const id = this.props.route.params.productId;
-        this.service.getProduct(id).then( (response: ProductDetailType) => {
-            this.setState({
-                product : response.product,
-                comments : response.comments,
+        if(!this.state.product){
+            this.service.getProduct(id).then( (response: ProductDetailType) => {
+                this.setState({
+                    product : response.product,
+                    comments : response.comments,
+                });
+            }).catch( err => {
+                console.log(err);
             });
-        }).catch( err => {
-            console.log(err);
-        });
+        }
     }
 
     /**
@@ -202,7 +208,7 @@ class ProductDetail extends Component<Props>{
      */
     displayAllComments(){
         return this.state.comments.map( (comment : CommentType) => {
-            return <Comment content={{text : this.state.reply, user : this.userService.getUser()!.name}} body={comment} key={comment.id} onPress={ () => { this.displayKeyboard('reply')}} newReply={this.state.isRepling}/>
+            return <Comment content={{text : this.state.reply, user : this.userService.getUser()!.name}} body={comment} key={comment.id} onPress={ () => { this.displayKeyboard('reply',comment)}} newReply={this.state.isRepling}/>
         });
     }
 
@@ -262,11 +268,6 @@ class ProductDetail extends Component<Props>{
                             </View>
                             {this.displayAllComments()}
                             {this.displayNewComment()}
-                            {/* <FlatList
-                                keyExtractor={this.keyExtractor}
-                                data={this.state.products}
-                                renderItem={this.renderItem}
-                            /> */}
                         </View>
                     </View>
                 </View>
@@ -292,7 +293,7 @@ class ProductDetail extends Component<Props>{
             <BottomInput focus={true} 
                 callBackText={(ev : any) => { this.handleReply(ev)}} display={this.state.displayComment}
                 enabled={this.state.allowComment}
-                callBackEnter={() => { this.submitRate()}}>
+                callBackEnter={() => { this.submitReply()}}>
                 {this.displayScrollView()}
             </BottomInput>
         );

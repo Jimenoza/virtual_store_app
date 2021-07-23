@@ -8,3 +8,5 @@ export * from './user/interfaces';
 export * from './common-persist';
 export * from './orders/interfaces';
 export * from './orders/orders-store';
+export * from './reply/interfaces';
+export * from './reply/reply-store';

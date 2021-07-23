@@ -74,3 +74,7 @@ export interface ProductDetail{
 export interface ProductDetailedResponse extends Response {
     data: ProductDetail
 }
+
+export interface ReplyResponse extends Response {
+    data: Reply[]
+}
