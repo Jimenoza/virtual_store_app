@@ -1,11 +1,22 @@
 import React, { Component } from 'react';
-import {Text, View, StyleSheet, Image, ScrollView, TouchableHighlight, ActivityIndicator, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
-import { replace_host, Stars, BottomInputRate, BottomInput} from '../../../common';
+import {Text, View,
+    StyleSheet, Image,
+    ScrollView,
+    TouchableHighlight,
+    ActivityIndicator,
+    NativeScrollEvent,
+    NativeSyntheticEvent
+} from 'react-native';
+import { replace_host, Stars, BottomInputRate, BottomInput, alert} from '../../../common';
 import { NewRate } from '../components/comment';
 import Comment from '../components/comment';
 import { Colors } from '../../../common/styles';
 import { ProductService, CartService, UserService, CommentService, ReplyService} from '../../../services';
-import { ProductDetail as  ProductDetailType, Comment as CommentType, Product as  ProductType, Props} from '../../../interfaces';
+import { ProductDetail as  ProductDetailType,
+    Comment as CommentType,
+    Product as  ProductType,
+    Props}
+from '../../../interfaces';
 import RetryMessage from '../../../common/retry';
 import LoadingButton from '../../../common/loadingButton';
 
@@ -68,24 +79,43 @@ class ProductDetail extends Component<Props>{
     }
 
     /**
-     * Sets the flag displayComment to true or false which displays the input and keyboard according
-     * if user is going to rate a product or reply a rate
+     * Verifies an user is logged in, then sets the flag displayComment to true or false 
+     * which displays the input and keyboard according to action (rate or reply)
      */
      displayKeyboard(type : 'rate' | 'reply', rateId?: CommentType){
-        if(type === 'rate' && !rateId){
-            if(!this.state.isRepling){
-                this.setState({
-                    displayComment : !this.state.displayComment,
-                });
-            }
-            this.setState({isRepling : false, selectedRate : rateId}) // rateId is undefined
+        if(!this.userService.userHasLoggedIn()){ //If there is no user
+            alert({
+                title : 'Iniciar Sesión',
+                message : 'Primero inicie sesión para continuar',
+                options : [
+                    {
+                        style : 'cancel',
+                        text : 'Ok'
+                    },
+                    {
+                        style : 'default',
+                        text : 'Iniciar sesión',
+                        onPress : () => { this.props.navigation.navigate('login')}
+                    },
+                ]
+            })
         }
-        else if(rateId){
-            this.setState({isRepling : true, selectedRate : rateId}); // rateId is a CommentType
-            this.setState({
-                displayComment : true,
-            });
-            this.repliesState[rateId.id] = true;
+        else {
+            if(type === 'rate' && !rateId){
+                if(!this.state.isRepling){
+                    this.setState({
+                        displayComment : !this.state.displayComment,
+                    });
+                }
+                this.setState({isRepling : false, selectedRate : rateId}) // rateId is undefined
+            }
+            else if(rateId){
+                this.setState({isRepling : true, selectedRate : rateId}); // rateId is a CommentType
+                this.setState({
+                    displayComment : true,
+                });
+                this.repliesState[rateId.id] = true;
+            }
         }
     }
 
@@ -220,7 +250,9 @@ class ProductDetail extends Component<Props>{
             if(!this.repliesState){
                 this.repliesState[comment.id] = false;
             }
-            return <Comment content={{text : this.state.reply, user : this.userService.getUser()!.name}} body={comment} key={comment.id} onPress={ () => { this.displayKeyboard('reply',comment)}} newReply={this.repliesState[comment.id]}/>
+            return <Comment content={{text : this.state.reply, user : this.userService.getUser()!.name}}
+                body={comment} key={comment.id} newReply={this.repliesState[comment.id] && this.userService.userHasLoggedIn()}
+                onPress={ () => { this.displayKeyboard('reply',comment)}}/>
         });
     }
 

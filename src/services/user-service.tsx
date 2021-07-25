@@ -29,6 +29,11 @@ export class UserService extends Service {
         return combinedStores.getState().userState.token;
     }
 
+    /**
+     * Returns true if the user has logged in (user in session)
+     * Returns false if the user has not logged in or has logged out
+     * @returns boolean
+     */
     userHasLoggedIn(){
         return combinedStores.getState().userState.user !== null;
     }

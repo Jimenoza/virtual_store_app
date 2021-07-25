@@ -6,9 +6,9 @@ import { ReplyService } from '../../../services';
 
 interface ReplyProps {
     body : CommentType,
-    content? : { text : string, user : string}
-    onPress?: ((event: GestureResponderEvent) => void)
-    newReply: boolean;
+    content? : { text : string, user : string},
+    onPress?: ((event: GestureResponderEvent) => void),
+    newReply: boolean,
 }
 
 export const SingleReply = ( props : {userName: string, text: string} ): ReactElement => {
@@ -42,8 +42,9 @@ const Comment = (props: ReplyProps): JSX.Element => {
             return (
                 <TouchableHighlight style={styles.reply} underlayColor={Colors.darkBlue} 
                 onPress={(e) => {
-                    ReplyService.setSelectedReply(props.body.id);
-                    setNewReply(true);
+                    if(!newReply){
+                        setNewReply(true);
+                    }
                     if(props.onPress){props.onPress(e)}
                 }}>
                     <Text style={styles.reply_text}>Dejar una respuesta</Text>
