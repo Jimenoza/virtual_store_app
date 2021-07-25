@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import {Text, View, StyleSheet, Image, ScrollView, TouchableHighlight, ActivityIndicator } from 'react-native';
+import {Text, View, StyleSheet, Image, ScrollView, TouchableHighlight, ActivityIndicator, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { replace_host, Stars, BottomInputRate, BottomInput} from '../../../common';
-import { SingleComment } from '../components/comment';
+import { NewRate } from '../components/comment';
 import Comment from '../components/comment';
 import { Colors } from '../../../common/styles';
 import { ProductService, CartService, UserService, CommentService, ReplyService} from '../../../services';
@@ -31,6 +31,8 @@ class ProductDetail extends Component<Props>{
     commentService = new CommentService();
     replyService = new ReplyService();
     scrollView: ScrollView | null = null;
+    repliesState: any = {};
+    scrollY: number = 0;
     state : State = {
         product : null!,
         comments : [],
@@ -70,17 +72,20 @@ class ProductDetail extends Component<Props>{
      * if user is going to rate a product or reply a rate
      */
      displayKeyboard(type : 'rate' | 'reply', rateId?: CommentType){
-        if(type === 'rate'){
-            this.setState({isRepling : false, selectedRate : rateId})
-            this.setState({
-                displayComment : !this.state.displayComment,
-            });
+        if(type === 'rate' && !rateId){
+            if(!this.state.isRepling){
+                this.setState({
+                    displayComment : !this.state.displayComment,
+                });
+            }
+            this.setState({isRepling : false, selectedRate : rateId}) // rateId is undefined
         }
-        else {
-            this.setState({isRepling : true, selectedRate : rateId});
+        else if(rateId){
+            this.setState({isRepling : true, selectedRate : rateId}); // rateId is a CommentType
             this.setState({
                 displayComment : true,
             });
+            this.repliesState[rateId.id] = true;
         }
     }
 
@@ -189,7 +194,7 @@ class ProductDetail extends Component<Props>{
      */
     displayNewComment(){
         if(this.state.displayComment && this.userService.getUser() !== null && !this.state.isRepling){
-            return <SingleComment text={this.state.comment.text} stars={this.state.comment.rate} name={this.userService.getUser()!.name}/>
+            return <NewRate text={this.state.comment.text} stars={this.state.comment.rate} name={this.userService.getUser()!.name}/>
         }
     }
 
@@ -202,13 +207,20 @@ class ProductDetail extends Component<Props>{
         }
     }
 
+    goToScreenY(){
+        this.scrollView!.scrollTo({y : this.scrollY,animated: true});
+    }
+
     /**
      * Returns a list of comments component
      * @returns JSX.Element[]
      */
     displayAllComments(){
         return this.state.comments.map( (comment : CommentType) => {
-            return <Comment content={{text : this.state.reply, user : this.userService.getUser()!.name}} body={comment} key={comment.id} onPress={ () => { this.displayKeyboard('reply',comment)}} newReply={this.state.isRepling}/>
+            if(!this.repliesState){
+                this.repliesState[comment.id] = false;
+            }
+            return <Comment content={{text : this.state.reply, user : this.userService.getUser()!.name}} body={comment} key={comment.id} onPress={ () => { this.displayKeyboard('reply',comment)}} newReply={this.repliesState[comment.id]}/>
         });
     }
 
@@ -226,13 +238,19 @@ class ProductDetail extends Component<Props>{
         }
     }
 
+    handleScroll(event: NativeSyntheticEvent<NativeScrollEvent>) {
+        // this.setState({ scrollY : event.nativeEvent.contentOffset.y});
+        this.scrollY = event.nativeEvent.contentOffset.y;
+        // console.log(event.nativeEvent.contentOffset.y);
+    }
+
     /**
      * Displays ScrollView with product information, rate and replies
      * @returns Main component
      */
     displayScrollView(){
         return(
-            <ScrollView ref={ref => {this.scrollView = ref}} onContentSizeChange={() => this.goToScreenEnd()}>
+            <ScrollView ref={ref => {this.scrollView = ref}} onScroll={this.handleScroll} onContentSizeChange={() => this.goToScreenEnd()}>
                 <View style={styles.screen_container}>
                     <View style={styles.general_container}>
                             <View style={styles.image_container}>
@@ -275,6 +293,10 @@ class ProductDetail extends Component<Props>{
         );
     }
 
+    /**
+     * Returns ScrollView wrapped in KeyboardAvoidingView with input and menu rate for rating products
+     * @returns JSX.Element
+     */
     displayRateKeyboard(){
         return (
             <BottomInputRate focus={true} 
@@ -287,7 +309,11 @@ class ProductDetail extends Component<Props>{
             </BottomInputRate>
         );
     }
-
+    
+    /**
+     * Returns ScrollView wrapped in KeyboardAvoidingView with input and menu rate for rating
+     * @returns JSX.Element
+     */
     displayReplyKeyboard(){
         return (
             <BottomInput focus={true} 
@@ -299,12 +325,18 @@ class ProductDetail extends Component<Props>{
         );
     }
 
+    /**
+     * Loads product once the screen is mounted
+     */
     componentDidMount(){
         this.loadProduct();
     }
 
+    /**
+     * Goes to end of scroll view once the screen has changed
+     */
     componentDidUpdate(){
-        this.scrollView!.scrollToEnd({animated: true});
+        // this.scrollView!.scrollToEnd({animated: true});
     }
 
     render(){

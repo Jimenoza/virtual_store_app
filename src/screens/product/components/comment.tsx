@@ -20,7 +20,7 @@ export const SingleReply = ( props : {userName: string, text: string} ): ReactEl
     );
 }
 
-const Comment = (props: ReplyProps): ReactElement => {
+const Comment = (props: ReplyProps): JSX.Element => {
     const [newReply,setNewReply] = useState<boolean>(props.newReply);
     const replies_style: any = {
         fontSize: 15,
@@ -70,7 +70,7 @@ const Comment = (props: ReplyProps): ReactElement => {
     )
 }
 
-export const SingleComment = (props : {stars: number, text : string, name : string}) =>{
+export const NewRate = (props : {stars: number, text : string, name : string}) =>{
     return (
         <View style={styles.comments_container}>
             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
