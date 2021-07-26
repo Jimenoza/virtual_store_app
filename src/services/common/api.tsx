@@ -31,6 +31,13 @@ class HttpService {
     });
   }
 
+  resetHeaders(){
+    this.headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  }
+
   httpGET(uri : string,useBase: boolean = true): Promise<Response>{
     let url = '';
     if(useBase){

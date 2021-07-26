@@ -21,6 +21,7 @@ import Orders from './src/screens/orders/container/orders';
 import Proceed from './src/screens/cart/proceed';
 import OrderDetail from './src/screens/orders/component/order-detail';
 import AppModal from './src/common/modal/modal';
+import Register from './src/screens/register/register';
 import { PersistGate } from 'redux-persist/integration/react'
 import { combinedStores, combinedPersitors } from './src/redux';
 import { Provider } from 'react-redux'
@@ -48,21 +49,45 @@ const App: () => React$Node = () => {
 };
 
 function StackNavigator({navigation}){
-  const initialRoute = user() !== null?  'Index' : 'login';
+  const initialRoute = user();
+  const protectedRoutes = (isUser) => {
+    if(isUser){
+      return (
+        <>
+        <navigatorStack.Screen name="Orders" component={Orders} options={{gestureEnabled: false}}></navigatorStack.Screen>
+        <navigatorStack.Screen name="OrderDetail" component={OrderDetail}></navigatorStack.Screen>
+        <navigatorStack.Screen name="Proceed" component={Proceed}></navigatorStack.Screen>
+        </>
+      );
+    }
+  }
+  const mainScreens = (isUser) => {
+    if(isUser){
+      return(
+      <>
+      <navigatorStack.Screen name="Index" component={Index} options={{gestureEnabled: false}} ></navigatorStack.Screen>
+      <navigatorStack.Screen name="login" component={LoginScreen} options={{headerShown : false}}></navigatorStack.Screen>
+      </>)
+    }
+    else {
+      return(
+        <>
+        <navigatorStack.Screen name="login" component={LoginScreen} options={{headerShown : false}}></navigatorStack.Screen>
+        <navigatorStack.Screen name="Index" component={Index} options={{gestureEnabled: false}} ></navigatorStack.Screen>
+        </>)
+    }
+  }
   return (
-    
       <SafeAreaView style={{flex:1}}>
         <StatusBar barStyle="dark-content" />
-          <navigatorStack.Navigator screenOptions={{ header: (props) => <Header {...props}/>}} initialRouteName={initialRoute}>
-            <navigatorStack.Screen name="login" component={LoginScreen} options={{headerShown : false}}></navigatorStack.Screen>
-            <navigatorStack.Screen name="Index" component={Index} options={{gestureEnabled: false}} ></navigatorStack.Screen>
+          <navigatorStack.Navigator screenOptions={{ header: (props) => <Header {...props}/>}}>
+            {mainScreens(user())}
             <navigatorStack.Screen name="Details" component={ProductDetail}></navigatorStack.Screen>
             <navigatorStack.Screen name="Cart" component={CartList}></navigatorStack.Screen>
             <navigatorStack.Screen name="Search" component={SearchScreen}></navigatorStack.Screen>
             <navigatorStack.Screen name="Categories" component={Category} options={{gestureEnabled: false}}></navigatorStack.Screen>
-            <navigatorStack.Screen name="Orders" component={Orders} options={{gestureEnabled: false}}></navigatorStack.Screen>
-            <navigatorStack.Screen name="OrderDetail" component={OrderDetail}></navigatorStack.Screen>
-            <navigatorStack.Screen name="Proceed" component={Proceed}></navigatorStack.Screen>
+            <navigatorStack.Screen name="Register" component={Register}></navigatorStack.Screen>
+            {protectedRoutes(user())}
           </navigatorStack.Navigator>
         </SafeAreaView>
     

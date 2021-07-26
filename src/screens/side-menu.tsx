@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, StyleSheet, TouchableHighlight } from 'react-native';
+import { View, ScrollView, Text, StyleSheet, TouchableHighlight, ActivityIndicator } from 'react-native';
 import { DrawerContentScrollView, createDrawerNavigator, DrawerContentComponentProps, DrawerContentOptions} from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native'
 import {Icon} from 'react-native-elements';
@@ -14,6 +14,9 @@ class SideMenu extends Component<DrawerContentComponentProps<DrawerContentOption
   currentCategoryIcon = 'keyboard-arrow-down';
   isCategoryOpen = false;
   // service = ProductService.getService() as ProductService;
+  state = {
+    loader : false,
+  }
   service = new UserService();
 
   navigate(screen : string){
@@ -25,7 +28,6 @@ class SideMenu extends Component<DrawerContentComponentProps<DrawerContentOption
     //     {name : screen}
     //   ]
     // }))
-    console.log(this.props.state);
     this.props.navigation.navigate(screen, { allowGoBack : false});
   }
 
@@ -65,13 +67,26 @@ class SideMenu extends Component<DrawerContentComponentProps<DrawerContentOption
     }
   }
 
+  logOut(){
+    if(this.service.userHasLoggedIn()){
+      this.setState({ loader : true});
+      this.service.logOut().then( () => {
+        this.setState({ loader : false});
+        this.navigate("login")
+      });
+    }
+    else{
+      this.navigate("login");
+    }
+  }
+
   displayLoginOptions(){
     let content = this.service.userHasLoggedIn()? 'Salir' : 'Iniciar Sesión';
     let icon = this.service.userHasLoggedIn()? 'exit-to-app' : 'login';
     return (
       <TouchableHighlight underlayColor={Colors.bluePrimary} onPress={ () => {
         // this.service.deleteProducts();
-        this.navigate("login")
+        this.logOut();
         }}>
         <View style={styles.option}>
           <Text style={styles.optionText}>
@@ -83,9 +98,16 @@ class SideMenu extends Component<DrawerContentComponentProps<DrawerContentOption
     );
   }
 
+  load(){
+    if(this.state.loader){
+      return <ActivityIndicator style={styles.loader}></ActivityIndicator>
+    }
+  }
+
   render () {
     return (
       <DrawerContentScrollView {...this.props} style={styles.background}>
+        {this.load()}
           <View style={styles.user}>
             <Text style={styles.userName}>
               {this.displayUserName()}
@@ -149,8 +171,17 @@ const styles = StyleSheet.create({
   },
   icon : {
     marginRight: 20,
+  },
+  loader : {
+    alignSelf: 'stretch',
+    backgroundColor : Colors.darkGrayTranslucid,
+    height: 900,
+    width: 300,
+    position : 'absolute',
+    top: 0,
+    left : 0,
+    zIndex: 10
   }
-
 })
 
 export default SideMenu;
