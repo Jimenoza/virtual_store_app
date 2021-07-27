@@ -75,7 +75,12 @@ class LoginScreen extends Component<Props>{
         loading : true
       });
       this.service.login(this.state.email!,this.state.password!).then(() => {
-        this.props.navigation.navigate('Index');
+        this.props.navigation.reset({
+          index: 1,
+          routes: [
+            { name: 'Index' },
+          ],
+        });
       }).catch( err => {
         this.getDisplayAlert('Usuario o contraseña son incorrectos');
         this.setState({

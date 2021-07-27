@@ -67,12 +67,21 @@ class SideMenu extends Component<DrawerContentComponentProps<DrawerContentOption
     }
   }
 
+  /**
+   * Function for redirecting to login screen if there is no user or logs out a user
+   */
   logOut(){
-    if(this.service.userHasLoggedIn()){
-      this.setState({ loader : true});
+    if(this.service.userHasLoggedIn()){// there is a user
+      this.setState({ loader : true}); 
       this.service.logOut().then( () => {
         this.setState({ loader : false});
-        this.navigate("login")
+        this.props.navigation.closeDrawer(); // closes the side menu
+        this.props.navigation.reset({ // resets the stack navigator and goes to login screen
+          index: 1,
+          routes: [
+            { name: 'login' },
+          ],
+        });
       });
     }
     else{
