@@ -6,7 +6,7 @@ export class UserService extends Service {
 
     login( email: string, pass : string): Promise<void>{
         return new Promise((resolve,reject) => {
-            this.http.httpPOST('/login',{ email : email, password : pass}).then( (response: UserResponse) => {
+            this.http.httpPOST('/dummy/login',{ email : email, password : pass}).then( (response: UserResponse) => {
                 // console.log(response.data);
                 if(response.error){
                     reject(response.error);
@@ -26,7 +26,7 @@ export class UserService extends Service {
         return new Promise((resolve,reject) => {
             this.http.setHeaders({'Authorization' : `Bearer ${combinedStores.getState().userState.token}`});
             // console.log({'Authorization' : `Bearer ${combinedStores.getState().userState.token}`});
-            this.http.httpPOST('/logout').then( (response) => {
+            this.http.httpPOST('/dummy/logout').then( (response) => {
                 if(response.error){
                     reject(response.error);
                 }
