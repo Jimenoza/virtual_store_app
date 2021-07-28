@@ -112,7 +112,7 @@ class LoginScreen extends Component<Props>{
             <Text style={styles.logo}>
               Tienda Virtual
             </Text>
-            <TextInput style={styles.input} autoCapitalize={'none'} placeholder="Usuario" autoCompleteType={'email'} onChangeText={ e => {this.handleEmail(e)}}/>
+            <TextInput style={styles.input} autoCapitalize={'none'} placeholder="Correo" autoCompleteType={'email'} onChangeText={ e => {this.handleEmail(e)}}/>
             <TextInput style={styles.input} autoCapitalize={'none'} placeholder="Contraseña" secureTextEntry={true} onChangeText={ e => {this.handlePassword(e)}}/>
             <LoadingButton style={styles.login} onPress={ () => {this.login()}} loading={this.state.loading}>
               <Text style={styles.text}>Ingresar</Text>
@@ -120,7 +120,7 @@ class LoginScreen extends Component<Props>{
             {/* <TouchableHighlight style={styles.login} underlayColor={Colors.darkBlue} onPress={ () => { console.log('Login!')}}>
               <Text style={styles.text}>Ingresar</Text>
             </TouchableHighlight> */}
-            <TouchableHighlight style={styles.login} underlayColor={Colors.darkBlue} onPress={ () => { console.log('Registered')}}>
+            <TouchableHighlight style={styles.login} underlayColor={Colors.darkBlue} onPress={ () => { this.props.navigation.navigate('Register')}}>
               <Text style={styles.text}>Registrarme</Text>
             </TouchableHighlight>
             <TouchableHighlight style={styles.guest} underlayColor={Colors.darkBlue} onPress={ () => { this.loginGuest()}}>

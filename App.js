@@ -86,7 +86,7 @@ function StackNavigator({navigation}){
             <navigatorStack.Screen name="Cart" component={CartList}></navigatorStack.Screen>
             <navigatorStack.Screen name="Search" component={SearchScreen}></navigatorStack.Screen>
             <navigatorStack.Screen name="Categories" component={Category} options={{gestureEnabled: false}}></navigatorStack.Screen>
-            <navigatorStack.Screen name="Register" component={Register}></navigatorStack.Screen>
+            <navigatorStack.Screen name="Register" component={Register} options={{headerShown : false}}></navigatorStack.Screen>
             {protectedRoutes(user())}
           </navigatorStack.Navigator>
         </SafeAreaView>
