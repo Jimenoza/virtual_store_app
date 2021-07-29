@@ -3,7 +3,7 @@ import { View, ScrollView, Text, StyleSheet, TouchableHighlight, ActivityIndicat
 import { DrawerContentScrollView, createDrawerNavigator, DrawerContentComponentProps, DrawerContentOptions} from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native'
 import {Icon} from 'react-native-elements';
-import { Colors } from '../common/styles';
+import { Colors, alert } from '../common';
 import { Props } from '../interfaces';
 import { UserService, ProductService } from '../services';
 import { CommonActions, StackActions } from '@react-navigation/native';
@@ -72,7 +72,7 @@ class SideMenu extends Component<DrawerContentComponentProps<DrawerContentOption
    */
   logOut(){
     if(this.service.userHasLoggedIn()){// there is a user
-      this.setState({ loader : true}); 
+      this.setState({ loader : true});
       this.service.logOut().then( () => {
         this.setState({ loader : false});
         this.props.navigation.closeDrawer(); // closes the side menu
@@ -81,6 +81,17 @@ class SideMenu extends Component<DrawerContentComponentProps<DrawerContentOption
           routes: [
             { name: 'login' },
           ],
+        });
+      }).catch(err => {
+        this.setState({loader : false});
+        alert({
+          title : 'Cerrar Sesión',
+          message : 'No se pudo cerrar su cuenta, intente más tarde',
+          options : [
+            {
+              text : 'Ok'
+            }
+          ]
         });
       });
     }
@@ -98,6 +109,7 @@ class SideMenu extends Component<DrawerContentComponentProps<DrawerContentOption
         this.logOut();
         }}>
         <View style={styles.option}>
+          {this.load()}
           <Text style={styles.optionText}>
           {content}
           </Text>
@@ -109,14 +121,13 @@ class SideMenu extends Component<DrawerContentComponentProps<DrawerContentOption
 
   load(){
     if(this.state.loader){
-      return <ActivityIndicator style={styles.loader}></ActivityIndicator>
+      return <ActivityIndicator style={styles.loader} color={'white'} size={'large'}></ActivityIndicator>
     }
   }
 
   render () {
     return (
       <DrawerContentScrollView {...this.props} style={styles.background}>
-        {this.load()}
           <View style={styles.user}>
             <Text style={styles.userName}>
               {this.displayUserName()}
@@ -184,7 +195,7 @@ const styles = StyleSheet.create({
   loader : {
     alignSelf: 'stretch',
     backgroundColor : Colors.darkGrayTranslucid,
-    height: 900,
+    height: 50,
     width: 300,
     position : 'absolute',
     top: 0,
