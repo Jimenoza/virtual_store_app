@@ -250,8 +250,12 @@ class ProductDetail extends Component<Props>{
             if(!this.repliesState){
                 this.repliesState[comment.id] = false;
             }
-            return <Comment content={{text : this.state.reply, user : this.userService.getUser()!.name}}
+            if(this.userService.getUser()){
+                return <Comment content={{text : this.state.reply, user : this.userService.getUser()!.name}}
                 body={comment} key={comment.id} newReply={this.repliesState[comment.id] && this.userService.userHasLoggedIn()} //User has tapped on "Dejar una respuesta" and there is a user logged
+                onPress={ () => { this.displayKeyboard('reply',comment)}}/>
+            }
+            return <Comment body={comment} key={comment.id} newReply={this.repliesState[comment.id] && this.userService.userHasLoggedIn()} //User has tapped on "Dejar una respuesta" and there is a user logged
                 onPress={ () => { this.displayKeyboard('reply',comment)}}/>
         });
     }

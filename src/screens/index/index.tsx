@@ -85,7 +85,7 @@ class Index extends Component<Props> {
         }
         return (
             <View style={styles.display}>
-                <View style={{marginBottom: 20}}>
+                <View style={{marginBottom: 20, alignSelf : 'stretch'}}>
                     <ProductListPaginated {...this.props} config={this.getConfig()} items={this.service.getProductsState()} loader={this.loader()}/>
                 </View>
             </View>
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
         backgroundColor : Colors.backgroundBlue
     },
     display : {
-        alignItems: 'center'
+        alignItems: 'center',
     },
     centerLoader : {
         marginTop: 20,

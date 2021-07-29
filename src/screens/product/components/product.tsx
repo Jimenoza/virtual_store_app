@@ -52,12 +52,12 @@ function Product(item : ProductParams): ReactElement{
 const styles = StyleSheet.create({
     container : {
         backgroundColor: 'white',
-        width: 380,
+        width: '100%',
         height: 150,
         marginTop: 20,
         borderRadius: 8,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     item_container : {
         backgroundColor: 'white',

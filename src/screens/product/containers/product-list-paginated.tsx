@@ -58,7 +58,7 @@ class ProductListPaginated extends Component<ProductListPaginatedProps>{
 
     footer(){
         return(
-            <View style={{width : 380}}>
+            <View style={{width :'100%'}}>
                 <Card style={{marginTop : 20,marginBottom: 10}}>
                     <Text>Resutados página {this.props.config.current_page.toString()} de {this.props.config.last_page.toString()}</Text>
                 </Card>
@@ -89,6 +89,7 @@ class ProductListPaginated extends Component<ProductListPaginatedProps>{
                 contentContainerStyle={{ flexGrow: 1 }}
                 ListFooterComponent={this.footer()}
                 ListEmptyComponent={this.props.loader}
+                style={{paddingLeft : 20, paddingRight: 20}}
                 // extraData={this.state.refresh}
             />
         )
