@@ -146,10 +146,12 @@ class Category extends Component<Props>{
                         {this.renderPanel()}
                     </View>
                     <View style={styles.display}>
-                        <ProductListPaginated {...this.props} 
-                            items={this.productService.getProductsState()}
-                            config={this.getConfig()}
-                        />
+                        <View style={{height : '100%', alignSelf : 'stretch'}}>
+                            <ProductListPaginated {...this.props} 
+                                items={this.productService.getProductsState()}
+                                config={this.getConfig()}
+                            />
+                        </View>
                     </View>
                 </View>    
             </TouchableWithoutFeedback>

@@ -46,6 +46,7 @@ class ProductList extends Component<ProductListProps>{
             ListFooterComponent={this.props.footer}
             ListEmptyComponent={this.props.loader}
             extraData={this.state.refresh}
+            style={{paddingLeft : 20, paddingRight: 20}}
         />
     }
 }

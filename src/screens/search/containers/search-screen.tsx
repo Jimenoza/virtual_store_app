@@ -72,11 +72,13 @@ class SearchScreen extends Component<Props>{
             return (<ActivityIndicator size='large' color={Colors.bluePrimary} animating={true}/>);
         }
         return (
-            <ProductListPaginated {...this.props} 
-                items={this.service.getProductsState()} 
-                config={this.getConfig()}
-                loader={this.displayEmptyList()}
-            />
+            <View style={{height : '100%', alignSelf : 'stretch'}}>
+                <ProductListPaginated {...this.props} 
+                    items={this.service.getProductsState()} 
+                    config={this.getConfig()}
+                    loader={this.displayEmptyList()}
+                />
+            </View>
         )
     }
 

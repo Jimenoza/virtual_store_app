@@ -36,7 +36,9 @@ class OrderDetail extends Component<Props>{
         return(
             <View style={styles.background}>
                 <View style={styles.display}>
-                    <ProductList {...this.props} items={this.state.products}/>
+                    <View style={{height : '100%', alignSelf : 'stretch'}}>
+                        <ProductList {...this.props} items={this.state.products}/>
+                    </View>
                 </View>
             </View>
         )
