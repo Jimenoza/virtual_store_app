@@ -12,7 +12,7 @@ import { productStore } from '../../redux';
 class Index extends Component<Props> {
     service = new ProductService(productStore)// Casting
     state = {
-        loading : false,
+        loading : true,
     }
 
     constructor(props: Props){
@@ -23,7 +23,7 @@ class Index extends Component<Props> {
                 this.props.navigation.navigate('Modal',{message : 'error'});
                 this.setState({
                     loading : false
-                })
+                });
             });
         }
         this.service.subscribe( () => {
@@ -39,9 +39,16 @@ class Index extends Component<Props> {
      * Also sets previous button enabled or disabled
      */
     goToNextPage(){
+        this.setState({
+            loading : true,
+        });
         this.service.getNextPage().then( response => {}).catch( err => {
             console.log(err);
             this.props.navigation.navigate('Modal',{message : 'error'})
+        }).finally( () => {
+            this.setState({
+                loading : false,
+            });
         });
     }
 
@@ -50,9 +57,16 @@ class Index extends Component<Props> {
      * Also sets next button enabled or disabled
      */
     goToPreviousPage(){
+        this.setState({
+            loading : true,
+        });
         this.service.getPreviousPage().then( response => {}).catch( err => {
             console.log(err);
             this.props.navigation.navigate('Modal',{message : 'error'});
+        }).finally( () => {
+            this.setState({
+                loading : false,
+            });
         });
     }
 
@@ -80,7 +94,7 @@ class Index extends Component<Props> {
      */
     displayScreen(){
         // this.props.navigation.navigate('Modal');
-        if(this.service.getProductsState().length === 0){
+        if(this.state.loading){
             return this.loader();
         }
         return (
