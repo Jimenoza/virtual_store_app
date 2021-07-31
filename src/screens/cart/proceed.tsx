@@ -16,22 +16,11 @@ class Proceed extends Component<Props> {
      * Handles what the user types in textbox
      * @param event
      */
-    handleAddress(event: TextInputSubmitEditingEventData){
-        if(!event.text){ // empty string
-            this.setState({
-                address : undefined,
-            });
-        }
-        else if(this.state.address != undefined){ // User has typed something
-            this.setState({
-                address : this.state.address += event.text,
-            });
-        }
-        else {
-            this.setState({
-                address : event.text, // initial state
-            });
-        }
+    handleAddress(event: string){
+        this.setState({
+            address : event, // user types
+        });
+        // console.log(this.state.address);
     }
 
     /**
@@ -140,7 +129,7 @@ class Proceed extends Component<Props> {
                         
                         <Card style={{paddingLeft : 15,paddingRight : 15}}>
                             <Text style={styles.priceTitle}>Dirección de envío</Text>
-                                <TextInput style={styles.input} placeholder="Dirección" multiline={true} numberOfLines={4} focusable={true} onTextInput={(ev) => this.handleAddress(ev.nativeEvent)}></TextInput>
+                                <TextInput style={styles.input} placeholder="Dirección" multiline={true} numberOfLines={4} focusable={true} onChangeText={(ev) => this.handleAddress(ev)}></TextInput>
                         </Card>
                         <View style={{flex : 1, justifyContent : 'center'}}>
                             <Button disabled={this.state.address === undefined} style={styles.proceed} onPress={() => {this.generateOrder()}}>
@@ -213,7 +202,8 @@ const styles = StyleSheet.create({
         fontSize: 15,
         paddingLeft: 10,
         paddingRight : 10,
-        color: Colors.darkGray
+        color: Colors.darkGray,
+        textAlignVertical: 'top'
     },
     proceed : {
         backgroundColor: Colors.bluePrimary,
