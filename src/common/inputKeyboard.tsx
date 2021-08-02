@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import { View, StyleSheet, TextInput,Text,KeyboardAvoidingView, Platform, TouchableHighlight, TouchableWithoutFeedback, NativeSyntheticEvent, TextInputSubmitEditingEventData } from 'react-native';
+import { View, StyleSheet, TextInput,Text,
+        KeyboardAvoidingView, Platform,
+        TouchableHighlight,
+        TouchableWithoutFeedback,
+        NativeSyntheticEvent,
+        TextInputSubmitEditingEventData
+} from 'react-native';
+import { TouchableOpacity} from 'react-native-gesture-handler'
 import { Colors } from './styles';
 
 interface Props {
@@ -49,25 +56,22 @@ export function BottomInputRate(props : BottomInputRateProps){
 
     const optionsPanel = () => {
         if(displayPanel){
-            return (
-                <View style={styles.rateContainer}>
-                    <TouchableHighlight underlayColor={Colors.backgroundBlue} style={styles.rateOption} onPress={() => assingValue(1)}>
-                        <Text style={styles.rateValue}>1</Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight underlayColor={Colors.backgroundBlue} style={styles.rateOption} onPress={() => assingValue(2)}>
-                        <Text style={styles.rateValue}>2</Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight underlayColor={Colors.backgroundBlue} style={styles.rateOption} onPress={() => assingValue(3)}>
-                        <Text style={styles.rateValue}>3</Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight underlayColor={Colors.backgroundBlue} style={styles.rateOption} onPress={() => assingValue(4)}>
-                        <Text style={styles.rateValue}>4</Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight underlayColor={Colors.backgroundBlue} style={styles.rateOption} onPress={() => assingValue(5)}>
-                        <Text style={styles.rateValue}>5</Text>
-                    </TouchableHighlight>
-                </View>
-            );
+            const options: JSX.Element[] = [];
+            if(Platform.OS === 'android'){
+                for(let i = 0; i < 5; i++){
+                    options.push(<TouchableOpacity style={styles.rateOption} onPress={() => assingValue(i + 1)} key={i}>
+                                    <Text style={styles.rateValue}>{i + 1}</Text>
+                                </TouchableOpacity>)
+                }
+            }
+            else if(Platform.OS === 'ios'){
+                for(let i = 0; i < 5; i++){
+                    options.push(<TouchableHighlight underlayColor={Colors.backgroundBlue} style={styles.rateOption} onPress={() => assingValue(i + 1)} key={i}>
+                                    <Text style={styles.rateValue}>{i + 1}</Text>
+                                </TouchableHighlight>)
+                }
+            }
+            return options;
         }
     }
 
@@ -94,7 +98,9 @@ export function BottomInputRate(props : BottomInputRateProps){
                                 }}/>
                             <TouchableHighlight disabled={!props.enabled} style={disabledStyles.select} underlayColor={Colors.lightGray} onPress={() => { setDisplayPanel(!displayPanel)}}>
                                 <View>
-                                    {optionsPanel()}
+                                    <View style={styles.rateContainer}>
+                                        {optionsPanel()}
+                                    </View>
                                     <Text style={{ textAlign : 'center'}}>{displayTitle()}</Text>
                                 </View>
                             </TouchableHighlight>
@@ -104,12 +110,12 @@ export function BottomInputRate(props : BottomInputRateProps){
     
     if(props.display){
         return(
-            <TouchableWithoutFeedback style={styles.absoluteBackroud} onPress={() => {setDisplayPanel(false)}}>
+            // <TouchableWithoutFeedback style={styles.absoluteBackroud} onPress={() => {setDisplayPanel(false)}}>
                 <KeyboardAvoidingView style={{flex : 1}} behavior={getBehavior()} keyboardVerticalOffset={120}>
                     {props.children}
                     {input}
                 </KeyboardAvoidingView>
-            </TouchableWithoutFeedback>
+            // </TouchableWithoutFeedback>
         )
     }
     else {
@@ -238,7 +244,8 @@ const styles = StyleSheet.create({
         position : 'absolute',
         bottom: 25,
         borderTopRightRadius: 10,
-        borderTopLeftRadius: 10
+        borderTopLeftRadius: 10,
+        zIndex: 40,
     },
     rateOption : {
         width: 95,
@@ -246,9 +253,10 @@ const styles = StyleSheet.create({
         display: 'flex',
         flex : 1,
         justifyContent : 'center',
-        alignItems : 'center'
+        alignItems : 'center',
+        position: 'relative'
     },
     rateValue : {
-        fontWeight : 'bold'
+        fontWeight : 'bold',
     }
 })
