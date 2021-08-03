@@ -82,7 +82,7 @@ class ProductDetail extends Component<Props>{
      * Verifies an user is logged in, then sets the flag displayComment to true or false 
      * which displays the input and keyboard according to action (rate or reply)
      */
-     displayKeyboard(type : 'rate' | 'reply', rateId?: CommentType){
+     displayKeyboard(type : 'rate' | 'reply', parentRate?: CommentType){
         if(!this.userService.userHasLoggedIn()){ //If there is no user
             alert({
                 title : 'Iniciar Sesión',
@@ -101,20 +101,20 @@ class ProductDetail extends Component<Props>{
             })
         }
         else {
-            if(type === 'rate' && !rateId){
+            if(type === 'rate' && !parentRate){ //User is going to rate a product, a entity Comment is not needed
                 if(!this.state.isRepling){
                     this.setState({
                         displayComment : !this.state.displayComment,
                     });
                 }
-                this.setState({isRepling : false, selectedRate : rateId}) // rateId is undefined
+                this.setState({isRepling : false, selectedRate : parentRate}) // rateId is undefined
             }
-            else if(rateId){
-                this.setState({isRepling : true, selectedRate : rateId}); // rateId is a CommentType
+            else if(parentRate){ // User is going to leave a reply and its parentRate is needed
+                this.setState({isRepling : true, selectedRate : parentRate}); // rateId is a CommentType
                 this.setState({
                     displayComment : true,
                 });
-                this.repliesState[rateId.id] = true;
+                this.repliesState[parentRate.id] = true;
             }
         }
     }
@@ -185,6 +185,7 @@ class ProductDetail extends Component<Props>{
             allowComment : false, // if false it does not allow user to use input
         });
         this.replyService.leaveReply(this.state.selectedRate!.id,this.state.reply).then( response => {
+            this.repliesState[this.state.selectedRate!.id] = false;
             this.state.selectedRate!.replies = response;
             this.setState({
                 loading : false,
@@ -199,7 +200,7 @@ class ProductDetail extends Component<Props>{
                 isRepling: false,
             });
         });
-        // this.goToScreenEnd();
+        // this.goToScreenY();
     }
 
     /**
@@ -243,6 +244,7 @@ class ProductDetail extends Component<Props>{
 
     /**
      * Returns a list of comments component
+     * If there is a user allows him/her to reply, otherwise calls an alert message
      * @returns JSX.Element[]
      */
     displayAllComments(){
@@ -255,7 +257,7 @@ class ProductDetail extends Component<Props>{
                 body={comment} key={comment.id} newReply={this.repliesState[comment.id] && this.userService.userHasLoggedIn()} //User has tapped on "Dejar una respuesta" and there is a user logged
                 onPress={ () => { this.displayKeyboard('reply',comment)}}/>
             }
-            return <Comment body={comment} key={comment.id} newReply={this.repliesState[comment.id] && this.userService.userHasLoggedIn()} //User has tapped on "Dejar una respuesta" and there is a user logged
+            return <Comment body={comment} key={comment.id} newReply={this.repliesState[comment.id] && this.userService.userHasLoggedIn()} //User has tapped on "Dejar una respuesta" and there is no user logged
                 onPress={ () => { this.displayKeyboard('reply',comment)}}/>
         });
     }
@@ -277,7 +279,8 @@ class ProductDetail extends Component<Props>{
     handleScroll(event: NativeSyntheticEvent<NativeScrollEvent>) {
         // this.setState({ scrollY : event.nativeEvent.contentOffset.y});
         this.scrollY = event.nativeEvent.contentOffset.y;
-        // console.log(event.nativeEvent.contentOffset.y);
+        // const y = event.nativeEvent.contentOffset.y;
+        // console.log(y);
     }
 
     /**
@@ -286,7 +289,7 @@ class ProductDetail extends Component<Props>{
      */
     displayScrollView(){
         return(
-            <ScrollView ref={ref => {this.scrollView = ref}} onScroll={this.handleScroll} onContentSizeChange={() => this.goToScreenEnd()}>
+            <ScrollView ref={ref => {this.scrollView = ref}} onScroll={(event) => this.handleScroll(event)} onContentSizeChange={() => this.goToScreenEnd()}>
                 <View style={styles.screen_container}>
                     <View style={styles.general_container}>
                             <View style={styles.image_container}>
@@ -373,6 +376,7 @@ class ProductDetail extends Component<Props>{
      */
     componentDidUpdate(){
         // this.scrollView!.scrollToEnd({animated: true});
+        this.goToScreenY();
     }
 
     render(){

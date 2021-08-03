@@ -7,7 +7,8 @@ import {
     TextInput,
     TouchableHighlight,
     ImageBackground,
-    TextInputSubmitEditingEventData
+    TouchableWithoutFeedback,
+    Keyboard
 } from 'react-native';
 import { Colors, alert } from '../common';
 import {Props} from '../interfaces';
@@ -107,7 +108,7 @@ class LoginScreen extends Component<Props>{
 
   render() {
     return (
-        <View style={{flex:1}}>
+        <TouchableWithoutFeedback style={{flex:1}} onPress={() => Keyboard.dismiss()}>
             <ImageBackground source={require('../../assets/images/banner.jpeg')} style={styles.container}>
             <Text style={styles.logo}>
               Tienda Virtual
@@ -127,7 +128,7 @@ class LoginScreen extends Component<Props>{
               <Text style={styles.textGuest}>Invitado</Text>
             </TouchableHighlight>
           </ImageBackground>
-        </View>
+        </TouchableWithoutFeedback>
     )
   }
 }
