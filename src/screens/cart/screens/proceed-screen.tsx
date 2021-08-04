@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {View,Text, StyleSheet, FlatList, TextInput, ActivityIndicator, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard, Dimensions, TextInputSubmitEditingEventData} from 'react-native';
-import { Props, Product } from '../../interfaces';
-import { Colors, Card, alert } from '../../common';
-import { CartService, OrderService } from '../../services';
-import Button from '../../common/generalButton';
+import { Props, Product } from '../../../interfaces';
+import { Colors, Card, alert } from '../../../common';
+import { CartService, OrderService } from '../../../services';
+import Button from '../../../common/generalButton';
 
 class Proceed extends Component<Props> {
     state : { address? : string, loading: boolean } = {

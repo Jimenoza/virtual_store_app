@@ -9,7 +9,7 @@ interface Props {
     onPress: (event: GestureResponderEvent) => void
 }
 
-function OrderItem(props: Props): ReactElement{
+const OrderItem = (props: Props): JSX.Element => {
     const billId = `${props.item.id}`.padStart(8,'0');
     return (
         <TouchableHighlight underlayColor="white" onPress={props.onPress}>

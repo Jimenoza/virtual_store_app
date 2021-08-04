@@ -3,7 +3,7 @@ import { Component } from 'react';
 import {View, Text, StyleSheet, FlatList, ActivityIndicator} from 'react-native'
 import { Colors } from '../../../common/styles';
 import { Card } from '../../../common/utils';
-import OrderItem from '../component/order-item';
+import OrderItem from '../components/order-item';
 import { OrderResponse, Order } from '../../../interfaces/order-interfaces';
 import { Props } from '../../../interfaces/common';
 import { OrderService } from '../../../services';
@@ -92,75 +92,6 @@ const styles = StyleSheet.create({
         flex: 1,
     },
 
-})
-
-const orders: OrderResponse = {
-    "data": [
-        {
-            "id": 3,
-            "total": 70,
-            "date": "2018-09-21 23:17:18",
-            "address": "Mi casa",
-            "user_id": 2
-        },
-        {
-            "id": 7,
-            "total": 15,
-            "date": "2018-09-21 23:32:51",
-            "address": "Mi casa nueva",
-            "user_id": 2
-        },
-        {
-            "id": 8,
-            "total": 10,
-            "date": "2018-09-22 00:00:16",
-            "address": "Donde sea",
-            "user_id": 2
-        },
-        {
-            "id": 12,
-            "total": 59.99,
-            "date": "2018-09-24 16:39:44",
-            "address": "Mi choza",
-            "user_id": 2
-        },
-        {
-            "id": 18,
-            "total": 79.98,
-            "date": "2020-09-28 22:57:54",
-            "address": "mikasa",
-            "user_id": 2
-        },
-        {
-            "id": 19,
-            "total": 139.97,
-            "date": "2020-10-01 20:24:06",
-            "address": "A mi play 4 y a mi switch",
-            "user_id": 2
-        },
-        {
-            "id": 20,
-            "total": 27,
-            "date": "2020-10-01 23:41:20",
-            "address": "Alguna escuela",
-            "user_id": 2
-        },
-        {
-            "id": 21,
-            "total": 65.99,
-            "date": "2020-10-11 19:15:47",
-            "address": "Embajada de Territorio de Zaguates",
-            "user_id": 2
-        },
-        {
-            "id": 22,
-            "total": 130,
-            "date": "2020-10-24 14:34:48",
-            "address": "A mi casa",
-            "user_id": 2
-        }
-    ],
-    "error": null
-}
+});
 
 export default Orders;
