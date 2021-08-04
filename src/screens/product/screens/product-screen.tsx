@@ -35,7 +35,7 @@ interface State {
     selectedRate?: CommentType,
 }
 
-class ProductDetail extends Component<Props>{
+export default class ProductDetailScreen extends Component<Props>{
     cartService = new CartService();
     service = new ProductService();
     userService = new UserService();
@@ -515,6 +515,4 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     }
 
-})
-
-export default ProductDetail;
+});

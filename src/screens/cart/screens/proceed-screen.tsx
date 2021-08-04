@@ -5,7 +5,7 @@ import { Colors, Card, alert } from '../../../common';
 import { CartService, OrderService } from '../../../services';
 import Button from '../../../common/generalButton';
 
-class Proceed extends Component<Props> {
+export default class ProceedScreen extends Component<Props> {
     state : { address? : string, loading: boolean } = {
         loading : false
     }
@@ -213,5 +213,3 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
 });
-
-export default Proceed;

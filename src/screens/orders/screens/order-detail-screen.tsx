@@ -5,7 +5,7 @@ import ProductList from '../../product/components/product-list';
 import { Props, OrderDetailedResponse, Product } from '../../../interfaces';
 import { OrderService } from '../../../services';
 
-class OrderDetail extends Component<Props>{
+export default class OrderDetailScreen extends Component<Props>{
     service = new OrderService();
     state : { loading: boolean, products: Product[]  } = {
         loading : true,
@@ -59,5 +59,3 @@ const styles = StyleSheet.create({
         flex: 1,
     },
 });
-
-export default OrderDetail;

@@ -8,7 +8,7 @@ import { productSearchStore } from '../../../redux';
 import { Icon } from 'react-native-elements';
 import ScreenMessage from '../../../common/screenMessage';
 
-class SearchScreen extends Component<Props>{
+export default class SearchScreen extends Component<Props>{
     service = new ProductService(productSearchStore);
 
     state: { searching : boolean, hasSearched : boolean} = {
@@ -132,5 +132,3 @@ const styles = StyleSheet.create({
         alignItems : 'center'
     }
 });
-
-export default SearchScreen;

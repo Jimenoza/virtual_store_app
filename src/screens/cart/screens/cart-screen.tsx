@@ -9,7 +9,7 @@ import RetryMessage from '../../../common/retry';
 import { Props } from '../../../interfaces';
 import Button from '../../../common/generalButton';
 
-class CartList extends Component<Props> {
+export default class CartScreen extends Component<Props> {
     service = new CartService();
     userService = new UserService();
     // service = CartService.getService() as CartService;
@@ -216,6 +216,4 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     }
-})
-
-export default CartList;
+});

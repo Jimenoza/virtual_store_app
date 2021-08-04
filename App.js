@@ -11,15 +11,15 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './src/screens/login';
 import Index from './src/screens/index/index';
 import Header from './src/screens/header';
-import ProductDetail from './src/screens/product/screens/product-screen';
-import CartList from './src/screens/cart/screens/cart-screen';
+import ProductDetailScreen from './src/screens/product/screens/product-screen';
+import CartScreen from './src/screens/cart/screens/cart-screen';
 import SearchScreen from './src/screens/search/screens/search-screen'
 import SideMenu from './src/screens/side-menu';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import Category from './src/screens/categories/screens/categories-screen';
-import Orders from './src/screens/orders/screens/orders-screen';
-import Proceed from './src/screens/cart/screens/proceed-screen';
-import OrderDetail from './src/screens/orders/screens/order-detail-screen';
+import CategoriesScreen from './src/screens/categories/screens/categories-screen';
+import OrdersScreen from './src/screens/orders/screens/orders-screen';
+import ProceedScreen from './src/screens/cart/screens/proceed-screen';
+import OrderDetailScreen from './src/screens/orders/screens/order-detail-screen';
 import AppModal from './src/common/modal/modal';
 import Register from './src/screens/register/register';
 import { PersistGate } from 'redux-persist/integration/react'
@@ -54,9 +54,9 @@ function StackNavigator({navigation}){
     if(isUser){
       return (
         <>
-        <navigatorStack.Screen name="Orders" component={Orders} options={{gestureEnabled: false}}></navigatorStack.Screen>
-        <navigatorStack.Screen name="OrderDetail" component={OrderDetail}></navigatorStack.Screen>
-        <navigatorStack.Screen name="Proceed" component={Proceed}></navigatorStack.Screen>
+        <navigatorStack.Screen name="Orders" component={OrdersScreen} options={{gestureEnabled: false}}></navigatorStack.Screen>
+        <navigatorStack.Screen name="OrderDetail" component={OrderDetailScreen}></navigatorStack.Screen>
+        <navigatorStack.Screen name="Proceed" component={ProceedScreen}></navigatorStack.Screen>
         </>
       );
     }
@@ -82,10 +82,10 @@ function StackNavigator({navigation}){
         <StatusBar barStyle="dark-content" />
           <navigatorStack.Navigator screenOptions={{ header: (props) => <Header {...props}/>}}>
             {mainScreens(user())}
-            <navigatorStack.Screen name="Details" component={ProductDetail}></navigatorStack.Screen>
-            <navigatorStack.Screen name="Cart" component={CartList}></navigatorStack.Screen>
+            <navigatorStack.Screen name="Details" component={ProductDetailScreen}></navigatorStack.Screen>
+            <navigatorStack.Screen name="Cart" component={CartScreen}></navigatorStack.Screen>
             <navigatorStack.Screen name="Search" component={SearchScreen}></navigatorStack.Screen>
-            <navigatorStack.Screen name="Categories" component={Category} options={{gestureEnabled: false}}></navigatorStack.Screen>
+            <navigatorStack.Screen name="Categories" component={CategoriesScreen} options={{gestureEnabled: false}}></navigatorStack.Screen>
             <navigatorStack.Screen name="Register" component={Register} options={{headerShown : false}}></navigatorStack.Screen>
             {protectedRoutes(user())}
           </navigatorStack.Navigator>

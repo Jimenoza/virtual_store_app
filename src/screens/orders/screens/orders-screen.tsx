@@ -11,7 +11,7 @@ import { Icon } from 'react-native-elements';
 import ScreenMessage from '../../../common/screenMessage';
 // import {} from '../../product/containers/product-list';
 
-class Orders extends Component<Props>{
+export default class OrdersScreen extends Component<Props>{
     service: OrderService = new OrderService();
     state : { loading: boolean } = {
         loading : true,
@@ -93,5 +93,3 @@ const styles = StyleSheet.create({
     },
 
 });
-
-export default Orders;

@@ -18,7 +18,7 @@ interface CategoryClassState {
     loading: boolean,
 }
 
-class Category extends Component<Props>{
+export default class CategoriesScreen extends Component<Props>{
     categoryService: CategoryService = new CategoryService();
     productService: ProductService = new ProductService(productsCategoryStore);
 
@@ -216,6 +216,4 @@ const styles = StyleSheet.create({
         bottom: 0,
         backgroundColor: 'red',
     }
-})
-
-export default Category;
+});
