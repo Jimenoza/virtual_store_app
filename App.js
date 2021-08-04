@@ -16,7 +16,7 @@ import CartList from './src/screens/cart/screens/cart-screen';
 import SearchScreen from './src/screens/search/containers/search-screen'
 import SideMenu from './src/screens/side-menu';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import Category from './src/screens/categories/categories-screen';
+import Category from './src/screens/categories/screens/categories-screen';
 import Orders from './src/screens/orders/screens/orders-screen';
 import Proceed from './src/screens/cart/screens/proceed-screen';
 import OrderDetail from './src/screens/orders/screens/order-detail-screen';
