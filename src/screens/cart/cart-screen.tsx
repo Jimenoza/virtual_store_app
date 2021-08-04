@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, FlatList, TouchableHighlight, ActivityIndicator } from 'react-native';
-import CartItem from '../component/cart-item';
-import {Card, SeparatorLine} from '../../../common/utils';
-import { Colors, alert } from '../../../common';
-import { CartService, UserService } from '../../../services';
-import { Product, CartResponse } from '../../../interfaces';
-import RetryMessage from '../../../common/retry';
-import { Props } from '../../../interfaces';
-import Button from '../../../common/generalButton';
+import CartItem from './components/cart-item';
+import {Card, SeparatorLine} from '../../common/utils';
+import { Colors, alert } from '../../common';
+import { CartService, UserService } from '../../services';
+import { Product, CartResponse } from '../../interfaces';
+import RetryMessage from '../../common/retry';
+import { Props } from '../../interfaces';
+import Button from '../../common/generalButton';
 
 class CartList extends Component<Props> {
     service = new CartService();

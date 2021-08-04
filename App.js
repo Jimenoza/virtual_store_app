@@ -12,13 +12,13 @@ import LoginScreen from './src/screens/login';
 import Index from './src/screens/index/index';
 import Header from './src/screens/header';
 import ProductDetail from './src/screens/product/containers/product-detail';
-import CartList from './src/screens/cart/container/cart-list';
+import CartList from './src/screens/cart/cart-screen';
 import SearchScreen from './src/screens/search/containers/search-screen'
 import SideMenu from './src/screens/side-menu';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Category from './src/screens/categories/container/categories';
 import Orders from './src/screens/orders/container/orders';
-import Proceed from './src/screens/cart/proceed';
+import Proceed from './src/screens/cart/proceed-screen';
 import OrderDetail from './src/screens/orders/component/order-detail';
 import AppModal from './src/common/modal/modal';
 import Register from './src/screens/register/register';
