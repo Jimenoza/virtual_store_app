@@ -1,6 +1,6 @@
 import React, {Component, ReactElement} from 'react';
 import { FlatList } from 'react-native';
-import ProductComponet from '../components/product'
+import ProductComponet from './product'
 import { CartService } from '../../../services/cart-service';
 import { Product, Props } from '../../../interfaces';
 

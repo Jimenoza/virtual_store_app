@@ -11,7 +11,7 @@ interface ProductParams {
     onPressAdd: (event: GestureResponderEvent) => void,
 }
 
-function Product(item : ProductParams): ReactElement{
+const ProductCard = (item : ProductParams): ReactElement => {
     return (
         <TouchableHighlight onPress={item.onPress} style={styles.container} underlayColor="white">
             
@@ -103,4 +103,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Product;
+export default ProductCard;

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, TouchableHighlight} from 'react-native';
 // import App from '../app';
-import ProductList from '../product/containers/product-list'
+import ProductList from '../product/components/product-list'
 import { Colors } from '../../common/styles';
 import { ProductService } from '../../services/products-service';
 import { Product, Props } from '../../interfaces';
 import RetryMessage from '../../common/retry';
-import ProductListPaginated from '../product/containers/product-list-paginated';
+import ProductListPaginated from '../product/components/product-list-paginated';
 import { productStore } from '../../redux';
 
 class Index extends Component<Props> {

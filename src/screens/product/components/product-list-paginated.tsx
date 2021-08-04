@@ -1,6 +1,6 @@
 import React, {Component, ReactElement} from 'react';
 import { FlatList, View, StyleSheet,Text, GestureResponderEvent } from 'react-native';
-import ProductComponet from '../components/product'
+import ProductCard from './product'
 import { CartService } from '../../../services/cart-service';
 import { Product, Props } from '../../../interfaces';
 import { Icon } from 'react-native-elements';
@@ -42,7 +42,7 @@ class ProductListPaginated extends Component<ProductListPaginatedProps>{
     keyExtractor = (item: Product) => item.id.toString();
     renderItem = ({item} : any) => {
         return (
-            <ProductComponet prod={item} onPress={() => {this.goToDetails(item)}} onPressAdd={() => { this.addToCart(item)}}/>
+            <ProductCard prod={item} onPress={() => {this.goToDetails(item)}} onPressAdd={() => { this.addToCart(item)}}/>
         );
     }
 

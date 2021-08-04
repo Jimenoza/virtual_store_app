@@ -11,7 +11,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './src/screens/login';
 import Index from './src/screens/index/index';
 import Header from './src/screens/header';
-import ProductDetail from './src/screens/product/containers/product-detail';
+import ProductDetail from './src/screens/product/screens/product-screen';
 import CartList from './src/screens/cart/screens/cart-screen';
 import SearchScreen from './src/screens/search/containers/search-screen'
 import SideMenu from './src/screens/side-menu';

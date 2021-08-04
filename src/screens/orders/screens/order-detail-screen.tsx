@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
 import { Colors } from '../../../common/styles';
-import ProductList from '../../product/containers/product-list';
+import ProductList from '../../product/components/product-list';
 import { Props, OrderDetailedResponse, Product } from '../../../interfaces';
 import { OrderService } from '../../../services';
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, StyleSheet, ActivityIndicator, TextInputSubmitEditingEventData } from 'react-native';
-import ProductListPaginated from '../../product/containers/product-list-paginated';
+import ProductListPaginated from '../../product/components/product-list-paginated';
 import { Colors } from '../../../common/styles';
 import { ProductOverviewResponse, Props, Product } from '../../../interfaces';
 import { ProductService } from '../../../services';
