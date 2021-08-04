@@ -17,15 +17,17 @@ class SearchScreen extends Component<Props>{
     };
     
     search(event: TextInputSubmitEditingEventData){
-        this.setState({
-            searching : true,
-            hasSearched: true,
-        });
-        this.service.searchProducts(event.text).then( () => {
+        if(event.text){
             this.setState({
-                searching : false,
+                searching : true,
+                hasSearched: true,
             });
-        });
+            this.service.searchProducts(event.text).then( () => {
+                this.setState({
+                    searching : false,
+                });
+            });
+        }
     }
     /**
      * Goes to next page if there are pages

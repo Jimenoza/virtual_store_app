@@ -8,7 +8,7 @@ interface Props {
     iconName : string
 }
 
-function ScreenMessage(props: Props) {
+const ScreenMessage = (props: Props) => {
     return(
         // <Text>No hay productos</Text>
         <View style={styles.messageContainer}>
