@@ -13,7 +13,7 @@ import Index from './src/screens/index/index';
 import Header from './src/screens/header';
 import ProductDetail from './src/screens/product/screens/product-screen';
 import CartList from './src/screens/cart/screens/cart-screen';
-import SearchScreen from './src/screens/search/containers/search-screen'
+import SearchScreen from './src/screens/search/screens/search-screen'
 import SideMenu from './src/screens/side-menu';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Category from './src/screens/categories/screens/categories-screen';
