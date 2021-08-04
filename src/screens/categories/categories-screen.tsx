@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableHighlight, TouchableWithoutFeedback } from 'react-native';
-import { Colors } from '../../../common/styles';
+import { Colors } from '../../common/styles';
 import { Icon } from 'react-native-elements';
-import ProductListPaginated from '../../product/containers/product-list-paginated';
-import { Category as CatInterface, CategoryResponse, Product, Props } from '../../../interfaces';
-import { CategoryService } from '../../../services/category-service';
-import { ProductService } from '../../../services/products-service';
-import { productsCategoryStore } from '../../../redux';
-import RetryMessage from '../../../common/retry';
+import ProductListPaginated from '../product/containers/product-list-paginated';
+import { Category as CatInterface, CategoryResponse, Product, Props } from '../../interfaces';
+import { CategoryService } from '../../services/category-service';
+import { ProductService } from '../../services/products-service';
+import { productsCategoryStore } from '../../redux';
+import RetryMessage from '../../common/retry';
 
 interface CategoryClassState {
     icon : string,
