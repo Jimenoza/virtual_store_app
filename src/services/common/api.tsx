@@ -10,7 +10,7 @@ const CODES = {
 type Method = 'GET' | 'POST' | 'DELETE' | 'PUT';
 
 class HttpService {
-  baseUrl = replace_host('http://localhost:8000/api');
+  baseUrl = replace_host('http://192.168.0.10:8000/api');
   error = false;
   headers: any = {
     'Accept': 'application/json',
