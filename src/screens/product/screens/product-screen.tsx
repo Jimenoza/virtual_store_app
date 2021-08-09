@@ -162,7 +162,6 @@ export default class ProductDetailScreen extends Component<Props>{
             allowComment : false, // if false it does not allow user to use input
         });
         this.commentService.rateProduct(this.state.product.id,this.state.comment.text,this.state.comment.rate).then( response => {
-            console.log(response);
             this.setState({
                 loading : false,
                 comments : response, // concats current list with new rate
