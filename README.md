@@ -2,7 +2,6 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 This is a personal project I decided to make for learning React Native, a virtual store app, a project I made back in colleg which was only for web. This app
 has its own backend (and web frontend) restructured in Laravel, which it uses for API consumption. The same requirements that were made in its web version are
